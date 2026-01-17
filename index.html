@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>David Dabert</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+
+        :root {
+            --void: #000000;
+            --paper: #FFFEF9;
+            --ink: #1A1A1A;
+            --accent: #C9A961;
+            --muted: rgba(26, 26, 26, 0.4);
+            --precision: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--void);
+            color: var(--paper);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: 300;
+            letter-spacing: 0.01em;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: var(--void);
+        }
+
+        /* Cursor system */
+        .cursor {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s var(--precision), height 0.3s var(--precision), border-width 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hover {
+            width: 60px;
+            height: 60px;
+            border-width: 2px;
+        }
+
+        /* Navigation - MODIFIÉ POUR L'EFFET FLOU */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 40px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            /* Transition douce pour l'apparition du fond */
+            transition: background 0.4s ease, padding 0.4s ease, backdrop-filter 0.4s ease;
+            background: transparent; /* Transparent au départ */
+        }
+
+        /* Classe ajoutée via JS lors du scroll */
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.6); /* Fond noir semi-transparent */
+            backdrop-filter: blur(12px);     /* Effet de flou (Blur) */
+            -webkit-backdrop-filter: blur(12px); /* Compatibilité Safari */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px 60px; /* Légère réduction de la taille au scroll */
+        }
+
+        .identity {
+            font-family: 'EB Garamond', serif;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .lang-selector {
+            display: flex;
+            gap: 24px;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            font-weight: 400;
+        }
+
+        .lang-option {
+            opacity: 0.3;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .lang-option.active {
+            opacity: 1;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 0 60px;
+            gap: 100px;
+        }
+
+        .portrait-frame {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 3/4;
+            justify-self: end;
+        }
+
+        .portrait-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+            transition: filter 2s var(--precision);
+        }
+
+        .portrait-frame:hover img {
+            filter: grayscale(0%) contrast(1.05);
+        }
+
+        .statement {
+            max-width: 560px;
+        }
+
+        .statement h1 {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(42px, 5.5vw, 72px);
+            font-weight: 500;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 48px;
+        }
+
+        .statement h1 span {
+            color: var(--accent);
+        }
+
+        .statement p {
+            font-size: 16px;
+            line-height: 1.75;
+            opacity: 0.7;
+            margin-bottom: 48px;
+        }
+
+        /* Doctrine */
+        .doctrine {
+            padding: 160px 60px;
+            border-top: 1px solid rgba(255, 254, 249, 0.08);
+        }
+
+        .doctrine-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .doctrine-item {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .doctrine-number {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+        }
+
+        .doctrine-item h3 {
+            font-family: 'EB Garamond', serif;
+            font-size: 28px;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .doctrine-item p {
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 0.6;
+        }
+
+        /* Framework - MODIFIÉ POUR RÉDUIRE L'ESPACE */
+        .framework {
+            /* Réduction du padding du bas de 160px à 60px */
+            padding: 160px 60px 60px 60px;
+            border-top: 1px solid rgba(255, 254, 249, 0.08);
+        }
+
+        .framework-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .framework-title {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 120px;
+            opacity: 0.08;
+            letter-spacing: -0.02em;
+        }
+
+        .framework-section {
+            margin-bottom: 96px;
+            padding-bottom: 96px;
+            border-bottom: 1px solid rgba(255, 254, 249, 0.06);
+        }
+
+        /* Suppression totale de l'espace pour la dernière section */
+        .framework-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .framework-label {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            margin-bottom: 32px;
+        }
+
+        .framework-content {
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0.75;
+        }
+
+        .framework-highlight {
+            background: linear-gradient(90deg, rgba(201, 169, 97, 0.04) 0%, transparent 100%);
+            padding: 48px 56px;
+            margin: 48px 0;
+            border-left: 1px solid var(--accent);
+        }
+
+        /* Footer */
+        .footer {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 60px;
+            border-top: 1px solid rgba(255, 254, 249, 0.08);
+        }
+
+        .footer-statement {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(64px, 14vw, 180px);
+            font-weight: 500;
+            font-style: italic;
+            letter-spacing: -0.03em;
+            margin-bottom: 80px;
+            line-height: 0.95;
+        }
+
+        .contact-trigger {
+            padding: 28px 80px;
+            border: 1px solid rgba(255, 254, 249, 0.2);
+            background: transparent;
+            color: var(--paper);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.4em;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.5s var(--precision);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .contact-trigger::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--paper);
+            transform: translateY(100%);
+            transition: transform 0.5s var(--precision);
+            z-index: -1;
+        }
+
+        .contact-trigger:hover::before {
+            transform: translateY(0);
+        }
+
+        .contact-trigger:hover {
+            color: var(--void);
+            border-color: var(--paper);
+        }
+
+        .contact-grid {
+            display: flex;
+            gap: 48px;
+            margin-top: 64px;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            opacity: 0.5;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .contact-grid a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-grid a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor,
+            .cursor-dot {
+                display: none;
+            }
+
+            nav {
+                padding: 30px 40px;
+            }
+            
+            nav.scrolled {
+                padding: 20px 40px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                padding: 120px 40px 80px;
+            }
+
+            .portrait-frame {
+                justify-self: center;
+                max-width: 400px;
+            }
+
+            .statement {
+                max-width: 100%;
+            }
+
+            .doctrine,
+            .framework,
+            .footer {
+                padding: 100px 40px;
+            }
+            
+            .framework {
+                /* Ajustement responsive aussi */
+                padding-bottom: 40px;
+            }
+
+            .doctrine-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .framework-title {
+                margin-bottom: 80px;
+            }
+
+            .framework-section {
+                margin-bottom: 60px;
+                padding-bottom: 60px;
+            }
+            
+            .framework-section:last-child {
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+
+            .framework-highlight {
+                padding: 32px 40px;
+            }
+
+            .contact-trigger {
+                padding: 24px 60px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 24px 24px;
+            }
+            
+            nav.scrolled {
+                padding: 16px 24px;
+            }
+
+            .identity {
+                font-size: 16px;
+            }
+
+            .lang-selector {
+                font-size: 9px;
+                gap: 16px;
+            }
+
+            .hero {
+                padding: 100px 24px 60px;
+            }
+
+            .doctrine,
+            .framework,
+            .footer {
+                padding: 80px 24px;
+            }
+            
+            .framework {
+                padding-bottom: 40px;
+            }
+
+            .framework-highlight {
+                padding: 24px 28px;
+            }
+
+            .contact-grid {
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <nav>
+        <div class="identity">DAVID DABERT</div>
+        <div class="lang-selector">
+            <div class="lang-option active" data-lang="en">EN</div>
+            <div class="lang-option" data-lang="fr">FR</div>
+            <div class="lang-option" data-lang="es">ES</div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="portrait-frame">
+                <img src="assets/david_dabert.jpeg" alt="David Dabert">
+            </div>
+            
+            <div class="statement">
+                <h1 data-i18n-html="hero_title">
+                    Where complexity has outpaced <span>structure</span>
+                </h1>
+                
+                <p data-i18n="hero_text">
+                    I organize expertise where institutional authority is tested by scale and pressure. My role is to clarify decision paths, surface real constraints, and align actors operating under incompatible incentives.
+                </p>
+            </div>
+        </section>
+
+        <section class="doctrine">
+            <div class="doctrine-grid">
+                <div class="doctrine-item">
+                    <div class="doctrine-number" data-i18n="doctrine_1_num">01</div>
+                    <h3 data-i18n="doctrine_1_title">Judgment over compliance</h3>
+                    <p data-i18n="doctrine_1_text">
+                        In environments where mandates are complex and authority fragmented, outcomes depend less on following procedure than on reading what remains unsaid.
+                    </p>
+                </div>
+                
+                <div class="doctrine-item">
+                    <div class="doctrine-number" data-i18n="doctrine_2_num">02</div>
+                    <h3 data-i18n="doctrine_2_title">Cross-sectoral fluency</h3>
+                    <p data-i18n="doctrine_2_text">
+                        The distinction between humanitarian aid and corporate governance is artificial. What matters is structural coherence across institutional boundaries.
+                    </p>
+                </div>
+                
+                <div class="doctrine-item">
+                    <div class="doctrine-number" data-i18n="doctrine_3_num">03</div>
+                    <h3 data-i18n="doctrine_3_title">Continuity across institutions</h3>
+                    <p data-i18n="doctrine_3_text">
+                        A long-term perspective where institutions are the changing scenery. Decisions are optimized not for visibility, but for endurance.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="framework">
+            <div class="framework-container">
+                <h2 class="framework-title" data-i18n="framework_title">Operating Framework</h2>
+                
+                <div class="framework-section">
+                    <div class="framework-label" data-i18n="framework_1_label">HOW I OPERATE</div>
+                    <div class="framework-content" data-i18n="framework_1_text">
+                        Complex systems tend to fail once structure lags behind reality. That is where my work begins. My role is not to substitute expertise, but to organize it. To clarify decision paths, surface real constraints, and align actors operating under incompatible incentives. This work has taken place across public institutions, international programmes, and independent ventures.
+                    </div>
+                </div>
+
+                <div class="framework-section">
+                    <div class="framework-label" data-i18n="framework_2_label">ON FAILURE</div>
+                    <div class="framework-highlight">
+                        <div class="framework-content" data-i18n="framework_2_text">
+                            I led a venture to build a hand-crafted electric vehicle company grounded in 1960s design principles and contemporary material science. The project assembled a distributed team across several countries and generated significant public attention. It did not reach production. Capital requirements were decisive. Failure at scale teaches what success does not: capital physics, timing asymmetry, and the limits of narrative when structural conditions are not met.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="framework-section">
+                    <div class="framework-label" data-i18n="framework_3_label">WHERE THIS APPLIES</div>
+                    <div class="framework-content" data-i18n="framework_3_text">
+                        My experience is most relevant where mandates are complex, authority is fragmented, and outcomes depend less on compliance than on judgment. This includes senior roles in public policy, international cooperation, governance, and organizations operating at the boundary between strategy and execution.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-statement" data-i18n="footer_statement">Continuity.</div>
+            <a href="mailto:pr.daviddabert@gmail.com" class="contact-trigger" data-i18n="footer_cta">INITIATE CONTACT</a>
+            <div class="contact-grid">
+                <a href="mailto:pr.daviddabert@gmail.com">PR.DAVIDDABERT@GMAIL.COM</a>
+                <a href="tel:+33766251025">+33 7 66 25 10 25</a>
+                <a href="https://www.linkedin.com/in/david-dabert-54277039b" target="_blank" rel="noopener">LINKEDIN</a>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Gestion du Header Blur au scroll
+        const nav = document.querySelector('nav');
+        
+        function handleScroll() {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }
+        
+        window.addEventListener('scroll', handleScroll);
+        // Appel initial pour vérifier la position au chargement
+        handleScroll();
+
+        // Cursor system
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover effects
+        const interactiveElements = document.querySelectorAll('a, button, .lang-option, .portrait-frame');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Translations
+        const translations = {
+            en: {
+                hero_title: 'Where complexity has outpaced <span>structure</span>',
+                hero_text: 'I organize expertise where institutional authority is tested by scale and pressure. My role is to clarify decision paths, surface real constraints, and align actors operating under incompatible incentives.',
+                doctrine_1_num: '01',
+                doctrine_1_title: 'Judgment over compliance',
+                doctrine_1_text: 'In environments where mandates are complex and authority fragmented, outcomes depend less on following procedure than on reading what remains unsaid.',
+                doctrine_2_num: '02',
+                doctrine_2_title: 'Cross-sectoral fluency',
+                doctrine_2_text: 'The distinction between humanitarian aid and corporate governance is artificial. What matters is structural coherence across institutional boundaries.',
+                doctrine_3_num: '03',
+                doctrine_3_title: 'Continuity across institutions',
+                doctrine_3_text: 'A long-term perspective where institutions are the changing scenery. Decisions are optimized not for visibility, but for endurance.',
+                framework_title: 'Operating Framework',
+                framework_1_label: 'HOW I OPERATE',
+                framework_1_text: 'Complex systems tend to fail once structure lags behind reality. That is where my work begins. My role is not to substitute expertise, but to organize it. To clarify decision paths, surface real constraints, and align actors operating under incompatible incentives. This work has taken place across public institutions, international programmes, and independent ventures.',
+                framework_2_label: 'ON FAILURE',
+                framework_2_text: 'I led a venture to build a hand-crafted electric vehicle company grounded in 1960s design principles and contemporary material science. The project assembled a distributed team across several countries and generated significant public attention. It did not reach production. Capital requirements were decisive. Failure at scale teaches what success does not: capital physics, timing asymmetry, and the limits of narrative when structural conditions are not met.',
+                framework_3_label: 'WHERE THIS APPLIES',
+                framework_3_text: 'My experience is most relevant where mandates are complex, authority is fragmented, and outcomes depend less on compliance than on judgment. This includes senior roles in public policy, international cooperation, governance, and organizations operating at the boundary between strategy and execution.',
+                footer_statement: 'Continuity.',
+                footer_cta: 'INITIATE CONTACT'
+            },
+            fr: {
+                hero_title: 'Là où la complexité a dépassé la <span>structure</span>',
+                hero_text: "J'organise l'expertise là où l'autorité institutionnelle est mise à l'épreuve par l'ampleur et la pression. Mon rôle est de clarifier les chemins de décision, révéler les contraintes réelles et aligner les acteurs opérant sous des incitations incompatibles.",
+                doctrine_1_num: '01',
+                doctrine_1_title: 'Jugement plutôt que conformité',
+                doctrine_1_text: "Dans des environnements où les mandats sont complexes et l'autorité fragmentée, les résultats dépendent moins du respect des procédures que de la lecture de ce qui reste non-dit.",
+                doctrine_2_num: '02',
+                doctrine_2_title: 'Maîtrise transectorielle',
+                doctrine_2_text: "La distinction entre aide humanitaire et gouvernance d'entreprise est artificielle. Ce qui compte, c'est la cohérence structurelle au-delà des frontières institutionnelles.",
+                doctrine_3_num: '03',
+                doctrine_3_title: 'Continuité institutionnelle',
+                doctrine_3_text: "Une perspective à long terme où les institutions sont le décor changeant. Les décisions sont optimisées non pour la visibilité, mais pour la durabilité.",
+                framework_title: 'Cadre Opérationnel',
+                framework_1_label: "COMMENT J'OPÈRE",
+                framework_1_text: "Les systèmes complexes tendent à échouer une fois que la structure prend du retard sur la réalité. C'est là que mon travail commence. Mon rôle n'est pas de remplacer l'expertise, mais de l'organiser. Clarifier les chemins de décision, révéler les contraintes réelles et aligner les acteurs opérant sous des incitations incompatibles. Ce travail s'est déroulé dans des institutions publiques, des programmes internationaux et des projets indépendants.",
+                framework_2_label: "SUR L'ÉCHEC",
+                framework_2_text: "J'ai dirigé une entreprise visant à construire des véhicules électriques artisanaux fondés sur les principes de design des années 1960 et la science des matériaux contemporaine. Le projet a rassemblé une équipe distribuée dans plusieurs pays et généré une attention publique significative. Il n'a pas atteint la production. Les besoins en capital ont été décisifs. L'échec à grande échelle enseigne ce que le succès n'enseigne pas : la physique du capital, l'asymétrie temporelle et les limites du récit lorsque les conditions structurelles ne sont pas réunies.",
+                framework_3_label: "OÙ CELA S'APPLIQUE",
+                framework_3_text: "Mon expérience est plus pertinente là où les mandats sont complexes, l'autorité fragmentée et les résultats dépendent moins de la conformité que du jugement. Cela inclut des rôles de direction dans les politiques publiques, la coopération internationale, la gouvernance et les organisations opérant à la frontière entre stratégie et exécution.",
+                footer_statement: 'Continuité.',
+                footer_cta: 'INITIER LE CONTACT'
+            },
+            es: {
+                hero_title: 'Donde la complejidad ha superado la <span>estructura</span>',
+                hero_text: 'Organizo la experiencia donde la autoridad institucional se pone a prueba por la escala y la presión. Mi función es aclarar las vías de decisión, revelar las limitaciones reales y alinear a los actores que operan bajo incentivos incompatibles.',
+                doctrine_1_num: '01',
+                doctrine_1_title: 'Juicio sobre cumplimiento',
+                doctrine_1_text: 'En entornos donde los mandatos son complejos y la autoridad fragmentada, los resultados dependen menos de seguir procedimientos que de leer lo que permanece sin decir.',
+                doctrine_2_num: '02',
+                doctrine_2_title: 'Fluidez transectorial',
+                doctrine_2_text: 'La distinción entre ayuda humanitaria y gobernanza corporativa es artificial. Lo que importa es la coherencia estructural a través de las fronteras institucionales.',
+                doctrine_3_num: '03',
+                doctrine_3_title: 'Continuidad institucional',
+                doctrine_3_text: 'Una perspectiva a largo plazo donde las instituciones son el paisaje cambiante. Las decisiones se optimizan no para la visibilidad, sino para la resistencia.',
+                framework_title: 'Marco Operativo',
+                framework_1_label: 'CÓMO OPERO',
+                framework_1_text: 'Los sistemas complejos tienden a fallar una vez que la estructura se retrasa con respecto a la realidad. Ahí es donde comienza mi trabajo. Mi función no es sustituir la experiencia, sino organizarla. Aclarar las vías de decisión, revelar las limitaciones reales y alinear a los actores que operan bajo incentivos incompatibles. Este trabajo ha tenido lugar en instituciones públicas, programas internacionales y proyectos independientes.',
+                framework_2_label: 'SOBRE EL FRACASO',
+                framework_2_text: 'Dirigí una empresa para construir vehículos eléctricos artesanales basados en principios de diseño de los años 60 y ciencia de materiales contemporánea. El proyecto reunió un equipo distribuido en varios países y generó una atención pública significativa. No alcanzó la producción. Los requisitos de capital fueron decisivos. El fracaso a escala enseña lo que el éxito no: física del capital, asimetría temporal y los límites de la narrativa cuando las condiciones estructurales no se cumplen.',
+                framework_3_label: 'DÓNDE SE APLICA ESTO',
+                framework_3_text: 'Mi experiencia es más relevante donde los mandatos son complejos, la autoridad está fragmentada y los resultados dependen menos del cumplimiento que del juicio. Esto incluye roles de alto nivel en política pública, cooperación internacional, gobernanza y organizaciones que operan en el límite entre estrategia y ejecución.',
+                footer_statement: 'Continuidad.',
+                footer_cta: 'INICIAR CONTACTO'
+            }
+        };
+
+        const langOptions = document.querySelectorAll('.lang-option');
+        
+        function setLanguage(lang) {
+            const pack = translations[lang];
+            if (!pack) return;
+            
+            document.documentElement.setAttribute('lang', lang);
+            langOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.lang === lang);
+            });
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (pack[key]) el.textContent = pack[key];
+            });
+            
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.dataset.i18nHtml;
+                if (pack[key]) el.innerHTML = pack[key];
+            });
+        }
+
+        langOptions.forEach(opt => {
+            opt.addEventListener('click', () => setLanguage(opt.dataset.lang));
+        });
+    </script>
+</body>
+</html>
