@@ -6,41 +6,54 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-DEZVB41H57');
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>David Dabert</title>
+    <title>David Dabert | Governance & Institutional Strategy</title>
+    <meta name="description" content="Where complexity has outpaced structure. Governance specialist, programme director, and institutional strategist.">
+    <meta name="author" content="David Dabert">
+    <meta property="og:title" content="David Dabert | Governance & Institutional Strategy">
+    <meta property="og:description" content="Where complexity has outpaced structure.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
 
         :root {
-            --void: #000000;
-            --paper: #FFFEF9;
-            --ink: #1A1A1A;
-            --accent: #C9A961;
-            --muted: rgba(26, 26, 26, 0.4);
-            --precision: cubic-bezier(0.4, 0, 0.2, 1);
+            --void: #0a0a0a;
+            --deep: #050505;
+            --paper: #F5F4EF;
+            --bone: #E8E6DF;
+            --accent: #C9A227;
+            --accent-muted: rgba(201, 162, 39, 0.15);
+            --accent-glow: rgba(201, 162, 39, 0.08);
+            --mist: rgba(245, 244, 239, 0.04);
+            --whisper: rgba(245, 244, 239, 0.08);
+            --precision: cubic-bezier(0.16, 1, 0.3, 1);
+            --smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
         }
 
         body {
             background: var(--void);
             color: var(--paper);
             font-family: 'IBM Plex Mono', monospace;
-            font-size: 15px;
-            line-height: 1.6;
+            font-size: 14px;
+            line-height: 1.7;
             font-weight: 300;
-            letter-spacing: 0.01em;
+            letter-spacing: 0.02em;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         ::selection {
@@ -48,86 +61,150 @@
             color: var(--void);
         }
 
-        /* Cursor system */
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        /* Cursor */
         .cursor {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border: 1px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s var(--precision), height 0.4s var(--precision), border-color 0.3s, opacity 0.3s;
+            opacity: 0.6;
+        }
+
+        .cursor-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--accent);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 10000;
             transform: translate(-50%, -50%);
-            transition: width 0.3s var(--precision), height 0.3s var(--precision), border-width 0.3s;
-            mix-blend-mode: difference;
-        }
-
-        .cursor-dot {
-            width: 4px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10001;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
         }
 
         .cursor.hover {
-            width: 60px;
-            height: 60px;
-            border-width: 2px;
+            width: 80px;
+            height: 80px;
+            opacity: 1;
+            border-color: var(--paper);
         }
 
-        /* Navigation - MODIFIÉ POUR L'EFFET FLOU */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            padding: 40px 60px;
+            padding: 48px 80px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            /* Transition douce pour l'apparition du fond */
-            transition: background 0.4s ease, padding 0.4s ease, backdrop-filter 0.4s ease;
-            background: transparent; /* Transparent au départ */
+            transition: all 0.6s var(--precision);
+            background: transparent;
         }
 
-        /* Classe ajoutée via JS lors du scroll */
         nav.scrolled {
-            background: rgba(0, 0, 0, 0.6); /* Fond noir semi-transparent */
-            backdrop-filter: blur(12px);     /* Effet de flou (Blur) */
-            -webkit-backdrop-filter: blur(12px); /* Compatibilité Safari */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 25px 60px; /* Légère réduction de la taille au scroll */
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: 28px 80px;
+            border-bottom: 1px solid var(--whisper);
         }
 
         .identity {
-            font-family: 'EB Garamond', serif;
-            font-size: 20px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
             font-weight: 500;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.12em;
+            text-decoration: none;
+            color: var(--paper);
+            transition: color 0.3s;
+        }
+
+        .identity:hover {
+            color: var(--accent);
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 56px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-link {
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            font-weight: 400;
+            opacity: 0.4;
+            transition: opacity 0.4s, color 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--paper);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.4s var(--precision);
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
         }
 
         .lang-selector {
             display: flex;
-            gap: 24px;
+            gap: 20px;
             font-size: 10px;
             letter-spacing: 0.2em;
             font-weight: 400;
         }
 
         .lang-option {
-            opacity: 0.3;
-            transition: opacity 0.3s;
+            opacity: 0.25;
+            transition: opacity 0.4s, color 0.3s;
             cursor: pointer;
+            padding: 4px 0;
+        }
+
+        .lang-option:hover {
+            opacity: 0.7;
         }
 
         .lang-option.active {
             opacity: 1;
+            color: var(--accent);
         }
 
         /* Hero */
@@ -136,179 +213,467 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             align-items: center;
-            padding: 0 60px;
-            gap: 100px;
+            padding: 0 80px;
+            gap: 120px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse 80% 60% at 70% 40%, var(--accent-glow) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .portrait-container {
+            justify-self: end;
+            position: relative;
         }
 
         .portrait-frame {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             aspect-ratio: 3/4;
-            justify-self: end;
+            overflow: hidden;
+        }
+
+        .portrait-frame::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border: 1px solid var(--whisper);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .portrait-frame::after {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            right: -24px;
+            bottom: -24px;
+            border: 1px solid var(--accent-muted);
+            z-index: -1;
+            transition: all 0.6s var(--precision);
+        }
+
+        .portrait-frame:hover::after {
+            top: 16px;
+            left: 16px;
+            right: -16px;
+            bottom: -16px;
         }
 
         .portrait-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(100%) contrast(1.2);
-            transition: filter 2s var(--precision);
+            filter: grayscale(100%) contrast(1.1) brightness(1.05);
+            transition: filter 1.8s var(--precision);
         }
 
         .portrait-frame:hover img {
-            filter: grayscale(0%) contrast(1.05);
+            filter: grayscale(0%) contrast(1.02) brightness(1);
         }
 
         .statement {
-            max-width: 560px;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .statement-label {
+            font-size: 10px;
+            letter-spacing: 0.4em;
+            color: var(--accent);
+            margin-bottom: 32px;
+            display: block;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s var(--precision) 0.3s forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .statement h1 {
-            font-family: 'EB Garamond', serif;
-            font-size: clamp(42px, 5.5vw, 72px);
-            font-weight: 500;
-            line-height: 1.05;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(48px, 6vw, 80px);
+            font-weight: 400;
+            line-height: 1.08;
             letter-spacing: -0.02em;
             margin-bottom: 48px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s var(--precision) 0.5s forwards;
         }
 
-        .statement h1 span {
+        .statement h1 em {
+            font-style: italic;
             color: var(--accent);
         }
 
         .statement p {
-            font-size: 16px;
-            line-height: 1.75;
-            opacity: 0.7;
-            margin-bottom: 48px;
+            font-size: 15px;
+            line-height: 1.85;
+            opacity: 0;
+            color: var(--bone);
+            margin-bottom: 56px;
+            animation: fadeUp 1s var(--precision) 0.7s forwards;
+            transform: translateY(30px);
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            color: var(--paper);
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeUp 1s var(--precision) 0.9s forwards;
+            transform: translateY(20px);
+            transition: gap 0.4s var(--precision);
+        }
+
+        .hero-cta:hover {
+            gap: 24px;
+        }
+
+        .hero-cta::after {
+            content: '→';
+            font-size: 14px;
+            transition: transform 0.4s var(--precision);
+        }
+
+        .hero-cta:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Section styling */
+        section {
+            position: relative;
+        }
+
+        .section-border {
+            position: absolute;
+            top: 0;
+            left: 80px;
+            right: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--whisper) 20%, var(--whisper) 80%, transparent);
         }
 
         /* Doctrine */
         .doctrine {
-            padding: 160px 60px;
-            border-top: 1px solid rgba(255, 254, 249, 0.08);
+            padding: 180px 80px;
+            position: relative;
+        }
+
+        .doctrine::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .doctrine-header {
+            text-align: center;
+            margin-bottom: 120px;
+        }
+
+        .doctrine-label {
+            font-size: 10px;
+            letter-spacing: 0.5em;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .doctrine-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(36px, 4vw, 48px);
+            font-weight: 400;
+            color: var(--paper);
+            letter-spacing: -0.01em;
         }
 
         .doctrine-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 80px;
+            gap: 64px;
             max-width: 1400px;
             margin: 0 auto;
         }
 
         .doctrine-item {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
+            padding: 48px;
+            background: var(--mist);
+            border: 1px solid transparent;
+            transition: all 0.5s var(--precision);
+            position: relative;
+        }
+
+        .doctrine-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.6s var(--precision);
+        }
+
+        .doctrine-item:hover::before {
+            width: 100%;
+        }
+
+        .doctrine-item:hover {
+            border-color: var(--whisper);
+            background: rgba(245, 244, 239, 0.02);
         }
 
         .doctrine-number {
             font-size: 11px;
             letter-spacing: 0.3em;
             color: var(--accent);
+            margin-bottom: 28px;
         }
 
         .doctrine-item h3 {
-            font-family: 'EB Garamond', serif;
-            font-size: 28px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
             font-weight: 500;
-            line-height: 1.2;
+            line-height: 1.25;
+            margin-bottom: 20px;
             letter-spacing: -0.01em;
         }
 
         .doctrine-item p {
-            font-size: 15px;
-            line-height: 1.7;
-            opacity: 0.6;
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--bone);
+            opacity: 0.7;
         }
 
-        /* Framework - MODIFIÉ POUR RÉDUIRE L'ESPACE */
-        .framework {
-            /* Réduction du padding du bas de 160px à 60px */
-            padding: 160px 60px 60px 60px;
-            border-top: 1px solid rgba(255, 254, 249, 0.08);
+        /* Diagnostic */
+        .diagnostic {
+            padding: 180px 80px;
+            background: linear-gradient(180deg, var(--void) 0%, var(--deep) 50%, var(--void) 100%);
         }
 
-        .framework-container {
-            max-width: 900px;
+        .diagnostic-container {
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        .framework-title {
-            font-family: 'EB Garamond', serif;
-            font-size: clamp(48px, 8vw, 96px);
-            font-weight: 500;
+        .diagnostic-header {
             text-align: center;
-            margin-bottom: 120px;
-            opacity: 0.08;
+            margin-bottom: 100px;
+        }
+
+        .diagnostic-badge {
+            display: inline-block;
+            font-size: 9px;
+            letter-spacing: 0.5em;
+            color: var(--accent);
+            padding: 12px 28px;
+            border: 1px solid var(--accent-muted);
+            margin-bottom: 40px;
+        }
+
+        .diagnostic-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(40px, 5vw, 64px);
+            font-weight: 400;
+            line-height: 1.15;
+            margin-bottom: 28px;
             letter-spacing: -0.02em;
         }
 
-        .framework-section {
-            margin-bottom: 96px;
-            padding-bottom: 96px;
-            border-bottom: 1px solid rgba(255, 254, 249, 0.06);
-        }
-
-        /* Suppression totale de l'espace pour la dernière section */
-        .framework-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .framework-label {
-            font-size: 11px;
-            letter-spacing: 0.3em;
-            color: var(--accent);
-            margin-bottom: 32px;
-        }
-
-        .framework-content {
-            font-size: 16px;
-            line-height: 1.8;
-            opacity: 0.75;
-        }
-
-        .framework-highlight {
-            background: linear-gradient(90deg, rgba(201, 169, 97, 0.04) 0%, transparent 100%);
-            padding: 48px 56px;
-            margin: 48px 0;
-            border-left: 1px solid var(--accent);
-        }
-
-        /* Footer */
-        .footer {
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 120px 60px;
-            border-top: 1px solid rgba(255, 254, 249, 0.08);
-        }
-
-        .footer-statement {
-            font-family: 'EB Garamond', serif;
-            font-size: clamp(64px, 14vw, 180px);
-            font-weight: 500;
+        .diagnostic-title em {
             font-style: italic;
-            letter-spacing: -0.03em;
-            margin-bottom: 80px;
-            line-height: 0.95;
+            color: var(--accent);
         }
 
-        .contact-trigger {
-            padding: 28px 80px;
-            border: 1px solid rgba(255, 254, 249, 0.2);
+        .diagnostic-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-style: italic;
+            color: var(--bone);
+            opacity: 0.7;
+            margin-bottom: 40px;
+        }
+
+        .diagnostic-description {
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--bone);
+            opacity: 0.6;
+            max-width: 720px;
+            margin: 0 auto 64px;
+        }
+
+        .diagnostic-stats {
+            display: flex;
+            gap: 80px;
+            justify-content: center;
+            margin-bottom: 100px;
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 40px;
+            background: var(--whisper);
+        }
+
+        .stat-item:last-child::after {
+            display: none;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            font-weight: 400;
+            color: var(--accent);
+            display: block;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            letter-spacing: 0.25em;
+            color: var(--bone);
+            opacity: 0.5;
+            margin-top: 12px;
+        }
+
+        .archetypes-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 80px;
+        }
+
+        .archetype-card {
+            background: transparent;
+            border: 1px solid var(--whisper);
+            padding: 36px 28px;
+            transition: all 0.5s var(--precision);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .archetype-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, var(--accent-muted) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s var(--precision);
+        }
+
+        .archetype-card:hover::before {
+            opacity: 1;
+        }
+
+        .archetype-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .archetype-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .archetype-number {
+            font-size: 9px;
+            letter-spacing: 0.35em;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .archetype-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .archetype-tagline {
+            font-size: 11px;
+            font-style: italic;
+            color: var(--bone);
+            opacity: 0.6;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .archetype-traits {
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .trait-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .trait-label {
+            color: var(--bone);
+            opacity: 0.4;
+            flex-shrink: 0;
+        }
+
+        .trait-strength {
+            color: var(--accent);
+        }
+
+        .trait-risk {
+            color: var(--bone);
+            opacity: 0.6;
+        }
+
+        .cta-center {
+            text-align: center;
+        }
+
+        .cta-button {
+            padding: 24px 72px;
+            border: 1px solid var(--accent);
             background: transparent;
             color: var(--paper);
             font-family: 'IBM Plex Mono', monospace;
-            font-size: 11px;
-            letter-spacing: 0.4em;
+            font-size: 10px;
+            letter-spacing: 0.35em;
             font-weight: 400;
             cursor: pointer;
             transition: all 0.5s var(--precision);
@@ -318,13 +683,164 @@
             display: inline-block;
         }
 
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s var(--precision);
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            transform: scaleX(1);
+        }
+
+        .cta-button:hover {
+            color: var(--void);
+        }
+
+        /* Framework */
+        .framework {
+            padding: 180px 80px 100px;
+        }
+
+        .framework-container {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .framework-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(72px, 12vw, 140px);
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 140px;
+            color: var(--paper);
+            opacity: 0.04;
+            letter-spacing: -0.03em;
+            line-height: 0.9;
+        }
+
+        .framework-section {
+            margin-bottom: 100px;
+            padding-bottom: 100px;
+            border-bottom: 1px solid var(--whisper);
+        }
+
+        .framework-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .framework-label {
+            font-size: 10px;
+            letter-spacing: 0.4em;
+            color: var(--accent);
+            margin-bottom: 36px;
+        }
+
+        .framework-content {
+            font-size: 16px;
+            line-height: 1.9;
+            color: var(--bone);
+            opacity: 0.8;
+        }
+
+        .framework-highlight {
+            background: linear-gradient(90deg, var(--accent-glow) 0%, transparent 100%);
+            padding: 56px 64px;
+            margin: 48px 0;
+            border-left: 2px solid var(--accent);
+            position: relative;
+        }
+
+        .framework-highlight::before {
+            content: '"';
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 64px;
+            color: var(--accent);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        /* Footer */
+        .footer {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 80px;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 80px;
+            right: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--whisper) 20%, var(--whisper) 80%, transparent);
+        }
+
+        .footer::after {
+            content: '';
+            position: absolute;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .footer-statement {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(80px, 18vw, 220px);
+            font-weight: 300;
+            font-style: italic;
+            letter-spacing: -0.04em;
+            margin-bottom: 80px;
+            line-height: 0.85;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-trigger {
+            padding: 28px 88px;
+            border: 1px solid var(--whisper);
+            background: transparent;
+            color: var(--paper);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.4em;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.6s var(--precision);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+            z-index: 1;
+        }
+
         .contact-trigger::before {
             content: '';
             position: absolute;
             inset: 0;
             background: var(--paper);
             transform: translateY(100%);
-            transition: transform 0.5s var(--precision);
+            transition: transform 0.6s var(--precision);
             z-index: -1;
         }
 
@@ -339,137 +855,72 @@
 
         .contact-grid {
             display: flex;
-            gap: 48px;
-            margin-top: 64px;
-            font-size: 11px;
+            gap: 56px;
+            margin-top: 72px;
+            font-size: 10px;
             letter-spacing: 0.2em;
-            opacity: 0.5;
+            opacity: 0.4;
             flex-wrap: wrap;
             justify-content: center;
+            position: relative;
+            z-index: 1;
         }
 
         .contact-grid a {
             color: inherit;
             text-decoration: none;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s, color 0.3s;
         }
 
         .contact-grid a:hover {
             opacity: 1;
+            color: var(--accent);
         }
 
         /* Responsive */
         @media (max-width: 1200px) {
-            body {
-                cursor: auto;
+            body { cursor: auto; }
+            .cursor, .cursor-dot { display: none; }
+            nav { padding: 32px 48px; }
+            nav.scrolled { padding: 20px 48px; }
+            .nav-center { display: none; }
+            .hero { 
+                grid-template-columns: 1fr; 
+                gap: 80px; 
+                padding: 140px 48px 100px;
+                text-align: center;
             }
-
-            .cursor,
-            .cursor-dot {
-                display: none;
-            }
-
-            nav {
-                padding: 30px 40px;
-            }
-            
-            nav.scrolled {
-                padding: 20px 40px;
-            }
-
-            .hero {
-                grid-template-columns: 1fr;
-                gap: 60px;
-                padding: 120px 40px 80px;
-            }
-
-            .portrait-frame {
-                justify-self: center;
-                max-width: 400px;
-            }
-
-            .statement {
-                max-width: 100%;
-            }
-
-            .doctrine,
-            .framework,
-            .footer {
-                padding: 100px 40px;
-            }
-            
-            .framework {
-                /* Ajustement responsive aussi */
-                padding-bottom: 40px;
-            }
-
-            .doctrine-grid {
-                grid-template-columns: 1fr;
-                gap: 60px;
-            }
-
-            .framework-title {
-                margin-bottom: 80px;
-            }
-
-            .framework-section {
-                margin-bottom: 60px;
-                padding-bottom: 60px;
-            }
-            
-            .framework-section:last-child {
-                margin-bottom: 0;
-                padding-bottom: 0;
-            }
-
-            .framework-highlight {
-                padding: 32px 40px;
-            }
-
-            .contact-trigger {
-                padding: 24px 60px;
-            }
+            .portrait-container { justify-self: center; }
+            .portrait-frame { max-width: 380px; }
+            .statement { max-width: 100%; margin: 0 auto; }
+            .doctrine, .diagnostic, .framework, .footer { padding: 120px 48px; }
+            .doctrine-grid { grid-template-columns: 1fr; gap: 40px; }
+            .doctrine-item { padding: 40px; }
+            .archetypes-grid { grid-template-columns: repeat(2, 1fr); }
+            .framework-title { margin-bottom: 100px; }
+            .section-border { left: 48px; right: 48px; }
         }
 
-        @media (max-width: 600px) {
-            nav {
-                padding: 24px 24px;
-            }
-            
-            nav.scrolled {
-                padding: 16px 24px;
-            }
-
-            .identity {
-                font-size: 16px;
-            }
-
-            .lang-selector {
-                font-size: 9px;
-                gap: 16px;
-            }
-
-            .hero {
-                padding: 100px 24px 60px;
-            }
-
-            .doctrine,
-            .framework,
-            .footer {
-                padding: 80px 24px;
-            }
-            
-            .framework {
-                padding-bottom: 40px;
-            }
-
-            .framework-highlight {
-                padding: 24px 28px;
-            }
-
-            .contact-grid {
-                gap: 24px;
-            }
+        @media (max-width: 768px) {
+            nav { padding: 24px 28px; }
+            nav.scrolled { padding: 16px 28px; }
+            .identity { font-size: 18px; letter-spacing: 0.08em; }
+            .lang-selector { gap: 14px; }
+            .hero { padding: 120px 28px 80px; }
+            .statement h1 { font-size: 36px; margin-bottom: 32px; }
+            .statement p { font-size: 14px; margin-bottom: 40px; }
+            .doctrine, .diagnostic, .framework, .footer { padding: 100px 28px; }
+            .doctrine-header { margin-bottom: 80px; }
+            .diagnostic-header { margin-bottom: 64px; }
+            .archetypes-grid { grid-template-columns: 1fr; gap: 16px; }
+            .diagnostic-stats { gap: 40px; flex-wrap: wrap; }
+            .stat-item::after { display: none; }
+            .stat-number { font-size: 36px; }
+            .framework-highlight { padding: 32px 28px; }
+            .footer-statement { font-size: 56px; }
+            .contact-trigger { padding: 22px 48px; }
+            .contact-grid { gap: 28px; }
+            .section-border { left: 28px; right: 28px; }
         }
     </style>
 </head>
@@ -479,7 +930,13 @@
     <div class="cursor-dot"></div>
 
     <nav>
-        <div class="identity">DAVID DABERT</div>
+        <a href="#" class="identity">DAVID DABERT</a>
+        <div class="nav-center">
+            <a href="#doctrine" class="nav-link">DOCTRINE</a>
+            <a href="#diagnostic" class="nav-link">DIAGNOSTIC</a>
+            <a href="#framework" class="nav-link">FRAMEWORK</a>
+            <a href="#contact" class="nav-link">CONTACT</a>
+        </div>
         <div class="lang-selector">
             <div class="lang-option active" data-lang="en">EN</div>
             <div class="lang-option" data-lang="fr">FR</div>
@@ -489,83 +946,157 @@
 
     <main>
         <section class="hero">
-            <div class="portrait-frame">
-                <img src="assets/david_dabert.jpeg" alt="David Dabert">
+            <div class="portrait-container">
+                <div class="portrait-frame">
+                    <img src="david_dabert.jpeg" alt="David Dabert">
+                </div>
             </div>
             
             <div class="statement">
-                <h1 data-i18n-html="hero_title">
-                    Where complexity has outpaced <span>structure</span>
-                </h1>
-                
-                <p data-i18n="hero_text">
-                    I organize expertise where institutional authority is tested by scale and pressure. My role is to clarify decision paths, surface real constraints, and align actors operating under incompatible incentives.
-                </p>
+                <span class="statement-label" data-i18n="statement_label">GOVERNANCE & INSTITUTIONAL STRATEGY</span>
+                <h1 data-i18n-html="hero_title">Where complexity has outpaced <em>structure</em></h1>
+                <p data-i18n="hero_text">I organise expertise where institutional authority is tested by scale and pressure. My work is to clarify decision paths, surface real constraints, and align actors operating under incompatible incentives.</p>
+                <a href="#diagnostic" class="hero-cta" data-i18n="hero_cta">DISCOVER YOUR ARCHETYPE</a>
             </div>
         </section>
 
-        <section class="doctrine">
+        <section class="doctrine" id="doctrine">
+            <div class="section-border"></div>
+            <div class="doctrine-header">
+                <div class="doctrine-label" data-i18n="doctrine_label">OPERATING PRINCIPLES</div>
+                <h2 class="doctrine-title" data-i18n="doctrine_title">Three convictions that guide my work</h2>
+            </div>
             <div class="doctrine-grid">
                 <div class="doctrine-item">
-                    <div class="doctrine-number" data-i18n="doctrine_1_num">01</div>
+                    <div class="doctrine-number">01</div>
                     <h3 data-i18n="doctrine_1_title">Judgment over compliance</h3>
-                    <p data-i18n="doctrine_1_text">
-                        In environments where mandates are complex and authority fragmented, outcomes depend less on following procedure than on reading what remains unsaid.
-                    </p>
+                    <p data-i18n="doctrine_1_text">In environments where mandates are complex and authority fragmented, outcomes depend less on following procedure than on reading what remains unsaid.</p>
                 </div>
-                
                 <div class="doctrine-item">
-                    <div class="doctrine-number" data-i18n="doctrine_2_num">02</div>
+                    <div class="doctrine-number">02</div>
                     <h3 data-i18n="doctrine_2_title">Cross-sectoral fluency</h3>
-                    <p data-i18n="doctrine_2_text">
-                        The distinction between humanitarian aid and corporate governance is artificial. What matters is structural coherence across institutional boundaries.
-                    </p>
+                    <p data-i18n="doctrine_2_text">The distinction between humanitarian aid and corporate governance is artificial. What matters is structural coherence across institutional boundaries.</p>
                 </div>
-                
                 <div class="doctrine-item">
-                    <div class="doctrine-number" data-i18n="doctrine_3_num">03</div>
+                    <div class="doctrine-number">03</div>
                     <h3 data-i18n="doctrine_3_title">Continuity across institutions</h3>
-                    <p data-i18n="doctrine_3_text">
-                        A long-term perspective where institutions are the changing scenery. Decisions are optimized not for visibility, but for endurance.
-                    </p>
+                    <p data-i18n="doctrine_3_text">A long-term perspective where institutions are the changing scenery. Decisions are optimised not for visibility, but for endurance.</p>
                 </div>
             </div>
         </section>
 
-        <section class="framework">
+        <section class="diagnostic" id="diagnostic">
+            <div class="section-border"></div>
+            <div class="diagnostic-container">
+                <div class="diagnostic-header">
+                    <span class="diagnostic-badge" data-i18n="diagnostic_badge">GOVERNANCE DIAGNOSTIC</span>
+                    <h2 class="diagnostic-title" data-i18n-html="diagnostic_title">Discover Your <em>Governance</em> Archetype</h2>
+                    <p class="diagnostic-subtitle" data-i18n="diagnostic_subtitle">How do you lead when structure lags behind reality?</p>
+                    <p class="diagnostic-description" data-i18n="diagnostic_description">This diagnostic helps professionals working in complex environments discover how they navigate pressure, coordinate under constraint, and translate mandate into delivery. Receive a personalised governance profile with your operational strengths and blind spots.</p>
+                    
+                    <div class="diagnostic-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">15</span>
+                            <div class="stat-label" data-i18n="stat_questions">QUESTIONS</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5</span>
+                            <div class="stat-label" data-i18n="stat_minutes">MINUTES</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <div class="stat-label" data-i18n="stat_free">FREE</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="archetypes-grid">
+                    <div class="archetype-card">
+                        <div class="archetype-number">01</div>
+                        <h3 class="archetype-name" data-i18n="arch_1_name">The Architect</h3>
+                        <p class="archetype-tagline" data-i18n="arch_1_tagline">You design systems before you occupy them.</p>
+                        <div class="archetype-traits">
+                            <div class="trait-row"><span class="trait-label">STR</span> <span class="trait-strength" data-i18n="arch_1_str">Structural clarity</span></div>
+                            <div class="trait-row"><span class="trait-label">RSK</span> <span class="trait-risk" data-i18n="arch_1_rsk">Over-engineering</span></div>
+                        </div>
+                    </div>
+
+                    <div class="archetype-card">
+                        <div class="archetype-number">02</div>
+                        <h3 class="archetype-name" data-i18n="arch_2_name">The Translator</h3>
+                        <p class="archetype-tagline" data-i18n="arch_2_tagline">You bridge what cannot be said across boundaries.</p>
+                        <div class="archetype-traits">
+                            <div class="trait-row"><span class="trait-label">STR</span> <span class="trait-strength" data-i18n="arch_2_str">Contextual intelligence</span></div>
+                            <div class="trait-row"><span class="trait-label">RSK</span> <span class="trait-risk" data-i18n="arch_2_rsk">Carrying others' weight</span></div>
+                        </div>
+                    </div>
+
+                    <div class="archetype-card">
+                        <div class="archetype-number">03</div>
+                        <h3 class="archetype-name" data-i18n="arch_3_name">The Sentinel</h3>
+                        <p class="archetype-tagline" data-i18n="arch_3_tagline">You hold the line when pressure distorts priorities.</p>
+                        <div class="archetype-traits">
+                            <div class="trait-row"><span class="trait-label">STR</span> <span class="trait-strength" data-i18n="arch_3_str">Accountability discipline</span></div>
+                            <div class="trait-row"><span class="trait-label">RSK</span> <span class="trait-risk" data-i18n="arch_3_rsk">Perceived obstruction</span></div>
+                        </div>
+                    </div>
+
+                    <div class="archetype-card">
+                        <div class="archetype-number">04</div>
+                        <h3 class="archetype-name" data-i18n="arch_4_name">The Navigator</h3>
+                        <p class="archetype-tagline" data-i18n="arch_4_tagline">You find paths through ambiguity when maps fail.</p>
+                        <div class="archetype-traits">
+                            <div class="trait-row"><span class="trait-label">STR</span> <span class="trait-strength" data-i18n="arch_4_str">Decision under uncertainty</span></div>
+                            <div class="trait-row"><span class="trait-label">RSK</span> <span class="trait-risk" data-i18n="arch_4_rsk">Isolation</span></div>
+                        </div>
+                    </div>
+
+                    <div class="archetype-card">
+                        <div class="archetype-number">05</div>
+                        <h3 class="archetype-name" data-i18n="arch_5_name">The Operator</h3>
+                        <p class="archetype-tagline" data-i18n="arch_5_tagline">You deliver. Period.</p>
+                        <div class="archetype-traits">
+                            <div class="trait-row"><span class="trait-label">STR</span> <span class="trait-strength" data-i18n="arch_5_str">Delivery credibility</span></div>
+                            <div class="trait-row"><span class="trait-label">RSK</span> <span class="trait-risk" data-i18n="arch_5_rsk">Undervaluing politics</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-center">
+                    <a href="diagnostic.html" class="cta-button" data-i18n="diagnostic_cta">START DIAGNOSTIC</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="framework" id="framework">
+            <div class="section-border"></div>
             <div class="framework-container">
-                <h2 class="framework-title" data-i18n="framework_title">Operating Framework</h2>
+                <h2 class="framework-title" data-i18n="framework_title">Framework</h2>
                 
                 <div class="framework-section">
                     <div class="framework-label" data-i18n="framework_1_label">HOW I OPERATE</div>
-                    <div class="framework-content" data-i18n="framework_1_text">
-                        Complex systems tend to fail once structure lags behind reality. That is where my work begins. My role is not to substitute expertise, but to organize it. To clarify decision paths, surface real constraints, and align actors operating under incompatible incentives. This work has taken place across public institutions, international programmes, and independent ventures.
-                    </div>
+                    <div class="framework-content" data-i18n="framework_1_text">Complex systems tend to fail once structure lags behind reality. That is where my work begins. My role is not to substitute expertise, but to organise it. To clarify decision paths, surface real constraints, and align actors operating under incompatible incentives. This work has taken place across public institutions, international programmes, and independent ventures.</div>
                 </div>
 
                 <div class="framework-section">
                     <div class="framework-label" data-i18n="framework_2_label">ON FAILURE</div>
                     <div class="framework-highlight">
-                        <div class="framework-content" data-i18n="framework_2_text">
-                            I led a venture to build a hand-crafted electric vehicle company grounded in 1960s design principles and contemporary material science. The project assembled a distributed team across several countries and generated significant public attention. It did not reach production. Capital requirements were decisive. Failure at scale teaches what success does not: capital physics, timing asymmetry, and the limits of narrative when structural conditions are not met.
-                        </div>
+                        <div class="framework-content" data-i18n="framework_2_text">I led a venture to build a hand-crafted electric vehicle company grounded in 1960s design principles and contemporary material science. The project assembled a distributed team across several countries and generated significant public attention. It did not reach production. Capital requirements were decisive. Failure at scale teaches what success does not: capital physics, timing asymmetry, and the limits of narrative when structural conditions are not met.</div>
                     </div>
                 </div>
 
                 <div class="framework-section">
                     <div class="framework-label" data-i18n="framework_3_label">WHERE THIS APPLIES</div>
-                    <div class="framework-content" data-i18n="framework_3_text">
-                        My experience is most relevant where mandates are complex, authority is fragmented, and outcomes depend less on compliance than on judgment. This includes senior roles in public policy, international cooperation, governance, and organizations operating at the boundary between strategy and execution.
-                    </div>
+                    <div class="framework-content" data-i18n="framework_3_text">My experience is most relevant where mandates are complex, authority is fragmented, and outcomes depend less on compliance than on judgment. This includes senior roles in public policy, international cooperation, governance, and organisations operating at the boundary between strategy and execution.</div>
                 </div>
             </div>
         </section>
 
-        <footer class="footer">
+        <footer class="footer" id="contact">
             <div class="footer-statement" data-i18n="footer_statement">Continuity.</div>
-            <a href="mailto:pr.daviddabert@gmail.com" class="contact-trigger" data-i18n="footer_cta">INITIATE CONTACT</a>
+            <a href="mailto:pr.dabertdavid@gmail.com" class="contact-trigger" data-i18n="footer_cta">INITIATE CONTACT</a>
             <div class="contact-grid">
-                <a href="mailto:pr.daviddabert@gmail.com">PR.DAVIDDABERT@GMAIL.COM</a>
+                <a href="mailto:pr.dabertdavid@gmail.com">PR.DABERTDAVID@GMAIL.COM</a>
                 <a href="tel:+33766251025">+33 7 66 25 10 25</a>
                 <a href="https://www.linkedin.com/in/david-dabert-54277039b" target="_blank" rel="noopener">LINKEDIN</a>
             </div>
@@ -573,26 +1104,34 @@
     </main>
 
     <script>
-        // Gestion du Header Blur au scroll
+        // Navigation
         const nav = document.querySelector('nav');
+        let lastScroll = 0;
         
         function handleScroll() {
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
+            const currentScroll = window.scrollY;
+            nav.classList.toggle('scrolled', currentScroll > 80);
+            lastScroll = currentScroll;
         }
         
-        window.addEventListener('scroll', handleScroll);
-        // Appel initial pour vérifier la position au chargement
+        window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
 
-        // Cursor system
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Cursor
         const cursor = document.querySelector('.cursor');
         const cursorDot = document.querySelector('.cursor-dot');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
@@ -602,17 +1141,17 @@
         });
 
         function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
+            cursorX += (mouseX - cursorX) * 0.08;
+            cursorY += (mouseY - cursorY) * 0.08;
             cursor.style.left = cursorX + 'px';
             cursor.style.top = cursorY + 'px';
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
 
-        // Hover effects
-        const interactiveElements = document.querySelectorAll('a, button, .lang-option, .portrait-frame');
-        interactiveElements.forEach(el => {
+        // Hover states
+        const hoverTargets = 'a, button, .lang-option, .portrait-frame, .archetype-card, .doctrine-item';
+        document.querySelectorAll(hoverTargets).forEach(el => {
             el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
             el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
         });
@@ -620,68 +1159,155 @@
         // Translations
         const translations = {
             en: {
-                hero_title: 'Where complexity has outpaced <span>structure</span>',
-                hero_text: 'I organize expertise where institutional authority is tested by scale and pressure. My role is to clarify decision paths, surface real constraints, and align actors operating under incompatible incentives.',
-                doctrine_1_num: '01',
+                statement_label: 'GOVERNANCE & INSTITUTIONAL STRATEGY',
+                hero_title: 'Where complexity has outpaced <em>structure</em>',
+                hero_text: 'I organise expertise where institutional authority is tested by scale and pressure. My work is to clarify decision paths, surface real constraints, and align actors operating under incompatible incentives.',
+                hero_cta: 'DISCOVER YOUR ARCHETYPE',
+                doctrine_label: 'OPERATING PRINCIPLES',
+                doctrine_title: 'Three convictions that guide my work',
                 doctrine_1_title: 'Judgment over compliance',
                 doctrine_1_text: 'In environments where mandates are complex and authority fragmented, outcomes depend less on following procedure than on reading what remains unsaid.',
-                doctrine_2_num: '02',
                 doctrine_2_title: 'Cross-sectoral fluency',
                 doctrine_2_text: 'The distinction between humanitarian aid and corporate governance is artificial. What matters is structural coherence across institutional boundaries.',
-                doctrine_3_num: '03',
                 doctrine_3_title: 'Continuity across institutions',
-                doctrine_3_text: 'A long-term perspective where institutions are the changing scenery. Decisions are optimized not for visibility, but for endurance.',
-                framework_title: 'Operating Framework',
+                doctrine_3_text: 'A long-term perspective where institutions are the changing scenery. Decisions are optimised not for visibility, but for endurance.',
+                diagnostic_badge: 'GOVERNANCE DIAGNOSTIC',
+                diagnostic_title: 'Discover Your <em>Governance</em> Archetype',
+                diagnostic_subtitle: 'How do you lead when structure lags behind reality?',
+                diagnostic_description: 'This diagnostic helps professionals working in complex environments discover how they navigate pressure, coordinate under constraint, and translate mandate into delivery. Receive a personalised governance profile with your operational strengths and blind spots.',
+                stat_questions: 'QUESTIONS',
+                stat_minutes: 'MINUTES',
+                stat_free: 'FREE',
+                diagnostic_cta: 'START DIAGNOSTIC',
+                arch_1_name: 'The Architect',
+                arch_1_tagline: 'You design systems before you occupy them.',
+                arch_1_str: 'Structural clarity',
+                arch_1_rsk: 'Over-engineering',
+                arch_2_name: 'The Translator',
+                arch_2_tagline: 'You bridge what cannot be said across boundaries.',
+                arch_2_str: 'Contextual intelligence',
+                arch_2_rsk: "Carrying others' weight",
+                arch_3_name: 'The Sentinel',
+                arch_3_tagline: 'You hold the line when pressure distorts priorities.',
+                arch_3_str: 'Accountability discipline',
+                arch_3_rsk: 'Perceived obstruction',
+                arch_4_name: 'The Navigator',
+                arch_4_tagline: 'You find paths through ambiguity when maps fail.',
+                arch_4_str: 'Decision under uncertainty',
+                arch_4_rsk: 'Isolation',
+                arch_5_name: 'The Operator',
+                arch_5_tagline: 'You deliver. Period.',
+                arch_5_str: 'Delivery credibility',
+                arch_5_rsk: 'Undervaluing politics',
+                framework_title: 'Framework',
                 framework_1_label: 'HOW I OPERATE',
-                framework_1_text: 'Complex systems tend to fail once structure lags behind reality. That is where my work begins. My role is not to substitute expertise, but to organize it. To clarify decision paths, surface real constraints, and align actors operating under incompatible incentives. This work has taken place across public institutions, international programmes, and independent ventures.',
+                framework_1_text: 'Complex systems tend to fail once structure lags behind reality. That is where my work begins. My role is not to substitute expertise, but to organise it. To clarify decision paths, surface real constraints, and align actors operating under incompatible incentives. This work has taken place across public institutions, international programmes, and independent ventures.',
                 framework_2_label: 'ON FAILURE',
                 framework_2_text: 'I led a venture to build a hand-crafted electric vehicle company grounded in 1960s design principles and contemporary material science. The project assembled a distributed team across several countries and generated significant public attention. It did not reach production. Capital requirements were decisive. Failure at scale teaches what success does not: capital physics, timing asymmetry, and the limits of narrative when structural conditions are not met.',
                 framework_3_label: 'WHERE THIS APPLIES',
-                framework_3_text: 'My experience is most relevant where mandates are complex, authority is fragmented, and outcomes depend less on compliance than on judgment. This includes senior roles in public policy, international cooperation, governance, and organizations operating at the boundary between strategy and execution.',
+                framework_3_text: 'My experience is most relevant where mandates are complex, authority is fragmented, and outcomes depend less on compliance than on judgment. This includes senior roles in public policy, international cooperation, governance, and organisations operating at the boundary between strategy and execution.',
                 footer_statement: 'Continuity.',
                 footer_cta: 'INITIATE CONTACT'
             },
             fr: {
-                hero_title: 'Là où la complexité a dépassé la <span>structure</span>',
-                hero_text: "J'organise l'expertise là où l'autorité institutionnelle est mise à l'épreuve par l'ampleur et la pression. Mon rôle est de clarifier les chemins de décision, révéler les contraintes réelles et aligner les acteurs opérant sous des incitations incompatibles.",
-                doctrine_1_num: '01',
-                doctrine_1_title: 'Jugement plutôt que conformité',
-                doctrine_1_text: "Dans des environnements où les mandats sont complexes et l'autorité fragmentée, les résultats dépendent moins du respect des procédures que de la lecture de ce qui reste non-dit.",
-                doctrine_2_num: '02',
-                doctrine_2_title: 'Maîtrise transectorielle',
+                statement_label: 'GOUVERNANCE & STRATÉGIE INSTITUTIONNELLE',
+                hero_title: 'Là où la complexité a dépassé la <em>structure</em>',
+                hero_text: "J'organise l'expertise là où l'autorité institutionnelle est mise à l'épreuve par l'échelle et la pression. Mon travail consiste à clarifier les chemins de décision, révéler les contraintes réelles et aligner des acteurs opérant sous des incitations incompatibles.",
+                hero_cta: 'DÉCOUVRIR VOTRE ARCHÉTYPE',
+                doctrine_label: 'PRINCIPES OPÉRATOIRES',
+                doctrine_title: 'Trois convictions qui guident mon travail',
+                doctrine_1_title: 'Le jugement plutôt que la conformité',
+                doctrine_1_text: "Dans les environnements où les mandats sont complexes et l'autorité fragmentée, les résultats dépendent moins du respect des procédures que de la lecture de ce qui reste non-dit.",
+                doctrine_2_title: 'La maîtrise transectorielle',
                 doctrine_2_text: "La distinction entre aide humanitaire et gouvernance d'entreprise est artificielle. Ce qui compte, c'est la cohérence structurelle au-delà des frontières institutionnelles.",
-                doctrine_3_num: '03',
-                doctrine_3_title: 'Continuité institutionnelle',
-                doctrine_3_text: "Une perspective à long terme où les institutions sont le décor changeant. Les décisions sont optimisées non pour la visibilité, mais pour la durabilité.",
-                framework_title: 'Cadre Opérationnel',
+                doctrine_3_title: 'La continuité institutionnelle',
+                doctrine_3_text: "Une perspective de long terme où les institutions constituent le décor changeant. Les décisions sont optimisées non pour la visibilité, mais pour la durabilité.",
+                diagnostic_badge: 'DIAGNOSTIC DE GOUVERNANCE',
+                diagnostic_title: 'Découvrez Votre Archétype de <em>Gouvernance</em>',
+                diagnostic_subtitle: 'Comment dirigez-vous quand la structure accuse un retard sur la réalité ?',
+                diagnostic_description: "Ce diagnostic aide les professionnels évoluant dans des environnements complexes à découvrir comment ils naviguent sous pression, coordonnent sous contrainte et traduisent un mandat en résultats. Recevez un profil de gouvernance personnalisé avec vos forces opérationnelles et vos angles morts.",
+                stat_questions: 'QUESTIONS',
+                stat_minutes: 'MINUTES',
+                stat_free: 'GRATUIT',
+                diagnostic_cta: 'COMMENCER LE DIAGNOSTIC',
+                arch_1_name: "L'Architecte",
+                arch_1_tagline: 'Vous concevez les systèmes avant de les occuper.',
+                arch_1_str: 'Clarté structurelle',
+                arch_1_rsk: 'Sur-ingénierie',
+                arch_2_name: 'Le Traducteur',
+                arch_2_tagline: "Vous créez des ponts entre ce qui ne peut être dit au-delà des frontières.",
+                arch_2_str: 'Intelligence contextuelle',
+                arch_2_rsk: 'Porter le poids des autres',
+                arch_3_name: 'La Sentinelle',
+                arch_3_tagline: 'Vous tenez la ligne quand la pression déforme les priorités.',
+                arch_3_str: 'Discipline de redevabilité',
+                arch_3_rsk: 'Perçu comme obstacle',
+                arch_4_name: 'Le Navigateur',
+                arch_4_tagline: "Vous trouvez des chemins dans l'ambiguïté quand les cartes échouent.",
+                arch_4_str: "Décision sous incertitude",
+                arch_4_rsk: 'Isolement',
+                arch_5_name: "L'Opérateur",
+                arch_5_tagline: 'Vous livrez. Point.',
+                arch_5_str: 'Crédibilité de livraison',
+                arch_5_rsk: 'Sous-évaluer la politique',
+                framework_title: 'Cadre',
                 framework_1_label: "COMMENT J'OPÈRE",
-                framework_1_text: "Les systèmes complexes tendent à échouer une fois que la structure prend du retard sur la réalité. C'est là que mon travail commence. Mon rôle n'est pas de remplacer l'expertise, mais de l'organiser. Clarifier les chemins de décision, révéler les contraintes réelles et aligner les acteurs opérant sous des incitations incompatibles. Ce travail s'est déroulé dans des institutions publiques, des programmes internationaux et des projets indépendants.",
+                framework_1_text: "Les systèmes complexes tendent à échouer dès que la structure accuse un retard sur la réalité. C'est là que mon travail commence. Mon rôle n'est pas de remplacer l'expertise, mais de l'organiser. Clarifier les chemins de décision, révéler les contraintes réelles et aligner des acteurs opérant sous des incitations incompatibles. Ce travail s'est déployé au sein d'institutions publiques, de programmes internationaux et de projets indépendants.",
                 framework_2_label: "SUR L'ÉCHEC",
-                framework_2_text: "J'ai dirigé une entreprise visant à construire des véhicules électriques artisanaux fondés sur les principes de design des années 1960 et la science des matériaux contemporaine. Le projet a rassemblé une équipe distribuée dans plusieurs pays et généré une attention publique significative. Il n'a pas atteint la production. Les besoins en capital ont été décisifs. L'échec à grande échelle enseigne ce que le succès n'enseigne pas : la physique du capital, l'asymétrie temporelle et les limites du récit lorsque les conditions structurelles ne sont pas réunies.",
+                framework_2_text: "J'ai dirigé une entreprise visant à construire des véhicules électriques artisanaux fondés sur les principes de design des années 1960 et la science des matériaux contemporaine. Le projet a rassemblé une équipe distribuée dans plusieurs pays et généré une attention publique significative. Il n'a pas atteint la production. Les exigences en capital ont été décisives. L'échec à grande échelle enseigne ce que le succès n'enseigne pas : la physique du capital, l'asymétrie temporelle et les limites du récit lorsque les conditions structurelles ne sont pas réunies.",
                 framework_3_label: "OÙ CELA S'APPLIQUE",
-                framework_3_text: "Mon expérience est plus pertinente là où les mandats sont complexes, l'autorité fragmentée et les résultats dépendent moins de la conformité que du jugement. Cela inclut des rôles de direction dans les politiques publiques, la coopération internationale, la gouvernance et les organisations opérant à la frontière entre stratégie et exécution.",
+                framework_3_text: "Mon expérience trouve sa pertinence là où les mandats sont complexes, l'autorité fragmentée et les résultats dépendent moins de la conformité que du jugement. Cela inclut des postes de direction dans les politiques publiques, la coopération internationale, la gouvernance et les organisations opérant à la frontière entre stratégie et exécution.",
                 footer_statement: 'Continuité.',
                 footer_cta: 'INITIER LE CONTACT'
             },
             es: {
-                hero_title: 'Donde la complejidad ha superado la <span>estructura</span>',
-                hero_text: 'Organizo la experiencia donde la autoridad institucional se pone a prueba por la escala y la presión. Mi función es aclarar las vías de decisión, revelar las limitaciones reales y alinear a los actores que operan bajo incentivos incompatibles.',
-                doctrine_1_num: '01',
-                doctrine_1_title: 'Juicio sobre cumplimiento',
+                statement_label: 'GOBERNANZA Y ESTRATEGIA INSTITUCIONAL',
+                hero_title: 'Donde la complejidad ha superado la <em>estructura</em>',
+                hero_text: 'Organizo la experiencia donde la autoridad institucional es puesta a prueba por la escala y la presión. Mi trabajo consiste en clarificar las vías de decisión, revelar las restricciones reales y alinear actores que operan bajo incentivos incompatibles.',
+                hero_cta: 'DESCUBRA SU ARQUETIPO',
+                doctrine_label: 'PRINCIPIOS OPERATIVOS',
+                doctrine_title: 'Tres convicciones que guían mi trabajo',
+                doctrine_1_title: 'El juicio sobre el cumplimiento',
                 doctrine_1_text: 'En entornos donde los mandatos son complejos y la autoridad fragmentada, los resultados dependen menos de seguir procedimientos que de leer lo que permanece sin decir.',
-                doctrine_2_num: '02',
-                doctrine_2_title: 'Fluidez transectorial',
+                doctrine_2_title: 'La fluidez transectorial',
                 doctrine_2_text: 'La distinción entre ayuda humanitaria y gobernanza corporativa es artificial. Lo que importa es la coherencia estructural a través de las fronteras institucionales.',
-                doctrine_3_num: '03',
-                doctrine_3_title: 'Continuidad institucional',
-                doctrine_3_text: 'Una perspectiva a largo plazo donde las instituciones son el paisaje cambiante. Las decisiones se optimizan no para la visibilidad, sino para la resistencia.',
-                framework_title: 'Marco Operativo',
+                doctrine_3_title: 'La continuidad institucional',
+                doctrine_3_text: 'Una perspectiva a largo plazo donde las instituciones constituyen el paisaje cambiante. Las decisiones se optimizan no para la visibilidad, sino para la resistencia.',
+                diagnostic_badge: 'DIAGNÓSTICO DE GOBERNANZA',
+                diagnostic_title: 'Descubra Su Arquetipo de <em>Gobernanza</em>',
+                diagnostic_subtitle: '¿Cómo lidera cuando la estructura va por detrás de la realidad?',
+                diagnostic_description: 'Este diagnóstico ayuda a profesionales que trabajan en entornos complejos a descubrir cómo navegan bajo presión, coordinan bajo restricciones y traducen mandatos en resultados. Reciba un perfil de gobernanza personalizado con sus fortalezas operativas y puntos ciegos.',
+                stat_questions: 'PREGUNTAS',
+                stat_minutes: 'MINUTOS',
+                stat_free: 'GRATUITO',
+                diagnostic_cta: 'INICIAR DIAGNÓSTICO',
+                arch_1_name: 'El Arquitecto',
+                arch_1_tagline: 'Diseña sistemas antes de ocuparlos.',
+                arch_1_str: 'Claridad estructural',
+                arch_1_rsk: 'Sobre-ingeniería',
+                arch_2_name: 'El Traductor',
+                arch_2_tagline: 'Construye puentes entre lo que no puede decirse a través de fronteras.',
+                arch_2_str: 'Inteligencia contextual',
+                arch_2_rsk: 'Cargar el peso ajeno',
+                arch_3_name: 'El Centinela',
+                arch_3_tagline: 'Mantiene la línea cuando la presión distorsiona las prioridades.',
+                arch_3_str: 'Disciplina de rendición',
+                arch_3_rsk: 'Percibido como obstáculo',
+                arch_4_name: 'El Navegador',
+                arch_4_tagline: 'Encuentra caminos en la ambigüedad cuando los mapas fallan.',
+                arch_4_str: 'Decisión bajo incertidumbre',
+                arch_4_rsk: 'Aislamiento',
+                arch_5_name: 'El Operador',
+                arch_5_tagline: 'Entrega. Punto.',
+                arch_5_str: 'Credibilidad de entrega',
+                arch_5_rsk: 'Subestimar la política',
+                framework_title: 'Marco',
                 framework_1_label: 'CÓMO OPERO',
-                framework_1_text: 'Los sistemas complejos tienden a fallar una vez que la estructura se retrasa con respecto a la realidad. Ahí es donde comienza mi trabajo. Mi función no es sustituir la experiencia, sino organizarla. Aclarar las vías de decisión, revelar las limitaciones reales y alinear a los actores que operan bajo incentivos incompatibles. Este trabajo ha tenido lugar en instituciones públicas, programas internacionales y proyectos independientes.',
+                framework_1_text: 'Los sistemas complejos tienden a fallar una vez que la estructura va por detrás de la realidad. Ahí es donde comienza mi trabajo. Mi función no es sustituir la experiencia, sino organizarla. Clarificar las vías de decisión, revelar las restricciones reales y alinear actores que operan bajo incentivos incompatibles. Este trabajo ha tenido lugar en instituciones públicas, programas internacionales y proyectos independientes.',
                 framework_2_label: 'SOBRE EL FRACASO',
-                framework_2_text: 'Dirigí una empresa para construir vehículos eléctricos artesanales basados en principios de diseño de los años 60 y ciencia de materiales contemporánea. El proyecto reunió un equipo distribuido en varios países y generó una atención pública significativa. No alcanzó la producción. Los requisitos de capital fueron decisivos. El fracaso a escala enseña lo que el éxito no: física del capital, asimetría temporal y los límites de la narrativa cuando las condiciones estructurales no se cumplen.',
-                framework_3_label: 'DÓNDE SE APLICA ESTO',
-                framework_3_text: 'Mi experiencia es más relevante donde los mandatos son complejos, la autoridad está fragmentada y los resultados dependen menos del cumplimiento que del juicio. Esto incluye roles de alto nivel en política pública, cooperación internacional, gobernanza y organizaciones que operan en el límite entre estrategia y ejecución.',
+                framework_2_text: 'Dirigí una empresa para construir vehículos eléctricos artesanales basados en principios de diseño de los años 60 y ciencia de materiales contemporánea. El proyecto reunió un equipo distribuido en varios países y generó una atención pública significativa. No alcanzó la producción. Los requisitos de capital fueron decisivos. El fracaso a escala enseña lo que el éxito no enseña: la física del capital, la asimetría temporal y los límites de la narrativa cuando las condiciones estructurales no se cumplen.',
+                framework_3_label: 'DÓNDE SE APLICA',
+                framework_3_text: 'Mi experiencia encuentra su relevancia donde los mandatos son complejos, la autoridad está fragmentada y los resultados dependen menos del cumplimiento que del juicio. Esto incluye roles de dirección en política pública, cooperación internacional, gobernanza y organizaciones que operan en el límite entre estrategia y ejecución.',
                 footer_statement: 'Continuidad.',
                 footer_cta: 'INICIAR CONTACTO'
             }
@@ -694,9 +1320,7 @@
             if (!pack) return;
             
             document.documentElement.setAttribute('lang', lang);
-            langOptions.forEach(opt => {
-                opt.classList.toggle('active', opt.dataset.lang === lang);
-            });
+            langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === lang));
             
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
@@ -709,8 +1333,28 @@
             });
         }
 
-        langOptions.forEach(opt => {
-            opt.addEventListener('click', () => setLanguage(opt.dataset.lang));
+        langOptions.forEach(opt => opt.addEventListener('click', () => setLanguage(opt.dataset.lang)));
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.doctrine-item, .archetype-card, .framework-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s var(--precision), transform 0.8s var(--precision)';
+            observer.observe(el);
         });
     </script>
 </body>

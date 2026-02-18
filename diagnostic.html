@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DEZVB41H57"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-DEZVB41H57');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>David Dabert | Governance Archetype Diagnostic</title>
+    <meta name="description" content="Discover your governance archetype. A 5-minute diagnostic for professionals operating where mandates are complex, authority is fragmented, and outcomes depend on judgment.">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+
+        :root {
+            --void: #000000;
+            --paper: #FFFEF9;
+            --ink: #1A1A1A;
+            --accent: #C9A961;
+            --muted: rgba(26, 26, 26, 0.4);
+            --precision: cubic-bezier(0.4, 0, 0.2, 1);
+            --architect: #4A90A4;
+            --translator: #7B68A6;
+            --sentinel: #A65B5B;
+            --navigator: #5B8C5B;
+            --operator: #C9A961;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--void);
+            color: var(--paper);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: 300;
+            letter-spacing: 0.01em;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: var(--void);
+        }
+
+        /* Cursor system */
+        .cursor {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s var(--precision), height 0.3s var(--precision), border-width 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hover {
+            width: 60px;
+            height: 60px;
+            border-width: 2px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 40px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: background 0.4s ease, padding 0.4s ease, backdrop-filter 0.4s ease;
+            background: transparent;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px 60px;
+        }
+
+        .identity {
+            font-family: 'EB Garamond', serif;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            font-weight: 400;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--paper);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            opacity: 1;
+        }
+
+        .lang-selector {
+            display: flex;
+            gap: 24px;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            font-weight: 400;
+        }
+
+        .lang-option {
+            opacity: 0.3;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .lang-option.active {
+            opacity: 1;
+        }
+
+        /* Hero Section - Quiz Landing */
+        .hero-quiz {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 60px 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-quiz::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(201, 169, 97, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .quiz-badge {
+            font-size: 10px;
+            letter-spacing: 0.4em;
+            color: var(--accent);
+            margin-bottom: 32px;
+            opacity: 0.8;
+        }
+
+        .hero-quiz h1 {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(48px, 7vw, 96px);
+            font-weight: 500;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            max-width: 900px;
+        }
+
+        .hero-quiz h1 span {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            line-height: 1.7;
+            opacity: 0.6;
+            max-width: 700px;
+            margin-bottom: 48px;
+        }
+
+        .quiz-stats {
+            display: flex;
+            gap: 48px;
+            margin-bottom: 64px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'EB Garamond', serif;
+            font-size: 32px;
+            font-weight: 500;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            opacity: 0.5;
+            margin-top: 8px;
+        }
+
+        .cta-primary {
+            padding: 24px 64px;
+            border: 1px solid var(--accent);
+            background: transparent;
+            color: var(--paper);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.5s var(--precision);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--accent);
+            transform: translateY(100%);
+            transition: transform 0.5s var(--precision);
+            z-index: -1;
+        }
+
+        .cta-primary:hover::before {
+            transform: translateY(0);
+        }
+
+        .cta-primary:hover {
+            color: var(--void);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            opacity: 0.3;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Context Section */
+        .context-section {
+            padding: 120px 60px;
+            border-top: 1px solid rgba(255, 254, 249, 0.06);
+        }
+
+        .context-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .context-label {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            margin-bottom: 32px;
+        }
+
+        .context-text {
+            font-family: 'EB Garamond', serif;
+            font-size: 24px;
+            line-height: 1.7;
+            font-weight: 400;
+            opacity: 0.85;
+        }
+
+        .context-text strong {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* Archetypes Section */
+        .archetypes-section {
+            padding: 120px 60px;
+            border-top: 1px solid rgba(255, 254, 249, 0.06);
+        }
+
+        .section-title {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(48px, 8vw, 80px);
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 80px;
+            opacity: 0.08;
+            letter-spacing: -0.02em;
+        }
+
+        .archetypes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .archetype-card {
+            background: rgba(255, 254, 249, 0.02);
+            border: 1px solid rgba(255, 254, 249, 0.06);
+            padding: 48px;
+            transition: all 0.4s var(--precision);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .archetype-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.4s var(--precision);
+        }
+
+        .archetype-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .archetype-card:hover {
+            background: rgba(255, 254, 249, 0.04);
+            border-color: rgba(201, 169, 97, 0.2);
+        }
+
+        .archetype-number {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .archetype-name {
+            font-family: 'EB Garamond', serif;
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .archetype-tagline {
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0.6;
+            margin-bottom: 24px;
+        }
+
+        .archetype-description {
+            font-size: 14px;
+            line-height: 1.7;
+            opacity: 0.7;
+            margin-bottom: 24px;
+        }
+
+        .archetype-traits {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .trait {
+            font-size: 11px;
+            letter-spacing: 0.1em;
+        }
+
+        .trait-label {
+            opacity: 0.4;
+            margin-right: 8px;
+        }
+
+        .trait-value {
+            color: var(--accent);
+        }
+
+        .trait-risk .trait-value {
+            color: rgba(255, 254, 249, 0.6);
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            padding: 120px 60px;
+            border-top: 1px solid rgba(255, 254, 249, 0.06);
+            display: none;
+        }
+
+        .quiz-section.active {
+            display: block;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-progress {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 64px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 2px;
+            background: rgba(255, 254, 249, 0.1);
+            position: relative;
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.4s var(--precision);
+        }
+
+        .progress-text {
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            opacity: 0.5;
+        }
+
+        .question-container {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s var(--precision);
+        }
+
+        .question-container.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .question-number {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .question-text {
+            font-family: 'EB Garamond', serif;
+            font-size: 28px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 48px;
+        }
+
+        .answers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .answer-option {
+            padding: 24px 32px;
+            border: 1px solid rgba(255, 254, 249, 0.1);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s var(--precision);
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .answer-option:hover {
+            border-color: rgba(201, 169, 97, 0.4);
+            background: rgba(201, 169, 97, 0.05);
+        }
+
+        .answer-option.selected {
+            border-color: var(--accent);
+            background: rgba(201, 169, 97, 0.1);
+        }
+
+        .answer-letter {
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            min-width: 24px;
+        }
+
+        .answer-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--paper);
+            opacity: 0.8;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 254, 249, 0.06);
+        }
+
+        .nav-btn {
+            padding: 16px 40px;
+            border: 1px solid rgba(255, 254, 249, 0.2);
+            background: transparent;
+            color: var(--paper);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            transition: all 0.3s var(--precision);
+            opacity: 0.6;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            opacity: 1;
+            border-color: var(--accent);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.primary {
+            border-color: var(--accent);
+            opacity: 1;
+        }
+
+        /* Results Section */
+        .results-section {
+            padding: 120px 60px;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .results-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .result-label {
+            font-size: 11px;
+            letter-spacing: 0.4em;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .result-archetype {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(48px, 8vw, 80px);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .result-tagline {
+            font-size: 20px;
+            font-style: italic;
+            opacity: 0.6;
+        }
+
+        .result-content {
+            display: grid;
+            gap: 48px;
+        }
+
+        .result-block {
+            background: rgba(255, 254, 249, 0.02);
+            border: 1px solid rgba(255, 254, 249, 0.06);
+            padding: 48px;
+        }
+
+        .result-block-title {
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .result-block-text {
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+
+        .result-list {
+            list-style: none;
+        }
+
+        .result-list li {
+            font-size: 15px;
+            line-height: 1.7;
+            opacity: 0.8;
+            padding-left: 24px;
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .result-list li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-top: 48px;
+        }
+
+        .score-item {
+            text-align: center;
+            padding: 24px 16px;
+            background: rgba(255, 254, 249, 0.02);
+            border: 1px solid rgba(255, 254, 249, 0.06);
+        }
+
+        .score-item.primary {
+            border-color: var(--accent);
+            background: rgba(201, 169, 97, 0.08);
+        }
+
+        .score-name {
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            opacity: 0.5;
+            margin-bottom: 8px;
+        }
+
+        .score-value {
+            font-family: 'EB Garamond', serif;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .score-item.primary .score-value {
+            color: var(--accent);
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-top: 64px;
+            flex-wrap: wrap;
+        }
+
+        /* Email Capture */
+        .email-capture {
+            padding: 120px 60px;
+            border-top: 1px solid rgba(255, 254, 249, 0.06);
+            text-align: center;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .email-title {
+            font-family: 'EB Garamond', serif;
+            font-size: 32px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .email-subtitle {
+            font-size: 15px;
+            opacity: 0.6;
+            margin-bottom: 48px;
+            line-height: 1.7;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 18px 24px;
+            border: 1px solid rgba(255, 254, 249, 0.15);
+            background: transparent;
+            color: var(--paper);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .email-input::placeholder {
+            color: rgba(255, 254, 249, 0.3);
+        }
+
+        .email-consent {
+            font-size: 11px;
+            opacity: 0.4;
+            margin-top: 24px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 60px;
+            border-top: 1px solid rgba(255, 254, 249, 0.06);
+        }
+
+        .footer-statement {
+            font-family: 'EB Garamond', serif;
+            font-size: clamp(48px, 12vw, 140px);
+            font-weight: 500;
+            font-style: italic;
+            letter-spacing: -0.03em;
+            margin-bottom: 64px;
+            line-height: 0.95;
+        }
+
+        .contact-trigger {
+            padding: 24px 64px;
+            border: 1px solid rgba(255, 254, 249, 0.2);
+            background: transparent;
+            color: var(--paper);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.4em;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.5s var(--precision);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .contact-trigger::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--paper);
+            transform: translateY(100%);
+            transition: transform 0.5s var(--precision);
+            z-index: -1;
+        }
+
+        .contact-trigger:hover::before {
+            transform: translateY(0);
+        }
+
+        .contact-trigger:hover {
+            color: var(--void);
+            border-color: var(--paper);
+        }
+
+        .contact-grid {
+            display: flex;
+            gap: 48px;
+            margin-top: 48px;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            opacity: 0.5;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .contact-grid a {
+            color: inherit;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .contact-grid a:hover {
+            opacity: 1;
+        }
+
+        .designed-by {
+            margin-top: 64px;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            body {
+                cursor: auto;
+            }
+
+            .cursor, .cursor-dot {
+                display: none;
+            }
+
+            nav {
+                padding: 30px 40px;
+            }
+
+            nav.scrolled {
+                padding: 20px 40px;
+            }
+
+            .hero-quiz, .context-section, .archetypes-section, 
+            .quiz-section, .results-section, .email-capture, .footer {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+
+            .archetypes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+
+            .score-breakdown {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 24px 24px;
+            }
+
+            nav.scrolled {
+                padding: 16px 24px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-quiz, .context-section, .archetypes-section, 
+            .quiz-section, .results-section, .email-capture, .footer {
+                padding: 80px 24px;
+            }
+
+            .quiz-stats {
+                gap: 32px;
+            }
+
+            .archetype-card {
+                padding: 32px;
+            }
+
+            .result-block {
+                padding: 32px;
+            }
+
+            .score-breakdown {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .email-input {
+                width: 100%;
+            }
+
+            .result-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .identity {
+                font-size: 16px;
+            }
+
+            .lang-selector {
+                gap: 16px;
+                font-size: 9px;
+            }
+
+            .quiz-navigation {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .score-breakdown {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <nav>
+        <a href="https://david-dabert.github.io/portfolio/" class="identity" style="text-decoration: none; color: inherit;">DAVID DABERT</a>
+        <div class="nav-links">
+            <a href="#archetypes" class="nav-link">ARCHETYPES</a>
+            <a href="#quiz" class="nav-link">START DIAGNOSTIC</a>
+            <a href="https://david-dabert.github.io/portfolio/" class="nav-link">PORTFOLIO</a>
+        </div>
+        <div class="lang-selector">
+            <div class="lang-option active" data-lang="en">EN</div>
+            <div class="lang-option" data-lang="fr">FR</div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-quiz" id="top">
+            <div class="quiz-badge">GOVERNANCE DIAGNOSTIC</div>
+            <h1>Discover Your <span>Governance</span> Archetype</h1>
+            <p class="hero-subtitle">
+                How do you lead when complexity has outpaced structure? A diagnostic for professionals operating where mandates are complex, authority is fragmented, and outcomes depend on judgment.
+            </p>
+            
+            <div class="quiz-stats">
+                <div class="stat-item">
+                    <span class="stat-number">15</span>
+                    <div class="stat-label">QUESTIONS</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5</span>
+                    <div class="stat-label">MINUTES</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5</span>
+                    <div class="stat-label">ARCHETYPES</div>
+                </div>
+            </div>
+            
+            <a href="#quiz" class="cta-primary" onclick="startQuiz()">START DIAGNOSTIC</a>
+            
+            <div class="scroll-indicator">SCROLL TO EXPLORE ↓</div>
+        </section>
+
+        <!-- Context Section -->
+        <section class="context-section">
+            <div class="context-container">
+                <div class="context-label">THE REALITY</div>
+                <p class="context-text">
+                    Most leadership assessments assume stable contexts. But you don't work in stable contexts. You work where <strong>funding is uncertain</strong>, partners have <strong>incompatible incentives</strong>, political dynamics shift mid-programme, and <strong>accountability exists on paper</strong> but not in practice.
+                </p>
+                <br><br>
+                <p class="context-text">
+                    This diagnostic is built for that reality. It identifies how you naturally navigate pressure, coordinate under constraint, and translate mandate into delivery — and where your <strong>blind spots</strong> may cost you.
+                </p>
+            </div>
+        </section>
+
+        <!-- Archetypes Section -->
+        <section class="archetypes-section" id="archetypes">
+            <h2 class="section-title">The 5 Archetypes</h2>
+            
+            <div class="archetypes-grid">
+                <div class="archetype-card">
+                    <div class="archetype-number">01</div>
+                    <h3 class="archetype-name">THE ARCHITECT</h3>
+                    <p class="archetype-tagline">You design systems before you occupy them.</p>
+                    <p class="archetype-description">
+                        You see structure where others see chaos. Your instinct is to map decision rights, clarify accountability, and build frameworks that survive pressure. You are most valuable when institutions need to be rebuilt or redesigned.
+                    </p>
+                    <div class="archetype-traits">
+                        <div class="trait">
+                            <span class="trait-label">STRENGTH:</span>
+                            <span class="trait-value">Structural clarity</span>
+                        </div>
+                        <div class="trait trait-risk">
+                            <span class="trait-label">RISK:</span>
+                            <span class="trait-value">Over-engineering in fluid contexts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="archetype-card">
+                    <div class="archetype-number">02</div>
+                    <h3 class="archetype-name">THE TRANSLATOR</h3>
+                    <p class="archetype-tagline">You bridge what cannot be said across institutional boundaries.</p>
+                    <p class="archetype-description">
+                        You move between cultures, sectors, and languages with fluency. You read what remains unsaid and convert intent into locally viable action. You are most valuable when coordination fails because actors operate under incompatible incentives.
+                    </p>
+                    <div class="archetype-traits">
+                        <div class="trait">
+                            <span class="trait-label">STRENGTH:</span>
+                            <span class="trait-value">Contextual intelligence</span>
+                        </div>
+                        <div class="trait trait-risk">
+                            <span class="trait-label">RISK:</span>
+                            <span class="trait-value">Carrying weight others should bear</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="archetype-card">
+                    <div class="archetype-number">03</div>
+                    <h3 class="archetype-name">THE SENTINEL</h3>
+                    <p class="archetype-tagline">You hold the line when pressure distorts priorities.</p>
+                    <p class="archetype-description">
+                        You protect institutional integrity when urgency tempts shortcuts. You ask the uncomfortable questions about accountability, compliance, and consequence. You are most valuable when governance is under political or operational stress.
+                    </p>
+                    <div class="archetype-traits">
+                        <div class="trait">
+                            <span class="trait-label">STRENGTH:</span>
+                            <span class="trait-value">Accountability discipline</span>
+                        </div>
+                        <div class="trait trait-risk">
+                            <span class="trait-label">RISK:</span>
+                            <span class="trait-value">Perceived as obstruction</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="archetype-card">
+                    <div class="archetype-number">04</div>
+                    <h3 class="archetype-name">THE NAVIGATOR</h3>
+                    <p class="archetype-tagline">You find paths through ambiguity when maps fail.</p>
+                    <p class="archetype-description">
+                        You operate in environments where mandates conflict, authority is unclear, and precedent does not exist. You make decisions under incomplete information and maintain credibility through consistent judgment.
+                    </p>
+                    <div class="archetype-traits">
+                        <div class="trait">
+                            <span class="trait-label">STRENGTH:</span>
+                            <span class="trait-value">Decision-making under uncertainty</span>
+                        </div>
+                        <div class="trait trait-risk">
+                            <span class="trait-label">RISK:</span>
+                            <span class="trait-value">Isolation without institutional cover</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="archetype-card">
+                    <div class="archetype-number">05</div>
+                    <h3 class="archetype-name">THE OPERATOR</h3>
+                    <p class="archetype-tagline">You deliver. Period.</p>
+                    <p class="archetype-description">
+                        You focus on output, not process. You cut through procedural noise to produce results. You are most valuable when programmes have stalled in planning and need execution discipline.
+                    </p>
+                    <div class="archetype-traits">
+                        <div class="trait">
+                            <span class="trait-label">STRENGTH:</span>
+                            <span class="trait-value">Delivery credibility</span>
+                        </div>
+                        <div class="trait trait-risk">
+                            <span class="trait-label">RISK:</span>
+                            <span class="trait-value">Undervaluing enabling politics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="quiz-section" id="quiz">
+            <div class="quiz-container">
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text"><span id="currentQ">1</span> / 15</div>
+                </div>
+
+                <div id="questionContainer" class="question-container active">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+
+                <div class="quiz-navigation">
+                    <button class="nav-btn" id="prevBtn" onclick="prevQuestion()" disabled>← PREVIOUS</button>
+                    <button class="nav-btn primary" id="nextBtn" onclick="nextQuestion()">NEXT →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section" id="results">
+            <div class="results-container">
+                <div class="result-header">
+                    <div class="result-label">YOUR GOVERNANCE ARCHETYPE</div>
+                    <h2 class="result-archetype" id="resultArchetype">THE ARCHITECT</h2>
+                    <p class="result-tagline" id="resultTagline">You design systems before you occupy them.</p>
+                </div>
+
+                <div class="result-content">
+                    <div class="result-block">
+                        <div class="result-block-title">WHAT THIS MEANS</div>
+                        <p class="result-block-text" id="resultDescription"></p>
+                    </div>
+
+                    <div class="result-block">
+                        <div class="result-block-title">YOUR OPERATIONAL STRENGTHS</div>
+                        <ul class="result-list" id="resultStrengths"></ul>
+                    </div>
+
+                    <div class="result-block">
+                        <div class="result-block-title">BLIND SPOTS UNDER PRESSURE</div>
+                        <ul class="result-list" id="resultBlindspots"></ul>
+                    </div>
+
+                    <div class="result-block">
+                        <div class="result-block-title">WHERE YOU ARE MOST VALUABLE</div>
+                        <p class="result-block-text" id="resultValue"></p>
+                    </div>
+
+                    <div class="result-block">
+                        <div class="result-block-title">ONE THING TO WATCH</div>
+                        <p class="result-block-text" id="resultWatch"></p>
+                    </div>
+                </div>
+
+                <div class="score-breakdown" id="scoreBreakdown">
+                    <!-- Scores will be dynamically inserted -->
+                </div>
+
+                <div class="result-actions">
+                    <button class="cta-primary" onclick="shareResult()">SHARE YOUR RESULT</button>
+                    <button class="nav-btn" onclick="retakeQuiz()">RETAKE DIAGNOSTIC</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Email Capture -->
+        <section class="email-capture" id="email-capture">
+            <div class="email-container">
+                <h3 class="email-title">Want to go deeper?</h3>
+                <p class="email-subtitle">
+                    Receive your personalized governance profile with detailed insights, recommendations, and strategies for high-stakes environments.
+                </p>
+                <form class="email-form" onsubmit="submitEmail(event)">
+                    <input type="text" class="email-input" placeholder="First name" required>
+                    <input type="email" class="email-input" placeholder="Email address" required>
+                    <button type="submit" class="cta-primary">GET MY PROFILE</button>
+                </form>
+                <p class="email-consent">
+                    You agree to receive insights on governance, coordination, and institutional leadership. Unsubscribe anytime.
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-statement">Continuity.</div>
+            <a href="mailto:pr.daviddabert@gmail.com" class="contact-trigger">INITIATE CONTACT</a>
+            <div class="contact-grid">
+                <a href="mailto:pr.daviddabert@gmail.com">PR.DAVIDDABERT@GMAIL.COM</a>
+                <a href="tel:+33766251025">+33 7 66 25 10 25</a>
+                <a href="https://www.linkedin.com/in/david-dabert-54277039b" target="_blank" rel="noopener">LINKEDIN</a>
+            </div>
+            <p class="designed-by">
+                Designed by David Dabert — Governance Specialist, Programme Director, Institutional Strategist
+            </p>
+        </footer>
+    </main>
+
+    <script>
+        // Navigation scroll effect
+        const nav = document.querySelector('nav');
+        function handleScroll() {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+
+        // Cursor system
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        const interactiveElements = document.querySelectorAll('a, button, .lang-option, .answer-option, .archetype-card');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Quiz Data
+        const questions = [
+            {
+                text: "When a project is failing, your first instinct is to:",
+                answers: [
+                    { text: "Audit the governance structure and decision rights", archetype: "architect" },
+                    { text: "Speak privately with key stakeholders to understand the real dynamics", archetype: "translator" },
+                    { text: "Review compliance with original mandate and flag deviations", archetype: "sentinel" },
+                    { text: "Assess what can still be delivered and prioritize ruthlessly", archetype: "navigator" },
+                    { text: "Take over execution and remove bottlenecks", archetype: "operator" }
+                ]
+            },
+            {
+                text: "In a meeting where consensus is blocked, you typically:",
+                answers: [
+                    { text: "Propose a new decision framework", archetype: "architect" },
+                    { text: "Identify whose interests are not being addressed", archetype: "translator" },
+                    { text: "Remind the group of the original mandate and constraints", archetype: "sentinel" },
+                    { text: "Suggest deferring the decision and gathering more information", archetype: "navigator" },
+                    { text: "Push for a decision and offer to own the consequences", archetype: "operator" }
+                ]
+            },
+            {
+                text: "When working across cultures, your default approach is:",
+                answers: [
+                    { text: "Clarify roles and expectations in writing", archetype: "architect" },
+                    { text: "Invest time in understanding local authority structures", archetype: "translator" },
+                    { text: "Ensure compliance standards are maintained regardless of context", archetype: "sentinel" },
+                    { text: "Adapt your communication style while protecting core objectives", archetype: "navigator" },
+                    { text: "Focus on deliverables and let relationships follow results", archetype: "operator" }
+                ]
+            },
+            {
+                text: "When a funder asks for a report that oversimplifies reality, you:",
+                answers: [
+                    { text: "Redesign the reporting template to capture complexity", archetype: "architect" },
+                    { text: "Have an offline conversation to manage expectations", archetype: "translator" },
+                    { text: "Document the gap between report and reality for the record", archetype: "sentinel" },
+                    { text: "Write the report but flag key uncertainties", archetype: "navigator" },
+                    { text: "Deliver what was asked and move on", archetype: "operator" }
+                ]
+            },
+            {
+                text: "Your biggest frustration in institutional work is:",
+                answers: [
+                    { text: "Ambiguous decision rights", archetype: "architect" },
+                    { text: "Cultural blindness in programme design", archetype: "translator" },
+                    { text: "Accountability that exists on paper but not in practice", archetype: "sentinel" },
+                    { text: "Analysis paralysis", archetype: "navigator" },
+                    { text: "Procedure that delays delivery", archetype: "operator" }
+                ]
+            },
+            {
+                text: "When you inherit a programme in crisis, your first 48 hours are spent:",
+                answers: [
+                    { text: "Mapping the governance architecture", archetype: "architect" },
+                    { text: "Meeting informally with staff and partners", archetype: "translator" },
+                    { text: "Reviewing compliance and risk exposure", archetype: "sentinel" },
+                    { text: "Assessing what information is missing", archetype: "navigator" },
+                    { text: "Identifying the 3 things that must happen immediately", archetype: "operator" }
+                ]
+            },
+            {
+                text: "You are most effective when:",
+                answers: [
+                    { text: "Building or rebuilding systems", archetype: "architect" },
+                    { text: "Navigating between actors with different worldviews", archetype: "translator" },
+                    { text: "Protecting standards under pressure", archetype: "sentinel" },
+                    { text: "Making judgment calls without complete information", archetype: "navigator" },
+                    { text: "Executing under tight deadlines", archetype: "operator" }
+                ]
+            },
+            {
+                text: "The phrase that most resonates with you is:",
+                answers: [
+                    { text: '"Structure enables freedom"', archetype: "architect" },
+                    { text: '"Context is not an excuse — it is a design parameter"', archetype: "translator" },
+                    { text: '"Accountability is not optional under pressure"', archetype: "sentinel" },
+                    { text: '"Uncertainty is the operating condition, not the exception"', archetype: "navigator" },
+                    { text: '"Credibility is built in delivery"', archetype: "operator" }
+                ]
+            },
+            {
+                text: "When political dynamics threaten a project, you:",
+                answers: [
+                    { text: "Redesign the stakeholder governance", archetype: "architect" },
+                    { text: "Work the relationships quietly", archetype: "translator" },
+                    { text: "Document the interference for institutional memory", archetype: "sentinel" },
+                    { text: "Assess which objectives can survive the politics", archetype: "navigator" },
+                    { text: "Deliver what you can and exit cleanly", archetype: "operator" }
+                ]
+            },
+            {
+                text: "Your colleagues would describe you as:",
+                answers: [
+                    { text: "The person who brings order to chaos", archetype: "architect" },
+                    { text: "The person who understands what no one says out loud", archetype: "translator" },
+                    { text: "The person who asks the hard questions", archetype: "sentinel" },
+                    { text: "The person who stays calm when everything is unclear", archetype: "navigator" },
+                    { text: "The person who gets things done", archetype: "operator" }
+                ]
+            },
+            {
+                text: "When you join a new team, you first want to know:",
+                answers: [
+                    { text: "How decisions are made", archetype: "architect" },
+                    { text: "Who trusts whom", archetype: "translator" },
+                    { text: "What the accountability lines are", archetype: "sentinel" },
+                    { text: "What the team does not yet know", archetype: "navigator" },
+                    { text: "What needs to be delivered by when", archetype: "operator" }
+                ]
+            },
+            {
+                text: "The institutional failure mode you find most dangerous is:",
+                answers: [
+                    { text: "Structural ambiguity", archetype: "architect" },
+                    { text: "Cultural arrogance", archetype: "translator" },
+                    { text: "Accountability theatre", archetype: "sentinel" },
+                    { text: "Decision paralysis", archetype: "navigator" },
+                    { text: "Procedure over outcome", archetype: "operator" }
+                ]
+            },
+            {
+                text: "When values and deadlines conflict, you:",
+                answers: [
+                    { text: "Propose a structural solution that protects both", archetype: "architect" },
+                    { text: "Negotiate privately to buy time", archetype: "translator" },
+                    { text: "Document the trade-off and escalate", archetype: "sentinel" },
+                    { text: "Make a judgment call and own it", archetype: "navigator" },
+                    { text: "Prioritize the deadline and manage the fallout", archetype: "operator" }
+                ]
+            },
+            {
+                text: 'Your natural response to "this is how we\'ve always done it" is:',
+                answers: [
+                    { text: '"Let\'s map why that worked and whether conditions have changed"', archetype: "architect" },
+                    { text: '"Who benefits from this approach?"', archetype: "translator" },
+                    { text: '"Is this compliant with current mandate?"', archetype: "sentinel" },
+                    { text: '"What are we not seeing?"', archetype: "navigator" },
+                    { text: '"Is it delivering results?"', archetype: "operator" }
+                ]
+            },
+            {
+                text: "The legacy you want to leave in your work is:",
+                answers: [
+                    { text: "Systems that outlast your tenure", archetype: "architect" },
+                    { text: "Bridges between worlds that did not talk before", archetype: "translator" },
+                    { text: "Standards that held when pressure arrived", archetype: "sentinel" },
+                    { text: "Decisions that proved right under uncertainty", archetype: "navigator" },
+                    { text: "Results that changed something real", archetype: "operator" }
+                ]
+            }
+        ];
+
+        const archetypeData = {
+            architect: {
+                name: "THE ARCHITECT",
+                tagline: "You design systems before you occupy them.",
+                description: "You see structure where others see chaos. Your instinct is to map decision rights, clarify accountability, and build frameworks that survive pressure. You understand that sustainable outcomes require sustainable architecture. When you enter a room, you're already mapping the decision flows, identifying the gaps in accountability, and designing the governance structures that will hold when pressure arrives. Your value lies not in following existing systems, but in building ones that work.",
+                strengths: [
+                    "Designing governance structures that survive institutional pressure",
+                    "Clarifying decision rights and accountability lines",
+                    "Building frameworks that enable others to operate effectively",
+                    "Identifying structural failure points before they become crises"
+                ],
+                blindspots: [
+                    "Over-engineering solutions in fluid contexts that require adaptation",
+                    "Prioritizing structural elegance over operational speed",
+                    "Underestimating the value of informal systems and relationships"
+                ],
+                value: "You are most valuable when institutions need to be rebuilt or redesigned — after crises, during transitions, or when complexity has outpaced existing structures. Organizations facing governance failures, accountability gaps, or scaling challenges need your capacity to create order from chaos.",
+                watch: "Structure is a means, not an end. The most elegant framework is worthless if it cannot be inhabited. Watch for moments when your instinct to design conflicts with the need to deliver. Sometimes a working solution built quickly outperforms a perfect solution built slowly."
+            },
+            translator: {
+                name: "THE TRANSLATOR",
+                tagline: "You bridge what cannot be said across institutional boundaries.",
+                description: "You move between cultures, sectors, and languages with fluency that others cannot replicate. You read what remains unsaid and convert intent into locally viable action. Your value lies in your capacity to understand multiple worldviews simultaneously and to find the formulations that allow incompatible actors to move forward together. Where others see communication failures, you see translation opportunities.",
+                strengths: [
+                    "Reading institutional dynamics and unspoken constraints",
+                    "Converting abstract mandates into contextually viable action",
+                    "Building trust across cultural, sectoral, and linguistic boundaries",
+                    "Identifying whose interests are blocking progress and finding pathways through"
+                ],
+                blindspots: [
+                    "Carrying weight that others should bear — becoming the indispensable middleman",
+                    "Absorbing friction rather than addressing it structurally",
+                    "Undervaluing your own contribution because it seems 'obvious' to you"
+                ],
+                value: "You are most valuable when coordination fails because actors operate under incompatible incentives, cultural assumptions, or institutional logics. Multi-stakeholder programmes, cross-border initiatives, and partnerships between unlike organizations need your capacity to translate between worlds.",
+                watch: "Translation is exhausting because you process multiple worldviews simultaneously. Watch for signs that you're becoming the load-bearing wall between parties who should be communicating directly. Your goal is to build bridges that others can cross without you."
+            },
+            sentinel: {
+                name: "THE SENTINEL",
+                tagline: "You hold the line when pressure distorts priorities.",
+                description: "You protect institutional integrity when urgency tempts shortcuts. You ask the uncomfortable questions about accountability, compliance, and consequence that others prefer to avoid. Your value lies in your willingness to be unpopular in service of standards that matter. When everyone else is focused on speed, you're focused on what will hold under scrutiny.",
+                strengths: [
+                    "Maintaining standards under political and operational pressure",
+                    "Documenting decisions and trade-offs for institutional memory",
+                    "Asking the questions that surface hidden risks",
+                    "Protecting organizational credibility when short-term incentives threaten it"
+                ],
+                blindspots: [
+                    "Being perceived as obstruction when speed genuinely matters",
+                    "Prioritizing process integrity over outcome delivery",
+                    "Underestimating when flexibility serves the mandate better than rigidity"
+                ],
+                value: "You are most valuable when governance is under political or operational stress — during audits, scandals, transitions of power, or moments when institutional credibility is at stake. Organizations that need to restore trust, demonstrate accountability, or survive scrutiny need your capacity to hold the line.",
+                watch: "Standards exist to serve outcomes, not to substitute for them. Watch for moments when your vigilance becomes rigidity. The goal is not perfect compliance but sustainable integrity. Sometimes the most accountable choice is to document a deviation rather than prevent necessary action."
+            },
+            navigator: {
+                name: "THE NAVIGATOR",
+                tagline: "You find paths through ambiguity when maps fail.",
+                description: "You operate in environments where mandates conflict, authority is unclear, and precedent does not exist. You make decisions under incomplete information and maintain credibility through consistent judgment. Your value lies in your capacity to move forward when others are paralyzed by uncertainty. Where others see impossible choices, you see trade-offs that can be managed.",
+                strengths: [
+                    "Making judgment calls under incomplete information",
+                    "Maintaining credibility through consistent decision-making",
+                    "Operating effectively when mandates conflict or authority is fragmented",
+                    "Finding paths forward when precedent does not exist"
+                ],
+                blindspots: [
+                    "Isolation when institutional cover is absent",
+                    "Bearing decision risk that should be distributed or escalated",
+                    "Becoming so comfortable with ambiguity that you stop seeking clarity"
+                ],
+                value: "You are most valuable in environments where uncertainty is the operating condition — emerging crises, novel mandates, contested territories, or moments when the rules are being rewritten. Organizations facing unprecedented situations need your capacity to navigate without maps.",
+                watch: "Judgment is a depletable resource. Watch for signs that you're absorbing more decision risk than your position warrants. The goal is not to be the person who always decides, but to build the judgment capacity of the systems you operate in. Document your reasoning so others can learn to navigate."
+            },
+            operator: {
+                name: "THE OPERATOR",
+                tagline: "You deliver. Period.",
+                description: "You focus on output, not process. You cut through procedural noise to produce results. Your value lies in your capacity to translate intention into reality when others are still planning. Where others see constraints, you see parameters to work within. Where others see obstacles, you see problems to solve. You know that credibility is built in delivery and destroyed in excuses.",
+                strengths: [
+                    "Delivering results under tight deadlines and resource constraints",
+                    "Cutting through procedural noise to reach outcomes",
+                    "Identifying the critical path and protecting it ruthlessly",
+                    "Building credibility through consistent execution"
+                ],
+                blindspots: [
+                    "Undervaluing the politics that enable sustainable delivery",
+                    "Prioritizing speed over stakeholder alignment",
+                    "Leaving governance gaps that create problems for successors"
+                ],
+                value: "You are most valuable when programmes have stalled in planning, when analysis has become paralysis, or when execution capacity is the binding constraint. Organizations that have clear mandates but struggle to translate them into action need your capacity to deliver.",
+                watch: "Delivery without sustainability is just activity. Watch for signs that your results require your continued presence to maintain. The goal is not to be indispensable but to build delivery capacity that outlasts your tenure. The politics you skip today often become the obstacles you face tomorrow."
+            }
+        };
+
+        // Quiz State
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let scores = { architect: 0, translator: 0, sentinel: 0, navigator: 0, operator: 0 };
+
+        function startQuiz() {
+            document.querySelector('.quiz-section').classList.add('active');
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            // Shuffle answers for this render
+            const shuffledAnswers = [...q.answers].sort(() => Math.random() - 0.5);
+            
+            let html = `
+                <div class="question-number">QUESTION ${currentQuestion + 1} OF 15</div>
+                <h3 class="question-text">${q.text}</h3>
+                <div class="answers-list">
+            `;
+            
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+            shuffledAnswers.forEach((answer, index) => {
+                const isSelected = answers[currentQuestion] === answer.archetype;
+                html += `
+                    <div class="answer-option ${isSelected ? 'selected' : ''}" 
+                         onclick="selectAnswer('${answer.archetype}', this)">
+                        <span class="answer-letter">${letters[index]}</span>
+                        <span class="answer-text">${answer.text}</span>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+            
+            // Update progress
+            document.getElementById('progressFill').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+            document.getElementById('currentQ').textContent = currentQuestion + 1;
+            
+            // Update navigation
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? 'SEE RESULTS →' : 'NEXT →';
+            
+            // Re-add hover effects
+            document.querySelectorAll('.answer-option').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        function selectAnswer(archetype, element) {
+            answers[currentQuestion] = archetype;
+            document.querySelectorAll('.answer-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function nextQuestion() {
+            if (answers[currentQuestion] === null) {
+                // Visual feedback that answer is required
+                document.querySelector('.answers-list').style.animation = 'shake 0.3s';
+                setTimeout(() => {
+                    document.querySelector('.answers-list').style.animation = '';
+                }, 300);
+                return;
+            }
+            
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                calculateResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function calculateResults() {
+            // Reset scores
+            scores = { architect: 0, translator: 0, sentinel: 0, navigator: 0, operator: 0 };
+            
+            // Count answers
+            answers.forEach(answer => {
+                if (answer) scores[answer]++;
+            });
+            
+            // Find primary archetype
+            const primary = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+            
+            // Display results
+            displayResults(primary);
+        }
+
+        function displayResults(primary) {
+            const data = archetypeData[primary];
+            
+            document.getElementById('resultArchetype').textContent = data.name;
+            document.getElementById('resultTagline').textContent = data.tagline;
+            document.getElementById('resultDescription').textContent = data.description;
+            document.getElementById('resultValue').textContent = data.value;
+            document.getElementById('resultWatch').textContent = data.watch;
+            
+            // Strengths
+            let strengthsHtml = '';
+            data.strengths.forEach(s => {
+                strengthsHtml += `<li>${s}</li>`;
+            });
+            document.getElementById('resultStrengths').innerHTML = strengthsHtml;
+            
+            // Blindspots
+            let blindspotsHtml = '';
+            data.blindspots.forEach(b => {
+                blindspotsHtml += `<li>${b}</li>`;
+            });
+            document.getElementById('resultBlindspots').innerHTML = blindspotsHtml;
+            
+            // Score breakdown
+            const archetypeOrder = ['architect', 'translator', 'sentinel', 'navigator', 'operator'];
+            const archetypeNames = {
+                architect: 'ARCHITECT',
+                translator: 'TRANSLATOR',
+                sentinel: 'SENTINEL',
+                navigator: 'NAVIGATOR',
+                operator: 'OPERATOR'
+            };
+            
+            let breakdownHtml = '';
+            archetypeOrder.forEach(arch => {
+                const isPrimary = arch === primary;
+                breakdownHtml += `
+                    <div class="score-item ${isPrimary ? 'primary' : ''}">
+                        <div class="score-name">${archetypeNames[arch]}</div>
+                        <div class="score-value">${scores[arch]}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('scoreBreakdown').innerHTML = breakdownHtml;
+            
+            // Show results, hide quiz
+            document.querySelector('.quiz-section').classList.remove('active');
+            document.querySelector('.results-section').classList.add('active');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function retakeQuiz() {
+            currentQuestion = 0;
+            answers = new Array(questions.length).fill(null);
+            scores = { architect: 0, translator: 0, sentinel: 0, navigator: 0, operator: 0 };
+            
+            document.querySelector('.results-section').classList.remove('active');
+            document.querySelector('.quiz-section').classList.add('active');
+            renderQuestion();
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function shareResult() {
+            const primary = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+            const data = archetypeData[primary];
+            
+            const text = `I just discovered my Governance Archetype: ${data.name}. ${data.tagline} Take the diagnostic: `;
+            const url = window.location.href;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Governance Archetype',
+                    text: text,
+                    url: url
+                });
+            } else {
+                // Fallback to clipboard
+                navigator.clipboard.writeText(text + url).then(() => {
+                    alert('Link copied to clipboard!');
+                });
+            }
+        }
+
+        function submitEmail(e) {
+            e.preventDefault();
+            // Here you would integrate with your email service
+            alert('Thank you! Your personalized governance profile will be sent shortly.');
+        }
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
