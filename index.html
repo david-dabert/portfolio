@@ -17,8 +17,32 @@
     <meta property="og:description" content="Fifteen years across six European jurisdictions and West Africa. Seven languages. A publication series read inside the institutions I write about.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://david-dabert.github.io/portfolio/">
+    <meta property="og:image" content="https://david-dabert.github.io/portfolio/david_dabert.jpeg">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="1067">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="David Dabert | Where the translation has to hold">
+    <meta name="twitter:description" content="Fifteen years across six European jurisdictions and West Africa. Seven languages. A publication series read inside the institutions I write about.">
+    <meta name="twitter:image" content="https://david-dabert.github.io/portfolio/david_dabert.jpeg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" as="style">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "David Dabert",
+        "jobTitle": "Practitioner, Programme Architect, Institutional Translator",
+        "url": "https://david-dabert.github.io/portfolio/",
+        "image": "https://david-dabert.github.io/portfolio/david_dabert.jpeg",
+        "email": "pr.dabertdavid@gmail.com",
+        "telephone": "+33766251025",
+        "sameAs": ["https://www.linkedin.com/in/david-dabert-54277039b"],
+        "knowsLanguage": ["French", "English", "Spanish", "Wolof", "Mandinka", "Polish", "German"],
+        "alumniOf": {"@type": "Organization", "name": "Bioforce"},
+        "description": "Fifteen years across six European jurisdictions and West Africa. Seven languages. Editor of The Practitioner's Read, a publication series with approximately 1,100 institutional readers."
+    }
+    </script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
@@ -40,8 +64,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { scroll-behavior: smooth; }
-
         body {
             background: var(--void);
             color: var(--paper);
@@ -60,7 +82,7 @@
             content: '';
             position: fixed; inset: 0;
             pointer-events: none; z-index: 9999;
-            opacity: 0.035;
+            opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
             background-repeat: repeat;
             background-size: 256px 256px;
@@ -90,29 +112,6 @@
         }
         @keyframes preload { to { width: 100%; } }
 
-        /* ---------- CURSOR ---------- */
-        .cursor {
-            width: 40px; height: 40px;
-            border: 1px solid rgba(201, 162, 39, 0.4);
-            border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 10000;
-            transform: translate(-50%, -50%);
-            transition: width 0.4s var(--precision), height 0.4s var(--precision), border-color 0.3s, opacity 0.3s;
-            mix-blend-mode: difference;
-        }
-        .cursor-dot {
-            width: 4px; height: 4px;
-            background: var(--accent);
-            border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 10001;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-        }
-        .cursor.hover {
-            width: 80px; height: 80px;
-            opacity: 1; border-color: var(--paper);
-        }
-
         /* ---------- NAV ---------- */
         nav {
             position: fixed; top: 0; left: 0; right: 0;
@@ -131,8 +130,8 @@
         }
         .identity {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 22px; font-weight: 500;
-            letter-spacing: 0.12em;
+            font-size: 26px; font-weight: 600;
+            letter-spacing: 0.14em;
             transition: color 0.3s;
         }
         .identity:hover { color: var(--accent); }
@@ -141,8 +140,8 @@
             position: absolute; left: 50%; transform: translateX(-50%);
         }
         .nav-link {
-            font-size: 10px; letter-spacing: 0.25em; font-weight: 400;
-            opacity: 0.4; transition: opacity 0.4s;
+            font-size: 11px; letter-spacing: 0.25em; font-weight: 400;
+            opacity: 0.5; transition: opacity 0.4s;
             text-decoration: none; color: var(--paper); position: relative;
         }
         .nav-link::after {
@@ -156,7 +155,7 @@
         .nav-right { display: flex; gap: 24px; align-items: center; }
         .lang-selector {
             display: flex; gap: 20px;
-            font-size: 10px; letter-spacing: 0.2em; font-weight: 400;
+            font-size: 11px; letter-spacing: 0.2em; font-weight: 400;
         }
         .lang-option {
             opacity: 0.25; cursor: pointer; padding: 4px 0;
@@ -188,7 +187,7 @@
         .mobile-close {
             position: absolute; top: 36px; right: 36px;
             font-size: 28px; color: var(--paper); cursor: pointer;
-            background: none; border: none; opacity: 0.4;
+            background: none; border: none; opacity: 0.5;
             font-weight: 300;
         }
         .mobile-close:hover { opacity: 1; }
@@ -203,11 +202,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .reveal-line {
-            width: 0;
-            transition: width 1.4s var(--precision);
-        }
-        .reveal-line.visible { width: 100%; }
 
         /* ---------- SECTION COMMON ---------- */
         section { position: relative; }
@@ -225,7 +219,7 @@
         }
         .section-border.visible::after { width: 100%; }
         .section-label {
-            font-size: 10px; letter-spacing: 0.4em;
+            font-size: 11px; letter-spacing: 0.4em;
             color: var(--accent); margin-bottom: 48px;
             display: flex; align-items: center; gap: 24px;
             opacity: 0.8;
@@ -282,7 +276,7 @@
         }
         .statement { max-width: 600px; position: relative; }
         .statement-badge {
-            font-size: 10px; letter-spacing: 0.4em;
+            font-size: 11px; letter-spacing: 0.4em;
             color: var(--accent); margin-bottom: 32px; display: block;
             opacity: 0; transform: translateY(20px);
             animation: fadeUp 0.8s var(--precision) 1.6s forwards;
@@ -292,16 +286,19 @@
             font-family: 'Cormorant Garamond', serif;
             font-size: clamp(36px, 4.5vw, 64px);
             font-weight: 400; line-height: 1.12;
-            letter-spacing: -0.02em; margin-bottom: 40px;
+            letter-spacing: -0.02em; margin-bottom: 48px;
             opacity: 0; transform: translateY(30px);
             animation: fadeUp 1s var(--precision) 1.8s forwards;
         }
         .statement h1 em { font-style: italic; color: var(--accent); }
-        .statement p {
-            font-size: 14px; line-height: 1.85;
-            opacity: 0; color: var(--bone); margin-bottom: 48px;
+        .hero-facts {
+            margin-bottom: 48px;
+            opacity: 0; transform: translateY(30px);
             animation: fadeUp 1s var(--precision) 2.0s forwards;
-            transform: translateY(30px);
+        }
+        .hero-fact {
+            font-size: 14px; line-height: 2.2;
+            color: var(--bone);
         }
         .hero-ctas {
             display: flex; gap: 24px; flex-wrap: wrap;
@@ -309,7 +306,7 @@
             animation: fadeUp 1s var(--precision) 2.2s forwards;
         }
         .cta-btn {
-            font-size: 10px; letter-spacing: 0.3em; font-weight: 400;
+            font-size: 11px; letter-spacing: 0.3em; font-weight: 400;
             padding: 20px 48px;
             border: 1px solid rgba(201, 162, 39, 0.35);
             background: transparent; color: var(--paper);
@@ -360,9 +357,32 @@
             letter-spacing: -0.02em;
         }
         .stat-label {
-            font-size: 10px; letter-spacing: 0.3em;
-            opacity: 0.35; text-transform: uppercase;
+            font-size: 11px; letter-spacing: 0.3em;
+            opacity: 0.5;
         }
+
+        /* ---------- PULL QUOTE ---------- */
+        .pull-quote {
+            padding: 120px 80px;
+            position: relative;
+            text-align: center;
+        }
+        .pull-quote::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201, 162, 39, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .pull-quote-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(24px, 3.5vw, 40px);
+            font-weight: 400;
+            line-height: 1.4;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--bone);
+        }
+        .pull-quote-text em { color: var(--accent); font-style: italic; }
 
         /* ---------- PUBLICATIONS ---------- */
         .publications {
@@ -384,7 +404,7 @@
             color: var(--bone); opacity: 0.8;
         }
         .publications-micro {
-            font-size: 12px; opacity: 0.35;
+            font-size: 12px; opacity: 0.5;
             margin-top: 20px; font-style: italic;
         }
         .pub-featured {
@@ -404,7 +424,7 @@
         .pub-featured:hover { border-color: rgba(201, 162, 39, 0.4); }
         .pub-featured:hover::after { width: 100%; }
         .pub-tag {
-            font-size: 10px; letter-spacing: 0.3em;
+            font-size: 11px; letter-spacing: 0.3em;
             color: var(--accent); opacity: 0.7;
             margin-bottom: 20px;
         }
@@ -420,7 +440,7 @@
             margin-bottom: 32px; max-width: 600px;
         }
         .pub-link {
-            font-size: 10px; letter-spacing: 0.25em;
+            font-size: 11px; letter-spacing: 0.25em;
             color: var(--accent); opacity: 0.6;
             transition: opacity 0.3s, letter-spacing 0.4s;
             display: inline-flex; align-items: center; gap: 8px;
@@ -454,6 +474,26 @@
             font-size: 15px; margin-bottom: 24px;
         }
 
+        /* ---------- EMAIL CAPTURE ---------- */
+        .subscribe {
+            padding: 80px 80px;
+            text-align: center;
+            border-top: 1px solid var(--whisper);
+        }
+        .subscribe-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            color: var(--bone); opacity: 0.6;
+            font-style: italic;
+            margin-bottom: 28px;
+        }
+        .subscribe-link {
+            font-size: 11px; letter-spacing: 0.3em;
+            color: var(--accent); opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .subscribe-link:hover { opacity: 1; }
+
         /* ---------- TRAJECTORY ---------- */
         .trajectory {
             padding: 180px 80px; position: relative;
@@ -486,19 +526,63 @@
         }
         .theatre:hover { background: rgba(201, 162, 39, 0.02); }
         .theatre:hover::before { height: 100%; }
-        .theatre-meta {}
         .theatre-place {
             font-size: 11px; letter-spacing: 0.25em;
             color: var(--accent); margin-bottom: 8px;
         }
         .theatre-years {
-            font-size: 12px; opacity: 0.35;
+            font-size: 12px; opacity: 0.5;
         }
         .theatre-text {
             font-family: 'Cormorant Garamond', serif;
             font-size: 18px; line-height: 1.8;
             color: var(--bone); opacity: 0.8;
             max-width: 600px;
+        }
+
+        /* ---------- RECOGNITION ---------- */
+        .recognition {
+            padding: 140px 80px;
+            position: relative;
+        }
+        .recognition::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(201, 162, 39, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .recognition .section-label { justify-content: center; }
+        .recognition .section-label::before { display: none; }
+        .recognition-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 2px; background: rgba(245, 244, 239, 0.04);
+            max-width: 900px; margin: 0 auto;
+        }
+        .recognition-card {
+            background: var(--void);
+            padding: 56px 48px;
+            text-align: center;
+        }
+        .recognition-highlight {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px; font-weight: 500;
+            line-height: 1.3;
+            margin-bottom: 16px;
+        }
+        .recognition-context {
+            font-size: 12px; opacity: 0.5;
+            letter-spacing: 0.1em;
+            line-height: 1.6;
+        }
+        .recognition-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px; line-height: 1.7;
+            font-style: italic;
+            color: var(--bone); opacity: 0.7;
+            margin-bottom: 16px;
+        }
+        .recognition-attribution {
+            font-size: 12px; opacity: 0.5;
+            letter-spacing: 0.1em;
         }
 
         /* ---------- DIAGNOSTIC ---------- */
@@ -545,8 +629,8 @@
             transform: translateY(-4px);
         }
         .arch-num {
-            font-size: 10px; color: var(--accent);
-            opacity: 0.4; margin-bottom: 16px; letter-spacing: 0.1em;
+            font-size: 11px; color: var(--accent);
+            opacity: 0.5; margin-bottom: 16px; letter-spacing: 0.1em;
         }
         .arch-name {
             font-family: 'Cormorant Garamond', serif;
@@ -554,7 +638,7 @@
             margin-bottom: 10px;
         }
         .arch-line {
-            font-size: 10px; opacity: 0.35;
+            font-size: 11px; opacity: 0.5;
             line-height: 1.6; letter-spacing: 0.05em;
         }
 
@@ -604,7 +688,7 @@
             font-size: 11px; letter-spacing: 0.2em;
         }
         .contact-channels a {
-            opacity: 0.4; transition: opacity 0.3s, color 0.3s;
+            opacity: 0.5; transition: opacity 0.3s, color 0.3s;
             position: relative;
         }
         .contact-channels a::after {
@@ -622,7 +706,7 @@
             padding: 48px 80px;
             border-top: 1px solid var(--mist);
             display: flex; justify-content: space-between; align-items: center;
-            font-size: 10px; letter-spacing: 0.15em; opacity: 0.25;
+            font-size: 11px; letter-spacing: 0.15em; opacity: 0.3;
         }
         .footer-lang { display: flex; gap: 16px; }
         .footer-lang span {
@@ -632,13 +716,12 @@
 
         /* ---------- RESPONSIVE ---------- */
         @media (max-width: 1200px) {
-            body { cursor: auto; }
             body::after { display: none; }
-            .cursor, .cursor-dot { display: none; }
             nav { padding: 32px 48px; }
             nav.scrolled { padding: 22px 48px; }
             .hero { padding: 0 48px; gap: 80px; }
             .publications, .trajectory, .diagnostic, .method { padding-left: 48px; padding-right: 48px; }
+            .pull-quote, .recognition, .subscribe { padding-left: 48px; padding-right: 48px; }
             .section-border { left: 48px; right: 48px; }
             .contact { padding-left: 48px; padding-right: 48px; }
             .footer { padding: 40px 48px; }
@@ -662,13 +745,18 @@
             .statement { max-width: 100%; text-align: center; }
             .statement-badge { text-align: center; }
             .statement h1 { font-size: clamp(28px, 7vw, 44px); }
+            .hero-facts { text-align: center; }
             .hero-ctas { justify-content: center; }
             .stats-bar { grid-template-columns: repeat(2, 1fr); }
             .stat-cell { padding: 36px 24px; }
             .stat-cell:nth-child(2) { border-right: none; }
+            .pull-quote { padding: 80px 28px; }
             .publications, .trajectory, .diagnostic, .method {
                 padding: 100px 28px;
             }
+            .recognition { padding: 80px 28px; }
+            .recognition-grid { grid-template-columns: 1fr; }
+            .subscribe { padding: 60px 28px; }
             .section-border { left: 28px; right: 28px; }
             .pub-featured { padding: 36px 32px; }
             .pub-featured .pub-title { font-size: 24px; }
@@ -688,7 +776,7 @@
         }
 
         @media (max-width: 480px) {
-            .identity { font-size: 17px; letter-spacing: 0.08em; }
+            .identity { font-size: 19px; letter-spacing: 0.08em; }
             .statement h1 { font-size: 26px; }
             .hero { padding-top: 120px; }
             .stats-bar { grid-template-columns: repeat(2, 1fr); }
@@ -701,7 +789,7 @@
             .pub-card { padding: 28px 24px; }
             .theatre { padding: 32px 24px; }
             .archetypes-row { grid-template-columns: 1fr; }
-            .cta-btn { padding: 16px 32px; font-size: 9px; }
+            .cta-btn { padding: 16px 32px; font-size: 10px; }
         }
     </style>
 </head>
@@ -710,9 +798,6 @@
     <div class="preloader" id="preloader">
         <div class="preloader-line"></div>
     </div>
-
-    <div class="cursor"></div>
-    <div class="cursor-dot"></div>
 
     <nav>
         <a href="#" class="identity">DAVID DABERT</a>
@@ -756,13 +841,17 @@
         <section class="hero">
             <div class="portrait-container">
                 <div class="portrait-frame">
-                    <img src="david_dabert.jpeg" alt="David Dabert">
+                    <img src="david_dabert.jpeg" alt="David Dabert" loading="eager">
                 </div>
             </div>
             <div class="statement">
                 <span class="statement-badge" data-i18n="hero_badge">PRACTITIONER &middot; PROGRAMME ARCHITECT &middot; INSTITUTIONAL TRANSLATOR</span>
                 <h1 data-i18n-html="hero_title">Where European institutional architecture meets the field, someone has to make the <em>translation</em> hold.</h1>
-                <p data-i18n="hero_text">Fifteen years across six European jurisdictions and West Africa. Seven languages. A publication series read inside the institutions I write about. I work where mandates are complex, authority is fragmented, and outcomes depend on whether the people in the room can be made legible to each other.</p>
+                <div class="hero-facts">
+                    <div class="hero-fact" data-i18n="hero_fact_1">Fifteen years across six European jurisdictions and West Africa.</div>
+                    <div class="hero-fact" data-i18n="hero_fact_2">Seven languages.</div>
+                    <div class="hero-fact" data-i18n="hero_fact_3">A publication series read inside the institutions I write about.</div>
+                </div>
                 <div class="hero-ctas">
                     <a href="#work" class="cta-btn" data-i18n="hero_cta_work">READ THE WORK</a>
                     <a href="#diagnostic" class="cta-btn cta-ghost" data-i18n="hero_cta_diagnostic">DISCOVER YOUR ARCHETYPE</a>
@@ -788,6 +877,11 @@
                 <div class="stat-number" data-i18n="stat_readers_num">1,100</div>
                 <div class="stat-label" data-i18n="stat_readers">INSTITUTIONAL READERS</div>
             </div>
+        </div>
+
+        <!-- PULL QUOTE (the "why") -->
+        <div class="pull-quote reveal">
+            <p class="pull-quote-text" data-i18n-html="pull_quote">A practitioner who only narrates success is selling <em>comfort</em>, not method.</p>
         </div>
 
         <!-- THE WORK -->
@@ -834,6 +928,12 @@
             </div>
         </section>
 
+        <!-- EMAIL CAPTURE -->
+        <div class="subscribe reveal">
+            <p class="subscribe-text" data-i18n="subscribe_text">Receive the next issue of The Practitioner's Read.</p>
+            <a href="mailto:pr.dabertdavid@gmail.com?subject=Subscribe%20to%20The%20Practitioner%27s%20Read&body=I%20would%20like%20to%20receive%20future%20issues." class="subscribe-link" data-i18n="subscribe_link">PR.DABERTDAVID@GMAIL.COM</a>
+        </div>
+
         <!-- TRAJECTORY -->
         <section class="trajectory" id="trajectory">
             <div class="section-border"></div>
@@ -861,6 +961,22 @@
                         <div class="theatre-years">2022 &ndash; present</div>
                     </div>
                     <div class="theatre-text" data-i18n="traj_bordeaux">Returned to the front desk of a two-hundred-room hotel to reconcile professional ambition with the presence two young daughters require. Voted best employee across the entire hotel group, 2024. Launched The Practitioner's Read from the reception counter. The gap between this post and the analytical work it generates is the subject of Issue 11.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RECOGNITION -->
+        <section class="recognition">
+            <div class="section-border"></div>
+            <div class="section-label reveal" data-i18n="recog_label">WHAT OTHERS OBSERVE</div>
+            <div class="recognition-grid">
+                <div class="recognition-card reveal">
+                    <div class="recognition-highlight" data-i18n="recog_award">Best Employee of the Year, 2024</div>
+                    <div class="recognition-context" data-i18n="recog_award_ctx">ACROSS THE ENTIRE MEININGER HOTEL GROUP</div>
+                </div>
+                <div class="recognition-card reveal">
+                    <div class="recognition-quote" data-i18n="recog_quote">"A great wisdom, a great depth, a search, a quest you have for the meaning of life."</div>
+                    <div class="recognition-attribution" data-i18n="recog_quote_attr">HOTEL GUEST, BORDEAUX, JULY 2026</div>
                 </div>
             </div>
         </section>
@@ -943,7 +1059,7 @@
         });
 
         // Nav scroll
-        const nav = document.querySelector('nav');
+        var nav = document.querySelector('nav');
         function handleScroll() { nav.classList.toggle('scrolled', window.scrollY > 80); }
         window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
@@ -964,31 +1080,10 @@
         // Mobile menu
         function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
 
-        // Custom cursor
-        var cursor = document.querySelector('.cursor');
-        var cursorDot = document.querySelector('.cursor-dot');
-        var mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
-        document.addEventListener('mousemove', function(e) {
-            mouseX = e.clientX; mouseY = e.clientY;
-            cursorDot.style.left = mouseX + 'px'; cursorDot.style.top = mouseY + 'px';
-        });
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.08;
-            cursorY += (mouseY - cursorY) * 0.08;
-            cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px';
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-        document.querySelectorAll('a, button, .lang-option, .portrait-frame, .pub-card, .pub-featured, .arch-cell, .theatre, .cta-btn').forEach(function(el) {
-            el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
-            el.addEventListener('mouseleave', function() { cursor.classList.remove('hover'); });
-        });
-
         // Intersection Observer for reveal animations
         var revealObserver = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry, index) {
+            entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
-                    // Stagger siblings
                     var parent = entry.target.parentElement;
                     var siblings = parent ? Array.from(parent.querySelectorAll('.reveal')) : [];
                     var i = siblings.indexOf(entry.target);
@@ -1048,9 +1143,12 @@
                 nav_work: 'THE WORK', nav_trajectory: 'TRAJECTORY', nav_diagnostic: 'DIAGNOSTIC', nav_method: 'METHOD', nav_contact: 'CONTACT',
                 hero_badge: 'PRACTITIONER \u00b7 PROGRAMME ARCHITECT \u00b7 INSTITUTIONAL TRANSLATOR',
                 hero_title: 'Where European institutional architecture meets the field, someone has to make the <em>translation</em> hold.',
-                hero_text: 'Fifteen years across six European jurisdictions and West Africa. Seven languages. A publication series read inside the institutions I write about. I work where mandates are complex, authority is fragmented, and outcomes depend on whether the people in the room can be made legible to each other.',
+                hero_fact_1: 'Fifteen years across six European jurisdictions and West Africa.',
+                hero_fact_2: 'Seven languages.',
+                hero_fact_3: 'A publication series read inside the institutions I write about.',
                 hero_cta_work: 'READ THE WORK', hero_cta_diagnostic: 'DISCOVER YOUR ARCHETYPE',
                 stat_years: 'YEARS IN THE FIELD', stat_languages: 'LANGUAGES', stat_jurisdictions: 'EUROPEAN JURISDICTIONS', stat_readers: 'INSTITUTIONAL READERS', stat_readers_num: '1,100',
+                pull_quote: 'A practitioner who only narrates success is selling <em>comfort</em>, not method.',
                 work_label: "THE PRACTITIONER\u2019S READ",
                 work_intro: "A short essay series on what holds and what breaks where institutional mandates meet delivery. Each issue takes one structural problem encountered in practice, names the mechanism, and tests it against the evidence. Approximately 1,100 readers; the highest concentrations sit at the Quai d\u2019Orsay, the International Organisation for Migration, the European Commission, the European Training Foundation, and the European Investment Bank.",
                 work_elsevier: 'Issue 02 is under review at World Development (Elsevier).',
@@ -1060,10 +1158,13 @@
                 work_09_title: 'Proselytism disguised as humanitarianism', work_09_thesis: 'When faith-based organisations receive humanitarian funding without accountability separation between their aid mandate and their evangelisation mandate, the instrument ceases to be humanitarian.',
                 work_07_title: 'Ghost population', work_07_thesis: "When a programme\u2019s target population exists in the logframe but not in the field, the programme builds compliance infrastructure around a demographic fiction.",
                 work_06_title: 'Drowning in paper', work_06_thesis: 'When reporting requirements exceed the administrative capacity of the implementing partner, the reporting system produces documents rather than accountability.',
+                subscribe_text: 'Receive the next issue of The Practitioner\u2019s Read.', subscribe_link: 'PR.DABERTDAVID@GMAIL.COM',
                 traj_label: 'WHERE I HAVE OPERATED',
                 traj_london: "Ten years operating francophone programmes inside anglophone institutional environments. SALTO-YOUTH accredited trainer for the European Commission across seventeen youth-mobility domains. Twelve years of Erasmus+ delivery across six European jurisdictions: the UK, France, Germany, Poland, the Balkans, the Nordics. The work was always the same underneath: making European institutional requirements legible to local delivery teams who operated in a different language, a different administrative tradition, and under a different set of pressures. This is where the translation faculty was built.",
                 traj_dakar: "Coordination of a fifteen-partner DFID-UKAID consortium. Eighteen months of reporting delay inherited on arrival; three donors\u2019 confidence eroded. Restored in six months. The consortium\u2019s structural problem was not technical; it was that the partners could not read each other\u2019s institutional logic. The coordination work was translation work at the inter-organisational scale. Founded Niamato Consulting during this period to formalise EU programme engineering as an independent practice.",
                 traj_bordeaux: "Returned to the front desk of a two-hundred-room hotel to reconcile professional ambition with the presence two young daughters require. Voted best employee across the entire hotel group, 2024. Launched The Practitioner\u2019s Read from the reception counter. The gap between this post and the analytical work it generates is the subject of Issue 11.",
+                recog_label: 'WHAT OTHERS OBSERVE', recog_award: 'Best Employee of the Year, 2024', recog_award_ctx: 'ACROSS THE ENTIRE MEININGER HOTEL GROUP',
+                recog_quote: '\u201cA great wisdom, a great depth, a search, a quest you have for the meaning of life.\u201d', recog_quote_attr: 'HOTEL GUEST, BORDEAUX, JULY 2026',
                 diag_label: 'GOVERNANCE ARCHETYPE DIAGNOSTIC',
                 diag_title: 'How do you operate when structure has not caught up with what the situation <em>demands</em>?',
                 diag_subtitle: "This diagnostic is drawn from fifteen years of observing five recurring patterns in how senior professionals navigate pressure, coordinate under constraint, and translate mandate into delivery. It takes five minutes. The profile you receive names your operational strengths and the blind spots that come with them.",
@@ -1082,9 +1183,12 @@
                 nav_work: 'LE TRAVAIL', nav_trajectory: 'TRAJECTOIRE', nav_diagnostic: 'DIAGNOSTIC', nav_method: "M\u00c9THODE", nav_contact: 'CONTACT',
                 hero_badge: "PRATICIEN \u00b7 ARCHITECTE DE PROGRAMMES \u00b7 TRADUCTEUR INSTITUTIONNEL",
                 hero_title: "L\u00e0 o\u00f9 l\u2019architecture institutionnelle europ\u00e9enne rencontre le terrain, quelqu\u2019un doit faire tenir la <em>traduction</em>.",
-                hero_text: "Quinze ans \u00e0 travers six juridictions europ\u00e9ennes et l\u2019Afrique de l\u2019Ouest. Sept langues. Une s\u00e9rie de publications lue \u00e0 l\u2019int\u00e9rieur des institutions sur lesquelles j\u2019\u00e9cris. Je travaille l\u00e0 o\u00f9 les mandats sont complexes, l\u2019autorit\u00e9 fragment\u00e9e, et les r\u00e9sultats d\u00e9pendent de la capacit\u00e9 \u00e0 rendre les acteurs lisibles les uns aux autres.",
+                hero_fact_1: "Quinze ans \u00e0 travers six juridictions europ\u00e9ennes et l\u2019Afrique de l\u2019Ouest.",
+                hero_fact_2: 'Sept langues.',
+                hero_fact_3: "Une s\u00e9rie de publications lue \u00e0 l\u2019int\u00e9rieur des institutions sur lesquelles j\u2019\u00e9cris.",
                 hero_cta_work: 'LIRE LE TRAVAIL', hero_cta_diagnostic: "D\u00c9COUVRIR VOTRE ARCH\u00c9TYPE",
                 stat_years: "ANN\u00c9ES SUR LE TERRAIN", stat_languages: 'LANGUES', stat_jurisdictions: "JURIDICTIONS EUROP\u00c9ENNES", stat_readers: 'LECTEURS INSTITUTIONNELS', stat_readers_num: '1 100',
+                pull_quote: "Un praticien qui ne raconte que ses succ\u00e8s vend du <em>confort</em>, pas de la m\u00e9thode.",
                 work_label: "THE PRACTITIONER\u2019S READ",
                 work_intro: "Une s\u00e9rie de courts essais sur ce qui tient et ce qui c\u00e8de l\u00e0 o\u00f9 les mandats institutionnels rencontrent la mise en \u0153uvre. Chaque num\u00e9ro prend un probl\u00e8me structurel rencontr\u00e9 dans la pratique, en nomme le m\u00e9canisme, et le confronte aux donn\u00e9es. Environ 1 100 lecteurs; les concentrations les plus \u00e9lev\u00e9es se trouvent au Quai d\u2019Orsay, \u00e0 l\u2019Organisation internationale pour les migrations, \u00e0 la Commission europ\u00e9enne, \u00e0 la Fondation europ\u00e9enne pour la formation et \u00e0 la Banque europ\u00e9enne d\u2019investissement.",
                 work_elsevier: "Le num\u00e9ro 02 est en cours d\u2019\u00e9valuation \u00e0 World Development (Elsevier).",
@@ -1094,10 +1198,13 @@
                 work_09_title: "Le pros\u00e9lytisme d\u00e9guis\u00e9 en humanitaire", work_09_thesis: "Quand des organisations confessionnelles re\u00e7oivent un financement humanitaire sans s\u00e9paration de redevabilit\u00e9 entre leur mandat d\u2019aide et leur mandat d\u2019\u00e9vang\u00e9lisation, l\u2019instrument cesse d\u2019\u00eatre humanitaire.",
                 work_07_title: 'Population fant\u00f4me', work_07_thesis: "Quand la population cible d\u2019un programme existe dans le cadre logique mais pas sur le terrain, le programme construit une infrastructure de conformit\u00e9 autour d\u2019une fiction d\u00e9mographique.",
                 work_06_title: 'Noy\u00e9 dans le papier', work_06_thesis: "Quand les exigences de reporting d\u00e9passent la capacit\u00e9 administrative du partenaire de mise en \u0153uvre, le syst\u00e8me de reporting produit des documents plut\u00f4t que de la redevabilit\u00e9.",
+                subscribe_text: "Recevoir le prochain num\u00e9ro de The Practitioner\u2019s Read.", subscribe_link: 'PR.DABERTDAVID@GMAIL.COM',
                 traj_label: "O\u00d9 J\u2019AI OP\u00c9R\u00c9",
                 traj_london: "Dix ans de programmes francophones dans des environnements institutionnels anglophones. Formateur accr\u00e9dit\u00e9 SALTO-YOUTH pour la Commission europ\u00e9enne dans dix-sept domaines de mobilit\u00e9 jeunesse. Douze ans de livraison Erasmus+ \u00e0 travers six juridictions europ\u00e9ennes: Royaume-Uni, France, Allemagne, Pologne, Balkans, pays nordiques. Le travail \u00e9tait toujours le m\u00eame en profondeur: rendre les exigences institutionnelles europ\u00e9ennes lisibles pour des \u00e9quipes locales qui op\u00e9raient dans une autre langue, une autre tradition administrative, et sous un ensemble diff\u00e9rent de pressions. C\u2019est l\u00e0 que la facult\u00e9 de traduction s\u2019est construite.",
                 traj_dakar: "Coordination d\u2019un consortium de quinze partenaires DFID-UKAID. Dix-huit mois de retard de reporting h\u00e9rit\u00e9s \u00e0 l\u2019arriv\u00e9e; la confiance de trois bailleurs \u00e9rod\u00e9e. R\u00e9tablie en six mois. Le probl\u00e8me structurel du consortium n\u2019\u00e9tait pas technique; c\u2019\u00e9tait que les partenaires ne pouvaient pas lire la logique institutionnelle des autres. Le travail de coordination \u00e9tait un travail de traduction \u00e0 l\u2019\u00e9chelle inter-organisationnelle. Fondation de Niamato Consulting durant cette p\u00e9riode pour formaliser l\u2019ing\u00e9nierie de programmes europ\u00e9ens comme pratique ind\u00e9pendante.",
                 traj_bordeaux: "Retour \u00e0 la r\u00e9ception d\u2019un h\u00f4tel de deux cents chambres pour concilier l\u2019ambition professionnelle avec la pr\u00e9sence que deux jeunes filles exigent. \u00c9lu meilleur employ\u00e9 de l\u2019ensemble du groupe h\u00f4telier, 2024. Lancement de The Practitioner\u2019s Read depuis le comptoir de r\u00e9ception. L\u2019\u00e9cart entre ce poste et le travail analytique qu\u2019il g\u00e9n\u00e8re est le sujet du num\u00e9ro 11.",
+                recog_label: 'CE QUE LES AUTRES OBSERVENT', recog_award: "Meilleur employ\u00e9 de l\u2019ann\u00e9e, 2024", recog_award_ctx: "SUR L\u2019ENSEMBLE DU GROUPE H\u00d4TELIER MEININGER",
+                recog_quote: "\u00ab Une grande sagesse, une grande profondeur, une recherche, une qu\u00eate que vous avez du sens de la vie. \u00bb", recog_quote_attr: 'CLIENTE, BORDEAUX, JUILLET 2026',
                 diag_label: "DIAGNOSTIC D\u2019ARCH\u00c9TYPE DE GOUVERNANCE",
                 diag_title: "Comment op\u00e9rez-vous quand la structure n\u2019a pas rattrap\u00e9 ce que la situation <em>exige</em>?",
                 diag_subtitle: "Ce diagnostic est construit \u00e0 partir de quinze ans d\u2019observation de cinq sch\u00e9mas r\u00e9currents dans la mani\u00e8re dont les professionnels seniors naviguent la pression, coordonnent sous contrainte, et traduisent un mandat en r\u00e9sultats. Cinq minutes. Le profil re\u00e7u nomme vos forces op\u00e9rationnelles et les angles morts qui les accompagnent.",
@@ -1116,9 +1223,12 @@
                 nav_work: 'EL TRABAJO', nav_trajectory: 'TRAYECTORIA', nav_diagnostic: "DIAGN\u00d3STICO", nav_method: "M\u00c9TODO", nav_contact: 'CONTACTO',
                 hero_badge: "PROFESIONAL \u00b7 ARQUITECTO DE PROGRAMAS \u00b7 TRADUCTOR INSTITUCIONAL",
                 hero_title: "Donde la arquitectura institucional europea se encuentra con el terreno, alguien tiene que hacer que la <em>traducci\u00f3n</em> se sostenga.",
-                hero_text: "Quince a\u00f1os a trav\u00e9s de seis jurisdicciones europeas y \u00c1frica Occidental. Siete idiomas. Una serie de publicaciones le\u00edda dentro de las instituciones sobre las que escribo. Trabajo donde los mandatos son complejos, la autoridad est\u00e1 fragmentada y los resultados dependen de si las personas en la sala pueden ser hechas legibles entre s\u00ed.",
+                hero_fact_1: "Quince a\u00f1os a trav\u00e9s de seis jurisdicciones europeas y \u00c1frica Occidental.",
+                hero_fact_2: 'Siete idiomas.',
+                hero_fact_3: "Una serie de publicaciones le\u00edda dentro de las instituciones sobre las que escribo.",
                 hero_cta_work: 'LEER EL TRABAJO', hero_cta_diagnostic: 'DESCUBRA SU ARQUETIPO',
                 stat_years: "A\u00d1OS EN EL TERRENO", stat_languages: 'IDIOMAS', stat_jurisdictions: 'JURISDICCIONES EUROPEAS', stat_readers: 'LECTORES INSTITUCIONALES', stat_readers_num: '1.100',
+                pull_quote: "Un profesional que solo narra sus \u00e9xitos vende <em>confort</em>, no m\u00e9todo.",
                 work_label: "THE PRACTITIONER\u2019S READ",
                 work_intro: "Una serie de ensayos cortos sobre lo que se sostiene y lo que se quiebra donde los mandatos institucionales encuentran la implementaci\u00f3n. Cada n\u00famero toma un problema estructural encontrado en la pr\u00e1ctica, nombra el mecanismo y lo confronta con la evidencia. Aproximadamente 1.100 lectores; las concentraciones m\u00e1s altas se encuentran en el Quai d\u2019Orsay, la Organizaci\u00f3n Internacional para las Migraciones, la Comisi\u00f3n Europea, la Fundaci\u00f3n Europea de Formaci\u00f3n y el Banco Europeo de Inversiones.",
                 work_elsevier: "El n\u00famero 02 est\u00e1 en revisi\u00f3n en World Development (Elsevier).",
@@ -1128,10 +1238,13 @@
                 work_09_title: 'Proselitismo disfrazado de humanitarismo', work_09_thesis: 'Cuando organizaciones confesionales reciben financiamiento humanitario sin separaci\u00f3n de rendici\u00f3n de cuentas entre su mandato de ayuda y su mandato de evangelizaci\u00f3n, el instrumento deja de ser humanitario.',
                 work_07_title: "Poblaci\u00f3n fantasma", work_07_thesis: "Cuando la poblaci\u00f3n objetivo de un programa existe en el marco l\u00f3gico pero no en el terreno, el programa construye infraestructura de cumplimiento alrededor de una ficci\u00f3n demogr\u00e1fica.",
                 work_06_title: 'Ahogado en papel', work_06_thesis: "Cuando los requisitos de reporte exceden la capacidad administrativa del socio implementador, el sistema de reporte produce documentos en lugar de rendici\u00f3n de cuentas.",
+                subscribe_text: "Recibir el pr\u00f3ximo n\u00famero de The Practitioner\u2019s Read.", subscribe_link: 'PR.DABERTDAVID@GMAIL.COM',
                 traj_label: "D\u00d3NDE HE OPERADO",
                 traj_london: "Diez a\u00f1os operando programas franc\u00f3fonos dentro de entornos institucionales angl\u00f3fonos. Formador acreditado SALTO-YOUTH para la Comisi\u00f3n Europea en diecisiete dominios de movilidad juvenil. Doce a\u00f1os de ejecuci\u00f3n Erasmus+ a trav\u00e9s de seis jurisdicciones europeas: Reino Unido, Francia, Alemania, Polonia, Balcanes, pa\u00edses n\u00f3rdicos. El trabajo era siempre el mismo en el fondo: hacer que los requisitos institucionales europeos fueran legibles para equipos locales que operaban en otro idioma, otra tradici\u00f3n administrativa y bajo un conjunto diferente de presiones. Aqu\u00ed es donde se construy\u00f3 la facultad de traducci\u00f3n.",
                 traj_dakar: "Coordinaci\u00f3n de un consorcio de quince socios DFID-UKAID. Dieciocho meses de retraso en reportes heredados al llegar; la confianza de tres donantes erosionada. Restaurada en seis meses. El problema estructural del consorcio no era t\u00e9cnico; era que los socios no pod\u00edan leer la l\u00f3gica institucional de los dem\u00e1s. El trabajo de coordinaci\u00f3n fue trabajo de traducci\u00f3n a escala interorganizacional. Fundaci\u00f3n de Niamato Consulting durante este per\u00edodo para formalizar la ingenier\u00eda de programas europeos como pr\u00e1ctica independiente.",
                 traj_bordeaux: "Regreso a la recepci\u00f3n de un hotel de doscientas habitaciones para conciliar la ambici\u00f3n profesional con la presencia que dos hijas peque\u00f1as requieren. Elegido mejor empleado de todo el grupo hotelero, 2024. Lanzamiento de The Practitioner\u2019s Read desde el mostrador de recepci\u00f3n. La brecha entre este puesto y el trabajo anal\u00edtico que genera es el tema del n\u00famero 11.",
+                recog_label: 'LO QUE OTROS OBSERVAN', recog_award: 'Mejor empleado del a\u00f1o, 2024', recog_award_ctx: 'EN TODO EL GRUPO HOTELERO MEININGER',
+                recog_quote: '\u00abUna gran sabidur\u00eda, una gran profundidad, una b\u00fasqueda, una b\u00fasqueda que tiene del sentido de la vida.\u00bb', recog_quote_attr: 'HU\u00c9SPED, BURDEOS, JULIO 2026',
                 diag_label: "DIAGN\u00d3STICO DE ARQUETIPO DE GOBERNANZA",
                 diag_title: "\u00bfC\u00f3mo opera cuando la estructura no ha alcanzado lo que la situaci\u00f3n <em>exige</em>?",
                 diag_subtitle: "Este diagn\u00f3stico se construy\u00f3 a partir de quince a\u00f1os de observar cinco patrones recurrentes en c\u00f3mo los profesionales senior navegan la presi\u00f3n, coordinan bajo restricciones y traducen mandatos en resultados. Cinco minutos. El perfil recibido nombra sus fortalezas operativas y los puntos ciegos que las acompa\u00f1an.",
