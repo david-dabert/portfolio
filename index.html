@@ -31,39 +31,73 @@
             --accent: #C9A227;
             --accent-muted: rgba(201, 162, 39, 0.15);
             --accent-glow: rgba(201, 162, 39, 0.08);
+            --accent-line: rgba(201, 162, 39, 0.25);
             --mist: rgba(245, 244, 239, 0.04);
             --whisper: rgba(245, 244, 239, 0.08);
             --precision: cubic-bezier(0.16, 1, 0.3, 1);
+            --smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html { scroll-behavior: smooth; }
+
         body {
             background: var(--void);
             color: var(--paper);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 19px;
-            line-height: 1.75;
-            font-weight: 400;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 15px;
+            line-height: 1.7;
+            font-weight: 300;
+            letter-spacing: 0.01em;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        ::selection {
-            background: var(--accent);
-            color: var(--void);
+        /* Film grain overlay */
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            pointer-events: none; z-index: 9999;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
         }
 
+        ::selection { background: var(--accent); color: var(--void); }
         a { color: inherit; text-decoration: none; }
 
-        /* Cursor */
+        /* ---------- PRELOADER ---------- */
+        .preloader {
+            position: fixed; inset: 0;
+            background: var(--void); z-index: 99999;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .preloader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+        .preloader-line {
+            width: 120px; height: 1px;
+            background: rgba(201, 162, 39, 0.15);
+            position: relative; overflow: hidden;
+        }
+        .preloader-line::after {
+            content: ''; position: absolute;
+            left: 0; top: 0; height: 100%;
+            width: 0; background: var(--accent);
+            animation: preload 1.2s var(--precision) forwards;
+        }
+        @keyframes preload { to { width: 100%; } }
+
+        /* ---------- CURSOR ---------- */
         .cursor {
             width: 40px; height: 40px;
-            border: 1px solid var(--accent);
+            border: 1px solid rgba(201, 162, 39, 0.4);
             border-radius: 50%;
             position: fixed; pointer-events: none; z-index: 10000;
             transform: translate(-50%, -50%);
-            transition: width 0.3s var(--precision), height 0.3s var(--precision), border-width 0.3s;
+            transition: width 0.4s var(--precision), height 0.4s var(--precision), border-color 0.3s, opacity 0.3s;
             mix-blend-mode: difference;
         }
         .cursor-dot {
@@ -74,148 +108,210 @@
             transform: translate(-50%, -50%);
             mix-blend-mode: difference;
         }
-        .cursor.hover { width: 60px; height: 60px; border-width: 2px; }
+        .cursor.hover {
+            width: 80px; height: 80px;
+            opacity: 1; border-color: var(--paper);
+        }
 
-        /* Navigation */
+        /* ---------- NAV ---------- */
         nav {
             position: fixed; top: 0; left: 0; right: 0;
-            padding: 32px 60px;
+            padding: 48px 80px;
             display: flex; justify-content: space-between; align-items: center;
             z-index: 1000;
-            transition: background 0.4s ease, padding 0.4s ease, backdrop-filter 0.4s ease;
+            transition: all 0.6s var(--precision);
             background: transparent;
         }
         nav.scrolled {
             background: rgba(10, 10, 10, 0.92);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(245, 244, 239, 0.04);
-            padding: 20px 60px;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            padding: 24px 80px;
+            border-bottom: 1px solid var(--whisper);
         }
         .identity {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 20px; font-weight: 500;
-            letter-spacing: 0.08em;
+            font-size: 22px; font-weight: 500;
+            letter-spacing: 0.12em;
+            transition: color 0.3s;
         }
+        .identity:hover { color: var(--accent); }
         .nav-center {
-            display: flex; gap: 32px; align-items: center;
+            display: flex; gap: 40px;
+            position: absolute; left: 50%; transform: translateX(-50%);
         }
         .nav-link {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 10px; letter-spacing: 0.2em; font-weight: 400;
-            opacity: 0.5; transition: opacity 0.3s;
-            text-decoration: none; color: var(--paper);
+            font-size: 10px; letter-spacing: 0.25em; font-weight: 400;
+            opacity: 0.4; transition: opacity 0.4s;
+            text-decoration: none; color: var(--paper); position: relative;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -8px; left: 0;
+            width: 0; height: 1px; background: var(--accent);
+            transition: width 0.4s var(--precision);
         }
         .nav-link:hover { opacity: 1; }
-        .nav-link-linkedin {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 10px; letter-spacing: 0.2em; font-weight: 400;
-            opacity: 0.5; transition: opacity 0.3s;
-            color: var(--accent);
-        }
-        .nav-link-linkedin:hover { opacity: 1; }
-        .nav-right {
-            display: flex; gap: 24px; align-items: center;
-        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link--accent { color: var(--accent); }
+        .nav-right { display: flex; gap: 24px; align-items: center; }
         .lang-selector {
             display: flex; gap: 20px;
-            font-family: 'IBM Plex Mono', monospace;
             font-size: 10px; letter-spacing: 0.2em; font-weight: 400;
         }
-        .lang-option { opacity: 0.3; transition: opacity 0.3s; cursor: pointer; }
-        .lang-option.active { opacity: 1; }
+        .lang-option {
+            opacity: 0.25; cursor: pointer; padding: 4px 0;
+            transition: opacity 0.4s, color 0.3s;
+        }
+        .lang-option:hover { opacity: 0.7; }
+        .lang-option.active { opacity: 1; color: var(--accent); }
 
-        /* Hamburger for mobile */
-        .hamburger { display: none; cursor: pointer; padding: 8px; }
+        /* Mobile menu */
+        .hamburger { display: none; cursor: pointer; padding: 8px; z-index: 1001; }
         .hamburger span {
-            display: block; width: 22px; height: 1px;
-            background: var(--paper); margin: 5px 0;
-            transition: all 0.3s;
+            display: block; width: 24px; height: 1px;
+            background: var(--paper); margin: 6px 0; transition: all 0.3s;
         }
         .mobile-menu {
-            display: none;
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(10, 10, 10, 0.97);
-            backdrop-filter: blur(20px);
+            display: none; position: fixed; inset: 0;
+            background: rgba(5, 5, 5, 0.98);
+            backdrop-filter: blur(30px);
             z-index: 999;
-            flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+            flex-direction: column; align-items: center; justify-content: center; gap: 36px;
         }
         .mobile-menu.active { display: flex; }
         .mobile-menu a {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 13px; letter-spacing: 0.3em; font-weight: 400;
-            color: var(--paper); opacity: 0.7;
-            text-decoration: none;
+            font-size: 12px; letter-spacing: 0.35em; font-weight: 400;
+            color: var(--paper); opacity: 0.6; text-decoration: none;
+            transition: opacity 0.3s;
         }
         .mobile-menu a:hover { opacity: 1; }
         .mobile-close {
-            position: absolute; top: 32px; right: 32px;
-            font-size: 24px; color: var(--paper); cursor: pointer;
-            background: none; border: none; opacity: 0.5;
+            position: absolute; top: 36px; right: 36px;
+            font-size: 28px; color: var(--paper); cursor: pointer;
+            background: none; border: none; opacity: 0.4;
+            font-weight: 300;
         }
         .mobile-close:hover { opacity: 1; }
 
-        /* Sections */
-        .section-border {
-            width: 100%; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.15), transparent);
+        /* ---------- ANIMATE ON SCROLL ---------- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s var(--precision), transform 1s var(--precision);
         }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-line {
+            width: 0;
+            transition: width 1.4s var(--precision);
+        }
+        .reveal-line.visible { width: 100%; }
+
+        /* ---------- SECTION COMMON ---------- */
+        section { position: relative; }
+        .section-border {
+            position: absolute; top: 0; left: 80px; right: 80px;
+            height: 1px;
+            overflow: hidden;
+        }
+        .section-border::after {
+            content: '';
+            display: block;
+            width: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-line) 20%, var(--accent-line) 80%, transparent);
+            transition: width 1.6s var(--precision);
+        }
+        .section-border.visible::after { width: 100%; }
         .section-label {
-            font-family: 'IBM Plex Mono', monospace;
             font-size: 10px; letter-spacing: 0.4em;
-            color: var(--accent); opacity: 0.8;
-            margin-bottom: 32px;
+            color: var(--accent); margin-bottom: 48px;
+            display: flex; align-items: center; gap: 24px;
+            opacity: 0.8;
+        }
+        .section-label::before {
+            content: '';
+            width: 48px; height: 1px;
+            background: var(--accent-line);
+            flex-shrink: 0;
         }
 
-        /* Hero */
+        /* ---------- HERO ---------- */
         .hero {
             min-height: 100vh;
-            display: flex; align-items: center;
-            padding: 120px 60px 80px;
-            gap: 80px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 0 80px; gap: 120px;
+            position: relative;
         }
-        .portrait-container { flex: 0 0 auto; }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 70% 40%, var(--accent-glow) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201, 162, 39, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .portrait-container { justify-self: end; position: relative; }
         .portrait-frame {
-            width: 280px; height: 350px;
-            overflow: hidden; position: relative;
-            border: 1px solid rgba(201, 162, 39, 0.2);
+            position: relative;
+            width: 100%; max-width: 420px;
+            aspect-ratio: 3/4; overflow: hidden;
+        }
+        .portrait-frame::before {
+            content: ''; position: absolute; inset: -1px;
+            border: 1px solid var(--whisper);
+            z-index: 2; pointer-events: none;
+        }
+        .portrait-frame::after {
+            content: ''; position: absolute;
+            top: 24px; left: 24px; right: -24px; bottom: -24px;
+            border: 1px solid var(--accent-muted);
+            z-index: -1; transition: all 0.8s var(--precision);
+        }
+        .portrait-frame:hover::after {
+            top: 16px; left: 16px; right: -16px; bottom: -16px;
         }
         .portrait-frame img {
-            width: 100%; height: 100%;
-            object-fit: cover; object-position: center top;
-            filter: grayscale(15%) contrast(1.05);
-            transition: filter 0.6s var(--precision);
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%) contrast(1.1) brightness(1.05);
+            transition: filter 2s var(--precision);
         }
         .portrait-frame:hover img {
-            filter: grayscale(0%) contrast(1.1);
+            filter: grayscale(0%) contrast(1.02) brightness(1);
         }
-        .statement { flex: 1; max-width: 720px; }
+        .statement { max-width: 600px; position: relative; }
         .statement-badge {
-            font-family: 'IBM Plex Mono', monospace;
             font-size: 10px; letter-spacing: 0.4em;
-            color: var(--accent); opacity: 0.8;
-            margin-bottom: 24px; display: block;
+            color: var(--accent); margin-bottom: 32px; display: block;
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 0.8s var(--precision) 1.6s forwards;
         }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
         .statement h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(32px, 4vw, 52px);
-            font-weight: 400; line-height: 1.2;
-            letter-spacing: -0.01em;
-            margin-bottom: 28px;
+            font-size: clamp(36px, 4.5vw, 64px);
+            font-weight: 400; line-height: 1.12;
+            letter-spacing: -0.02em; margin-bottom: 40px;
+            opacity: 0; transform: translateY(30px);
+            animation: fadeUp 1s var(--precision) 1.8s forwards;
         }
-        .statement h1 em {
-            font-style: italic; color: var(--accent);
-        }
+        .statement h1 em { font-style: italic; color: var(--accent); }
         .statement p {
-            font-size: 19px; line-height: 1.75;
-            opacity: 0.75; margin-bottom: 40px;
-            max-width: 640px;
+            font-size: 14px; line-height: 1.85;
+            opacity: 0; color: var(--bone); margin-bottom: 48px;
+            animation: fadeUp 1s var(--precision) 2.0s forwards;
+            transform: translateY(30px);
         }
-        .hero-ctas { display: flex; gap: 24px; flex-wrap: wrap; }
+        .hero-ctas {
+            display: flex; gap: 24px; flex-wrap: wrap;
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 1s var(--precision) 2.2s forwards;
+        }
         .cta-btn {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 11px; letter-spacing: 0.3em; font-weight: 400;
-            padding: 18px 40px;
-            border: 1px solid rgba(201, 162, 39, 0.4);
+            font-size: 10px; letter-spacing: 0.3em; font-weight: 400;
+            padding: 20px 48px;
+            border: 1px solid rgba(201, 162, 39, 0.35);
             background: transparent; color: var(--paper);
             text-decoration: none; display: inline-block;
             position: relative; overflow: hidden;
@@ -229,268 +325,392 @@
         }
         .cta-btn:hover::before { transform: translateY(0); }
         .cta-btn:hover { color: var(--void); border-color: var(--accent); }
-        .cta-btn-secondary {
-            border-color: rgba(245, 244, 239, 0.15);
+        .cta-ghost {
+            border-color: rgba(245, 244, 239, 0.12);
         }
-        .cta-btn-secondary:hover {
-            border-color: var(--paper);
+        .cta-ghost::before { background: var(--paper); }
+        .cta-ghost:hover { border-color: var(--paper); }
+
+        /* ---------- STATS BAR ---------- */
+        .stats-bar {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid var(--whisper);
+            border-bottom: 1px solid var(--whisper);
+            position: relative;
         }
-        .cta-btn-secondary::before {
-            background: var(--paper);
+        .stats-bar::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.03) 30%, rgba(201, 162, 39, 0.03) 70%, transparent);
+            pointer-events: none;
+        }
+        .stat-cell {
+            padding: 56px 48px;
+            text-align: center;
+            border-right: 1px solid var(--whisper);
+            position: relative;
+        }
+        .stat-cell:last-child { border-right: none; }
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(40px, 5vw, 64px);
+            font-weight: 300;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+        .stat-label {
+            font-size: 10px; letter-spacing: 0.3em;
+            opacity: 0.35; text-transform: uppercase;
         }
 
-        /* Publications */
+        /* ---------- PUBLICATIONS ---------- */
         .publications {
-            padding: 120px 60px;
+            padding: 180px 80px; position: relative;
+        }
+        .publications::before {
+            content: ''; position: absolute;
+            top: 40%; left: 20%;
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none; opacity: 0.4;
         }
         .publications-header {
-            max-width: 720px; margin-bottom: 64px;
+            max-width: 680px; margin-bottom: 80px;
         }
         .publications-intro {
-            font-size: 19px; line-height: 1.75;
-            opacity: 0.75; max-width: 680px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px; line-height: 1.75;
+            color: var(--bone); opacity: 0.8;
         }
         .publications-micro {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px; opacity: 0.4;
-            margin-top: 16px; font-style: italic;
+            font-size: 12px; opacity: 0.35;
+            margin-top: 20px; font-style: italic;
         }
-        .pub-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 32px; margin-bottom: 48px;
+        .pub-featured {
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            padding: 56px 64px; margin-bottom: 56px;
+            background: linear-gradient(135deg, rgba(201, 162, 39, 0.04) 0%, transparent 60%);
+            position: relative;
+            transition: border-color 0.5s, background 0.5s;
         }
-        .pub-card {
-            border: 1px solid rgba(245, 244, 239, 0.06);
-            padding: 36px;
-            transition: border-color 0.4s, background 0.4s;
-            display: flex; flex-direction: column;
+        .pub-featured::after {
+            content: ''; position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.8s var(--precision);
         }
-        .pub-card:hover {
-            border-color: rgba(201, 162, 39, 0.25);
-            background: var(--accent-glow);
-        }
-        .pub-issue {
-            font-family: 'IBM Plex Mono', monospace;
+        .pub-featured:hover { border-color: rgba(201, 162, 39, 0.4); }
+        .pub-featured:hover::after { width: 100%; }
+        .pub-tag {
             font-size: 10px; letter-spacing: 0.3em;
             color: var(--accent); opacity: 0.7;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
         .pub-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 24px; font-weight: 500;
-            line-height: 1.3; margin-bottom: 16px;
+            font-size: 32px; font-weight: 500;
+            line-height: 1.2; margin-bottom: 20px;
         }
         .pub-thesis {
-            font-size: 16px; line-height: 1.65;
-            opacity: 0.6; flex: 1;
-            margin-bottom: 24px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px; line-height: 1.7;
+            color: var(--bone); opacity: 0.7;
+            margin-bottom: 32px; max-width: 600px;
         }
-        .pub-links {
-            display: flex; gap: 20px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 10px; letter-spacing: 0.2em;
+        .pub-link {
+            font-size: 10px; letter-spacing: 0.25em;
+            color: var(--accent); opacity: 0.6;
+            transition: opacity 0.3s, letter-spacing 0.4s;
+            display: inline-flex; align-items: center; gap: 8px;
         }
-        .pub-links a {
-            opacity: 0.5; transition: opacity 0.3s;
-            color: var(--accent);
+        .pub-link:hover { opacity: 1; letter-spacing: 0.35em; }
+        .pub-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px; background: rgba(245, 244, 239, 0.04);
         }
-        .pub-links a:hover { opacity: 1; }
-        .pub-featured {
-            border: 1px solid rgba(201, 162, 39, 0.2);
+        .pub-card {
+            background: var(--void);
             padding: 48px;
-            margin-bottom: 48px;
-            background: var(--accent-glow);
+            transition: background 0.5s;
+            position: relative;
         }
-        .pub-featured .pub-issue { font-size: 11px; }
-        .pub-featured .pub-title { font-size: 28px; }
-        .pub-featured .pub-thesis { font-size: 18px; }
+        .pub-card::after {
+            content: ''; position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 1px;
+            background: var(--accent);
+            transition: width 0.6s var(--precision);
+        }
+        .pub-card:hover { background: rgba(201, 162, 39, 0.03); }
+        .pub-card:hover::after { width: 100%; }
+        .pub-card .pub-tag { margin-bottom: 16px; }
+        .pub-card .pub-title {
+            font-size: 24px; margin-bottom: 16px;
+        }
+        .pub-card .pub-thesis {
+            font-size: 15px; margin-bottom: 24px;
+        }
 
-        /* Trajectory */
+        /* ---------- TRAJECTORY ---------- */
         .trajectory {
-            padding: 120px 60px;
+            padding: 180px 80px; position: relative;
+        }
+        .trajectory::before {
+            content: ''; position: absolute;
+            top: 30%; right: 10%;
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none; opacity: 0.3;
         }
         .trajectory-grid {
-            display: grid; gap: 1px;
+            display: grid; gap: 2px;
             background: rgba(245, 244, 239, 0.04);
         }
         .theatre {
             background: var(--void);
-            padding: 56px 48px;
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 48px;
-            transition: background 0.4s;
+            padding: 64px;
+            display: grid; grid-template-columns: 220px 1fr;
+            gap: 64px;
+            transition: background 0.5s;
+            position: relative;
+        }
+        .theatre::before {
+            content: ''; position: absolute;
+            left: 0; top: 0;
+            width: 2px; height: 0;
+            background: var(--accent);
+            transition: height 0.8s var(--precision);
         }
         .theatre:hover { background: rgba(201, 162, 39, 0.02); }
-        .theatre-label {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 11px; letter-spacing: 0.15em;
-            color: var(--accent);
+        .theatre:hover::before { height: 100%; }
+        .theatre-meta {}
+        .theatre-place {
+            font-size: 11px; letter-spacing: 0.25em;
+            color: var(--accent); margin-bottom: 8px;
         }
         .theatre-years {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px; opacity: 0.4;
-            margin-top: 8px;
+            font-size: 12px; opacity: 0.35;
         }
         .theatre-text {
-            font-size: 18px; line-height: 1.75;
-            opacity: 0.75; max-width: 640px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px; line-height: 1.8;
+            color: var(--bone); opacity: 0.8;
+            max-width: 600px;
         }
 
-        /* Diagnostic */
+        /* ---------- DIAGNOSTIC ---------- */
         .diagnostic {
-            padding: 120px 60px;
-        }
-        .diagnostic-container {
-            max-width: 900px; margin: 0 auto;
+            padding: 180px 80px; position: relative;
             text-align: center;
         }
+        .diagnostic::before {
+            content: ''; position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none; opacity: 0.5;
+        }
+        .diagnostic .section-label { justify-content: center; }
+        .diagnostic .section-label::before { display: none; }
+        .diagnostic-inner { max-width: 900px; margin: 0 auto; }
         .diagnostic-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(28px, 4vw, 44px);
-            font-weight: 400; line-height: 1.2;
-            margin-bottom: 24px;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 400; line-height: 1.15;
+            margin-bottom: 28px;
         }
         .diagnostic-title em { font-style: italic; color: var(--accent); }
-        .diagnostic-subtitle {
-            font-size: 18px; line-height: 1.7;
-            opacity: 0.65; max-width: 640px;
-            margin: 0 auto 48px;
+        .diagnostic-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px; line-height: 1.75;
+            color: var(--bone); opacity: 0.65;
+            max-width: 620px; margin: 0 auto 64px;
         }
         .archetypes-row {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 16px; margin-bottom: 48px;
+            display: grid; grid-template-columns: repeat(5, 1fr);
+            gap: 2px; background: rgba(245, 244, 239, 0.04);
+            margin-bottom: 56px;
         }
-        .arch-mini {
-            border: 1px solid rgba(245, 244, 239, 0.06);
-            padding: 24px 16px; text-align: center;
-            transition: border-color 0.3s, background 0.3s;
+        .arch-cell {
+            background: var(--void);
+            padding: 40px 20px; text-align: center;
+            transition: background 0.4s, transform 0.4s;
         }
-        .arch-mini:hover {
-            border-color: rgba(201, 162, 39, 0.2);
-            background: var(--accent-glow);
+        .arch-cell:hover {
+            background: rgba(201, 162, 39, 0.03);
+            transform: translateY(-4px);
         }
         .arch-num {
-            font-family: 'IBM Plex Mono', monospace;
             font-size: 10px; color: var(--accent);
-            opacity: 0.5; margin-bottom: 12px;
+            opacity: 0.4; margin-bottom: 16px; letter-spacing: 0.1em;
         }
         .arch-name {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 16px; font-weight: 500;
-            margin-bottom: 8px;
+            font-size: 18px; font-weight: 500;
+            margin-bottom: 10px;
         }
         .arch-line {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 10px; opacity: 0.4;
-            line-height: 1.5;
+            font-size: 10px; opacity: 0.35;
+            line-height: 1.6; letter-spacing: 0.05em;
         }
-        .diagnostic-cta { margin-top: 32px; }
 
-        /* Method */
+        /* ---------- METHOD ---------- */
         .method {
-            padding: 120px 60px;
+            padding: 180px 80px; position: relative;
         }
-        .method-container {
-            max-width: 720px;
+        .method::before {
+            content: ''; position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px; height: 400px;
+            background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none; opacity: 0.3;
         }
+        .method-container { max-width: 680px; }
         .method-text {
-            font-size: 19px; line-height: 1.85;
-            opacity: 0.8;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px; line-height: 1.9;
+            color: var(--bone); opacity: 0.85;
         }
 
-        /* Contact */
+        /* ---------- CONTACT ---------- */
         .contact {
-            padding: 120px 60px;
+            min-height: 60vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
             text-align: center;
+            padding: 160px 80px; position: relative;
         }
+        .contact::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .contact .section-label { justify-content: center; }
+        .contact .section-label::before { display: none; }
         .contact-invitation {
-            font-size: 22px; line-height: 1.7;
-            opacity: 0.7; max-width: 640px;
-            margin: 0 auto 48px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px; line-height: 1.7;
+            color: var(--bone); opacity: 0.7;
+            max-width: 580px; margin-bottom: 56px;
             font-style: italic;
         }
         .contact-channels {
-            display: flex; gap: 48px;
-            justify-content: center; flex-wrap: wrap;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px; letter-spacing: 0.15em;
+            display: flex; gap: 56px; flex-wrap: wrap; justify-content: center;
+            font-size: 11px; letter-spacing: 0.2em;
         }
         .contact-channels a {
-            opacity: 0.5; transition: opacity 0.3s, color 0.3s;
+            opacity: 0.4; transition: opacity 0.3s, color 0.3s;
+            position: relative;
+        }
+        .contact-channels a::after {
+            content: ''; position: absolute;
+            bottom: -6px; left: 0;
+            width: 0; height: 1px;
+            background: var(--accent);
+            transition: width 0.4s var(--precision);
         }
         .contact-channels a:hover { opacity: 1; color: var(--accent); }
+        .contact-channels a:hover::after { width: 100%; }
 
-        /* Footer */
+        /* ---------- FOOTER ---------- */
         .footer {
-            padding: 48px 60px;
-            border-top: 1px solid rgba(245, 244, 239, 0.04);
+            padding: 48px 80px;
+            border-top: 1px solid var(--mist);
             display: flex; justify-content: space-between; align-items: center;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 10px; letter-spacing: 0.15em; opacity: 0.3;
+            font-size: 10px; letter-spacing: 0.15em; opacity: 0.25;
         }
-        .footer-lang {
-            display: flex; gap: 16px;
+        .footer-lang { display: flex; gap: 16px; }
+        .footer-lang span {
+            cursor: pointer; transition: opacity 0.3s;
         }
-        .footer-lang span { cursor: pointer; transition: opacity 0.3s; }
         .footer-lang span:hover { opacity: 0.8; }
 
-        /* Animations */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive */
+        /* ---------- RESPONSIVE ---------- */
         @media (max-width: 1200px) {
             body { cursor: auto; }
+            body::after { display: none; }
             .cursor, .cursor-dot { display: none; }
-            nav { padding: 24px 40px; }
-            nav.scrolled { padding: 18px 40px; }
-            .hero, .publications, .trajectory, .diagnostic, .method, .contact {
-                padding-left: 40px; padding-right: 40px;
-            }
+            nav { padding: 32px 48px; }
+            nav.scrolled { padding: 22px 48px; }
+            .hero { padding: 0 48px; gap: 80px; }
+            .publications, .trajectory, .diagnostic, .method { padding-left: 48px; padding-right: 48px; }
+            .section-border { left: 48px; right: 48px; }
+            .contact { padding-left: 48px; padding-right: 48px; }
+            .footer { padding: 40px 48px; }
             .archetypes-row { grid-template-columns: repeat(3, 1fr); }
+            .stat-cell { padding: 40px 32px; }
         }
 
         @media (max-width: 768px) {
             .nav-center { display: none; }
             .hamburger { display: block; }
-            nav { padding: 20px 24px; }
-            nav.scrolled { padding: 16px 24px; }
+            nav { padding: 24px 28px; }
+            nav.scrolled { padding: 18px 28px; }
             .hero {
-                flex-direction: column; padding: 100px 24px 60px;
-                gap: 40px; text-align: center; align-items: center;
-            }
-            .portrait-frame { width: 180px; height: 225px; }
-            .statement { text-align: left; }
-            .hero-ctas { justify-content: flex-start; }
-            .publications, .trajectory, .diagnostic, .method, .contact {
-                padding: 80px 24px;
-            }
-            .pub-grid { grid-template-columns: 1fr; }
-            .theatre {
                 grid-template-columns: 1fr;
-                gap: 16px; padding: 36px 24px;
+                padding: 140px 28px 80px; gap: 48px;
+                min-height: auto;
             }
-            .archetypes-row {
-                grid-template-columns: repeat(2, 1fr);
+            .portrait-container { justify-self: center; order: -1; }
+            .portrait-frame { max-width: 280px; }
+            .portrait-frame::after { display: none; }
+            .statement { max-width: 100%; text-align: center; }
+            .statement-badge { text-align: center; }
+            .statement h1 { font-size: clamp(28px, 7vw, 44px); }
+            .hero-ctas { justify-content: center; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .stat-cell { padding: 36px 24px; }
+            .stat-cell:nth-child(2) { border-right: none; }
+            .publications, .trajectory, .diagnostic, .method {
+                padding: 100px 28px;
             }
-            .footer { flex-direction: column; gap: 16px; padding: 32px 24px; }
-            .pub-featured { padding: 32px; }
+            .section-border { left: 28px; right: 28px; }
+            .pub-featured { padding: 36px 32px; }
+            .pub-featured .pub-title { font-size: 24px; }
+            .pub-grid { grid-template-columns: 1fr; }
+            .pub-card { padding: 36px 32px; }
+            .theatre {
+                grid-template-columns: 1fr; gap: 20px;
+                padding: 40px 32px;
+            }
+            .archetypes-row { grid-template-columns: repeat(2, 1fr); }
+            .contact { padding: 100px 28px; min-height: auto; }
+            .contact-channels { flex-direction: column; gap: 28px; }
+            .footer {
+                flex-direction: column; gap: 16px;
+                padding: 32px 28px; text-align: center;
+            }
         }
 
         @media (max-width: 480px) {
-            .identity { font-size: 16px; }
-            .archetypes-row { grid-template-columns: 1fr 1fr; }
-            .contact-channels { flex-direction: column; gap: 24px; }
+            .identity { font-size: 17px; letter-spacing: 0.08em; }
+            .statement h1 { font-size: 26px; }
+            .hero { padding-top: 120px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .stat-number { font-size: 36px; }
+            .publications, .trajectory, .diagnostic, .method {
+                padding: 80px 20px;
+            }
+            .section-border { left: 20px; right: 20px; }
+            .pub-featured { padding: 28px 24px; }
+            .pub-card { padding: 28px 24px; }
+            .theatre { padding: 32px 24px; }
+            .archetypes-row { grid-template-columns: 1fr; }
+            .cta-btn { padding: 16px 32px; font-size: 9px; }
         }
     </style>
 </head>
 
 <body>
+    <div class="preloader" id="preloader">
+        <div class="preloader-line"></div>
+    </div>
+
     <div class="cursor"></div>
     <div class="cursor-dot"></div>
 
@@ -502,7 +722,7 @@
             <a href="#diagnostic" class="nav-link" data-i18n="nav_diagnostic">DIAGNOSTIC</a>
             <a href="#method" class="nav-link" data-i18n="nav_method">METHOD</a>
             <a href="#contact" class="nav-link" data-i18n="nav_contact">CONTACT</a>
-            <a href="https://www.linkedin.com/in/david-dabert-54277039b" target="_blank" rel="noopener" class="nav-link-linkedin">LINKEDIN</a>
+            <a href="https://www.linkedin.com/in/david-dabert-54277039b" target="_blank" rel="noopener" class="nav-link nav-link--accent">LINKEDIN</a>
         </div>
         <div class="nav-right">
             <div class="lang-selector">
@@ -524,7 +744,7 @@
         <a href="#method" onclick="toggleMenu()" data-i18n="nav_method">METHOD</a>
         <a href="#contact" onclick="toggleMenu()" data-i18n="nav_contact">CONTACT</a>
         <a href="https://www.linkedin.com/in/david-dabert-54277039b" target="_blank" rel="noopener" style="color: var(--accent);">LINKEDIN</a>
-        <div style="display: flex; gap: 24px; margin-top: 24px;">
+        <div style="display: flex; gap: 24px; margin-top: 32px;">
             <div class="lang-option" data-lang="en" onclick="setLanguage('en'); toggleMenu();">EN</div>
             <div class="lang-option" data-lang="fr" onclick="setLanguage('fr'); toggleMenu();">FR</div>
             <div class="lang-option" data-lang="es" onclick="setLanguage('es'); toggleMenu();">ES</div>
@@ -532,7 +752,7 @@
     </div>
 
     <main>
-        <!-- 1. HERO -->
+        <!-- HERO -->
         <section class="hero">
             <div class="portrait-container">
                 <div class="portrait-frame">
@@ -545,91 +765,99 @@
                 <p data-i18n="hero_text">Fifteen years across six European jurisdictions and West Africa. Seven languages. A publication series read inside the institutions I write about. I work where mandates are complex, authority is fragmented, and outcomes depend on whether the people in the room can be made legible to each other.</p>
                 <div class="hero-ctas">
                     <a href="#work" class="cta-btn" data-i18n="hero_cta_work">READ THE WORK</a>
-                    <a href="#diagnostic" class="cta-btn cta-btn-secondary" data-i18n="hero_cta_diagnostic">DISCOVER YOUR ARCHETYPE</a>
+                    <a href="#diagnostic" class="cta-btn cta-ghost" data-i18n="hero_cta_diagnostic">DISCOVER YOUR ARCHETYPE</a>
                 </div>
             </div>
         </section>
 
-        <!-- 2. THE WORK -->
+        <!-- STATS BAR -->
+        <div class="stats-bar reveal">
+            <div class="stat-cell">
+                <div class="stat-number" data-count="15">0</div>
+                <div class="stat-label" data-i18n="stat_years">YEARS IN THE FIELD</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-number" data-count="7">0</div>
+                <div class="stat-label" data-i18n="stat_languages">LANGUAGES</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-number" data-count="6">0</div>
+                <div class="stat-label" data-i18n="stat_jurisdictions">EUROPEAN JURISDICTIONS</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-number" data-i18n="stat_readers_num">1,100</div>
+                <div class="stat-label" data-i18n="stat_readers">INSTITUTIONAL READERS</div>
+            </div>
+        </div>
+
+        <!-- THE WORK -->
         <section class="publications" id="work">
             <div class="section-border"></div>
-            <div class="publications-header">
+            <div class="publications-header reveal">
                 <div class="section-label" data-i18n="work_label">THE PRACTITIONER'S READ</div>
                 <p class="publications-intro" data-i18n="work_intro">A short essay series on what holds and what breaks where institutional mandates meet delivery. Each issue takes one structural problem encountered in practice, names the mechanism, and tests it against the evidence. Approximately 1,100 readers; the highest concentrations sit at the Quai d'Orsay, the International Organisation for Migration, the European Commission, the European Training Foundation, and the European Investment Bank.</p>
                 <p class="publications-micro" data-i18n="work_elsevier">Issue 02 is under review at World Development (Elsevier).</p>
             </div>
 
-            <!-- Featured -->
-            <div class="pub-featured">
-                <div class="pub-issue" data-i18n="work_featured_label">FEATURED ESSAY</div>
+            <div class="pub-featured reveal">
+                <div class="pub-tag" data-i18n="work_featured_label">FEATURED ESSAY</div>
                 <div class="pub-title" data-i18n="work_featured_title">Open weights and the colony question</div>
                 <p class="pub-thesis" data-i18n="work_featured_thesis">What Europe's AI sovereignty actually requires. An essay on open-weight models, technology transfer, and the structural conditions under which sovereignty rhetoric reproduces the dependency it claims to oppose.</p>
-                <div class="pub-links">
-                    <a href="publications/Open_weights_and_the_colony_question.pdf" target="_blank" onclick="gtag('event','pdf_download',{issue:'Open_Weights'})">PDF &darr;</a>
-                </div>
+                <a href="publications/Open_weights_and_the_colony_question.pdf" target="_blank" class="pub-link" onclick="gtag('event','pdf_download',{issue:'Open_Weights'})">DOWNLOAD PDF &darr;</a>
             </div>
 
-            <!-- Issue cards -->
             <div class="pub-grid">
-                <div class="pub-card">
-                    <div class="pub-issue">ISSUE 10</div>
+                <div class="pub-card reveal">
+                    <div class="pub-tag">ISSUE 10</div>
                     <div class="pub-title" data-i18n="work_10_title">The under-invested instrument</div>
                     <p class="pub-thesis" data-i18n="work_10_thesis">When enforcement mechanisms exist on paper but receive neither budget nor political backing, the instrument teaches the regulated population that non-compliance carries no cost.</p>
-                    <div class="pub-links">
-                        <a href="publications/Practitioners_Read_Issue_10_The_Under_Invested_Instrument.pdf" target="_blank" onclick="gtag('event','pdf_download',{issue:'PR_10'})">PDF &darr;</a>
-                    </div>
+                    <a href="publications/Practitioners_Read_Issue_10_The_Under_Invested_Instrument.pdf" target="_blank" class="pub-link" onclick="gtag('event','pdf_download',{issue:'PR_10'})">PDF &darr;</a>
                 </div>
-                <div class="pub-card">
-                    <div class="pub-issue">ISSUE 09</div>
+                <div class="pub-card reveal">
+                    <div class="pub-tag">ISSUE 09</div>
                     <div class="pub-title" data-i18n="work_09_title">Proselytism disguised as humanitarianism</div>
                     <p class="pub-thesis" data-i18n="work_09_thesis">When faith-based organisations receive humanitarian funding without accountability separation between their aid mandate and their evangelisation mandate, the instrument ceases to be humanitarian.</p>
-                    <div class="pub-links">
-                        <a href="publications/Practitioners_Read_Issue_09_Proselytism_Disguised_as_Humanitarianism.pdf" target="_blank" onclick="gtag('event','pdf_download',{issue:'PR_09'})">PDF &darr;</a>
-                    </div>
+                    <a href="publications/Practitioners_Read_Issue_09_Proselytism_Disguised_as_Humanitarianism.pdf" target="_blank" class="pub-link" onclick="gtag('event','pdf_download',{issue:'PR_09'})">PDF &darr;</a>
                 </div>
-                <div class="pub-card">
-                    <div class="pub-issue">ISSUE 07</div>
+                <div class="pub-card reveal">
+                    <div class="pub-tag">ISSUE 07</div>
                     <div class="pub-title" data-i18n="work_07_title">Ghost population</div>
                     <p class="pub-thesis" data-i18n="work_07_thesis">When a programme's target population exists in the logframe but not in the field, the programme builds compliance infrastructure around a demographic fiction.</p>
-                    <div class="pub-links">
-                        <a href="publications/Practitioners_Read_Issue_07_Ghost_Population.pdf" target="_blank" onclick="gtag('event','pdf_download',{issue:'PR_07'})">PDF &darr;</a>
-                    </div>
+                    <a href="publications/Practitioners_Read_Issue_07_Ghost_Population.pdf" target="_blank" class="pub-link" onclick="gtag('event','pdf_download',{issue:'PR_07'})">PDF &darr;</a>
                 </div>
-                <div class="pub-card">
-                    <div class="pub-issue">ISSUE 06</div>
+                <div class="pub-card reveal">
+                    <div class="pub-tag">ISSUE 06</div>
                     <div class="pub-title" data-i18n="work_06_title">Drowning in paper</div>
                     <p class="pub-thesis" data-i18n="work_06_thesis">When reporting requirements exceed the administrative capacity of the implementing partner, the reporting system produces documents rather than accountability.</p>
-                    <div class="pub-links">
-                        <a href="publications/Practitioners_Read_Issue_06_Drowning_in_Paper.pdf" target="_blank" onclick="gtag('event','pdf_download',{issue:'PR_06'})">PDF &darr;</a>
-                    </div>
+                    <a href="publications/Practitioners_Read_Issue_06_Drowning_in_Paper.pdf" target="_blank" class="pub-link" onclick="gtag('event','pdf_download',{issue:'PR_06'})">PDF &darr;</a>
                 </div>
             </div>
         </section>
 
-        <!-- 3. TRAJECTORY -->
+        <!-- TRAJECTORY -->
         <section class="trajectory" id="trajectory">
             <div class="section-border"></div>
-            <div style="margin-bottom: 48px;">
+            <div class="reveal" style="margin-bottom: 64px;">
                 <div class="section-label" data-i18n="traj_label">WHERE I HAVE OPERATED</div>
             </div>
             <div class="trajectory-grid">
-                <div class="theatre">
-                    <div>
-                        <div class="theatre-label">LONDON</div>
+                <div class="theatre reveal">
+                    <div class="theatre-meta">
+                        <div class="theatre-place">LONDON</div>
                         <div class="theatre-years">2008 &ndash; 2017</div>
                     </div>
                     <div class="theatre-text" data-i18n="traj_london">Ten years operating francophone programmes inside anglophone institutional environments. SALTO-YOUTH accredited trainer for the European Commission across seventeen youth-mobility domains. Twelve years of Erasmus+ delivery across six European jurisdictions: the UK, France, Germany, Poland, the Balkans, the Nordics. The work was always the same underneath: making European institutional requirements legible to local delivery teams who operated in a different language, a different administrative tradition, and under a different set of pressures. This is where the translation faculty was built.</div>
                 </div>
-                <div class="theatre">
-                    <div>
-                        <div class="theatre-label">DAKAR</div>
+                <div class="theatre reveal">
+                    <div class="theatre-meta">
+                        <div class="theatre-place">DAKAR</div>
                         <div class="theatre-years">2018 &ndash; 2019</div>
                     </div>
                     <div class="theatre-text" data-i18n="traj_dakar">Coordination of a fifteen-partner DFID-UKAID consortium. Eighteen months of reporting delay inherited on arrival; three donors' confidence eroded. Restored in six months. The consortium's structural problem was not technical; it was that the partners could not read each other's institutional logic. The coordination work was translation work at the inter-organisational scale. Founded Niamato Consulting during this period to formalise EU programme engineering as an independent practice.</div>
                 </div>
-                <div class="theatre">
-                    <div>
-                        <div class="theatre-label">BORDEAUX</div>
+                <div class="theatre reveal">
+                    <div class="theatre-meta">
+                        <div class="theatre-place">BORDEAUX</div>
                         <div class="theatre-years">2022 &ndash; present</div>
                     </div>
                     <div class="theatre-text" data-i18n="traj_bordeaux">Returned to the front desk of a two-hundred-room hotel to reconcile professional ambition with the presence two young daughters require. Voted best employee across the entire hotel group, 2024. Launched The Practitioner's Read from the reception counter. The gap between this post and the analytical work it generates is the subject of Issue 11.</div>
@@ -637,61 +865,59 @@
             </div>
         </section>
 
-        <!-- 4. DIAGNOSTIC -->
+        <!-- DIAGNOSTIC -->
         <section class="diagnostic" id="diagnostic">
             <div class="section-border"></div>
-            <div class="diagnostic-container">
-                <div class="section-label" data-i18n="diag_label">GOVERNANCE ARCHETYPE DIAGNOSTIC</div>
-                <h2 class="diagnostic-title" data-i18n-html="diag_title">How do you operate when structure has not caught up with what the situation <em>demands</em>?</h2>
-                <p class="diagnostic-subtitle" data-i18n="diag_subtitle">This diagnostic is drawn from fifteen years of observing five recurring patterns in how senior professionals navigate pressure, coordinate under constraint, and translate mandate into delivery. It takes five minutes. The profile you receive names your operational strengths and the blind spots that come with them.</p>
+            <div class="diagnostic-inner">
+                <div class="section-label reveal" data-i18n="diag_label">GOVERNANCE ARCHETYPE DIAGNOSTIC</div>
+                <h2 class="diagnostic-title reveal" data-i18n-html="diag_title">How do you operate when structure has not caught up with what the situation <em>demands</em>?</h2>
+                <p class="diagnostic-sub reveal" data-i18n="diag_subtitle">This diagnostic is drawn from fifteen years of observing five recurring patterns in how senior professionals navigate pressure, coordinate under constraint, and translate mandate into delivery. It takes five minutes. The profile you receive names your operational strengths and the blind spots that come with them.</p>
                 <div class="archetypes-row">
-                    <div class="arch-mini">
+                    <div class="arch-cell reveal">
                         <div class="arch-num">01</div>
                         <div class="arch-name" data-i18n="arch_1">The Architect</div>
                         <div class="arch-line" data-i18n="arch_1_line">Systems before occupation</div>
                     </div>
-                    <div class="arch-mini">
+                    <div class="arch-cell reveal">
                         <div class="arch-num">02</div>
                         <div class="arch-name" data-i18n="arch_2">The Translator</div>
                         <div class="arch-line" data-i18n="arch_2_line">Bridging the unsaid</div>
                     </div>
-                    <div class="arch-mini">
+                    <div class="arch-cell reveal">
                         <div class="arch-num">03</div>
                         <div class="arch-name" data-i18n="arch_3">The Sentinel</div>
                         <div class="arch-line" data-i18n="arch_3_line">Holding the line</div>
                     </div>
-                    <div class="arch-mini">
+                    <div class="arch-cell reveal">
                         <div class="arch-num">04</div>
                         <div class="arch-name" data-i18n="arch_4">The Navigator</div>
                         <div class="arch-line" data-i18n="arch_4_line">Paths through ambiguity</div>
                     </div>
-                    <div class="arch-mini">
+                    <div class="arch-cell reveal">
                         <div class="arch-num">05</div>
                         <div class="arch-name" data-i18n="arch_5">The Operator</div>
                         <div class="arch-line" data-i18n="arch_5_line">Delivery. Period.</div>
                     </div>
                 </div>
-                <div class="diagnostic-cta">
-                    <a href="diagnostic.html" class="cta-btn" data-i18n="diag_cta">START DIAGNOSTIC</a>
-                </div>
+                <a href="diagnostic.html" class="cta-btn reveal" data-i18n="diag_cta">START DIAGNOSTIC</a>
             </div>
         </section>
 
-        <!-- 5. METHOD -->
+        <!-- METHOD -->
         <section class="method" id="method">
             <div class="section-border"></div>
-            <div class="method-container">
+            <div class="method-container reveal">
                 <div class="section-label" data-i18n="method_label">ON METHOD</div>
                 <p class="method-text" data-i18n="method_text">I enter systems that are under pressure and I name the structural problem before I propose the repair. This is not a consultancy formula; it is a disposition formed across fifteen years and tested in settings where it cost me something. In 2020, I co-founded an electric vehicle venture with a nano-material hub motor, grounded in 1960s design principles and contemporary material science. The project assembled a distributed team across several countries and generated significant public attention. It did not reach production; my misread of the gap between technical proof-of-concept and industrial capital requirements was decisive, and I have written about it publicly because a practitioner who only narrates success is selling comfort, not method. The method is the same whether the system is a fifteen-partner donor consortium in Dakar or a two-hundred-room hotel in Bordeaux: surface the real constraints, align the actors who do not share a language, and hold the translation until the outcome is visible.</p>
             </div>
         </section>
 
-        <!-- 6. CONTACT -->
+        <!-- CONTACT -->
         <section class="contact" id="contact">
             <div class="section-border"></div>
-            <div class="section-label" data-i18n="contact_label">CONTACT</div>
-            <p class="contact-invitation" data-i18n="contact_text">If you work where institutional mandates meet field delivery and the translation is breaking down, I may be useful.</p>
-            <div class="contact-channels">
+            <div class="section-label reveal" data-i18n="contact_label">CONTACT</div>
+            <p class="contact-invitation reveal" data-i18n="contact_text">If you work where institutional mandates meet field delivery and the translation is breaking down, I may be useful.</p>
+            <div class="contact-channels reveal">
                 <a href="mailto:pr.dabertdavid@gmail.com">PR.DABERTDAVID@GMAIL.COM</a>
                 <a href="https://www.linkedin.com/in/david-dabert-54277039b" target="_blank" rel="noopener">LINKEDIN</a>
                 <a href="tel:+33766251025">+33 7 66 25 10 25</a>
@@ -699,7 +925,6 @@
         </section>
     </main>
 
-    <!-- 7. FOOTER -->
     <footer class="footer">
         <div>DAVID DABERT &middot; 2026</div>
         <div class="footer-lang">
@@ -710,74 +935,124 @@
     </footer>
 
     <script>
-        // Navigation
+        // Preloader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').classList.add('done');
+            }, 1400);
+        });
+
+        // Nav scroll
         const nav = document.querySelector('nav');
-        function handleScroll() {
-            nav.classList.toggle('scrolled', window.scrollY > 80);
-        }
+        function handleScroll() { nav.classList.toggle('scrolled', window.scrollY > 80); }
         window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                var t = document.querySelector(this.getAttribute('href'));
+                if (t) {
+                    var offset = nav.offsetHeight + 20;
+                    var y = t.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
             });
         });
 
         // Mobile menu
-        function toggleMenu() {
-            document.getElementById('mobileMenu').classList.toggle('active');
-        }
+        function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
 
-        // Cursor
-        const cursor = document.querySelector('.cursor');
-        const cursorDot = document.querySelector('.cursor-dot');
-        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
-        document.addEventListener('mousemove', (e) => {
+        // Custom cursor
+        var cursor = document.querySelector('.cursor');
+        var cursorDot = document.querySelector('.cursor-dot');
+        var mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+        document.addEventListener('mousemove', function(e) {
             mouseX = e.clientX; mouseY = e.clientY;
             cursorDot.style.left = mouseX + 'px'; cursorDot.style.top = mouseY + 'px';
         });
         function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.08; cursorY += (mouseY - cursorY) * 0.08;
+            cursorX += (mouseX - cursorX) * 0.08;
+            cursorY += (mouseY - cursorY) * 0.08;
             cursor.style.left = cursorX + 'px'; cursor.style.top = cursorY + 'px';
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
-        document.querySelectorAll('a, button, .lang-option, .portrait-frame, .pub-card, .arch-mini, .theatre').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        document.querySelectorAll('a, button, .lang-option, .portrait-frame, .pub-card, .pub-featured, .arch-cell, .theatre, .cta-btn').forEach(function(el) {
+            el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
+            el.addEventListener('mouseleave', function() { cursor.classList.remove('hover'); });
         });
 
-        // Intersection Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+        // Intersection Observer for reveal animations
+        var revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry, index) {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    // Stagger siblings
+                    var parent = entry.target.parentElement;
+                    var siblings = parent ? Array.from(parent.querySelectorAll('.reveal')) : [];
+                    var i = siblings.indexOf(entry.target);
+                    var delay = i >= 0 ? i * 80 : 0;
+                    setTimeout(function() {
+                        entry.target.classList.add('visible');
+                    }, delay);
+                    revealObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-        document.querySelectorAll('.pub-card, .pub-featured, .theatre, .arch-mini, .method-container').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.8s var(--precision), transform 0.8s var(--precision)';
-            observer.observe(el);
+        document.querySelectorAll('.reveal').forEach(function(el) {
+            revealObserver.observe(el);
         });
 
-        // Translations
-        const translations = {
+        // Section border animation
+        var borderObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    borderObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.01 });
+        document.querySelectorAll('.section-border').forEach(function(el) {
+            borderObserver.observe(el);
+        });
+
+        // Counter animation
+        var counterObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var el = entry.target;
+                    var target = parseInt(el.getAttribute('data-count'));
+                    if (!target) return;
+                    var duration = 1600;
+                    var start = performance.now();
+                    function update(now) {
+                        var progress = Math.min((now - start) / duration, 1);
+                        var eased = 1 - Math.pow(1 - progress, 4);
+                        el.textContent = Math.round(target * eased);
+                        if (progress < 1) requestAnimationFrame(update);
+                    }
+                    requestAnimationFrame(update);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.3 });
+        document.querySelectorAll('.stat-number[data-count]').forEach(function(el) {
+            counterObserver.observe(el);
+        });
+
+        // i18n
+        var translations = {
             en: {
                 nav_work: 'THE WORK', nav_trajectory: 'TRAJECTORY', nav_diagnostic: 'DIAGNOSTIC', nav_method: 'METHOD', nav_contact: 'CONTACT',
                 hero_badge: 'PRACTITIONER \u00b7 PROGRAMME ARCHITECT \u00b7 INSTITUTIONAL TRANSLATOR',
                 hero_title: 'Where European institutional architecture meets the field, someone has to make the <em>translation</em> hold.',
                 hero_text: 'Fifteen years across six European jurisdictions and West Africa. Seven languages. A publication series read inside the institutions I write about. I work where mandates are complex, authority is fragmented, and outcomes depend on whether the people in the room can be made legible to each other.',
                 hero_cta_work: 'READ THE WORK', hero_cta_diagnostic: 'DISCOVER YOUR ARCHETYPE',
-                work_label: "THE PRACTITIONER'S READ",
-                work_intro: "A short essay series on what holds and what breaks where institutional mandates meet delivery. Each issue takes one structural problem encountered in practice, names the mechanism, and tests it against the evidence. Approximately 1,100 readers; the highest concentrations sit at the Quai d'Orsay, the International Organisation for Migration, the European Commission, the European Training Foundation, and the European Investment Bank.",
+                stat_years: 'YEARS IN THE FIELD', stat_languages: 'LANGUAGES', stat_jurisdictions: 'EUROPEAN JURISDICTIONS', stat_readers: 'INSTITUTIONAL READERS', stat_readers_num: '1,100',
+                work_label: "THE PRACTITIONER\u2019S READ",
+                work_intro: "A short essay series on what holds and what breaks where institutional mandates meet delivery. Each issue takes one structural problem encountered in practice, names the mechanism, and tests it against the evidence. Approximately 1,100 readers; the highest concentrations sit at the Quai d\u2019Orsay, the International Organisation for Migration, the European Commission, the European Training Foundation, and the European Investment Bank.",
                 work_elsevier: 'Issue 02 is under review at World Development (Elsevier).',
                 work_featured_label: 'FEATURED ESSAY', work_featured_title: 'Open weights and the colony question',
                 work_featured_thesis: "What Europe\u2019s AI sovereignty actually requires. An essay on open-weight models, technology transfer, and the structural conditions under which sovereignty rhetoric reproduces the dependency it claims to oppose.",
@@ -809,6 +1084,7 @@
                 hero_title: "L\u00e0 o\u00f9 l\u2019architecture institutionnelle europ\u00e9enne rencontre le terrain, quelqu\u2019un doit faire tenir la <em>traduction</em>.",
                 hero_text: "Quinze ans \u00e0 travers six juridictions europ\u00e9ennes et l\u2019Afrique de l\u2019Ouest. Sept langues. Une s\u00e9rie de publications lue \u00e0 l\u2019int\u00e9rieur des institutions sur lesquelles j\u2019\u00e9cris. Je travaille l\u00e0 o\u00f9 les mandats sont complexes, l\u2019autorit\u00e9 fragment\u00e9e, et les r\u00e9sultats d\u00e9pendent de la capacit\u00e9 \u00e0 rendre les acteurs lisibles les uns aux autres.",
                 hero_cta_work: 'LIRE LE TRAVAIL', hero_cta_diagnostic: "D\u00c9COUVRIR VOTRE ARCH\u00c9TYPE",
+                stat_years: "ANN\u00c9ES SUR LE TERRAIN", stat_languages: 'LANGUES', stat_jurisdictions: "JURIDICTIONS EUROP\u00c9ENNES", stat_readers: 'LECTEURS INSTITUTIONNELS', stat_readers_num: '1 100',
                 work_label: "THE PRACTITIONER\u2019S READ",
                 work_intro: "Une s\u00e9rie de courts essais sur ce qui tient et ce qui c\u00e8de l\u00e0 o\u00f9 les mandats institutionnels rencontrent la mise en \u0153uvre. Chaque num\u00e9ro prend un probl\u00e8me structurel rencontr\u00e9 dans la pratique, en nomme le m\u00e9canisme, et le confronte aux donn\u00e9es. Environ 1 100 lecteurs; les concentrations les plus \u00e9lev\u00e9es se trouvent au Quai d\u2019Orsay, \u00e0 l\u2019Organisation internationale pour les migrations, \u00e0 la Commission europ\u00e9enne, \u00e0 la Fondation europ\u00e9enne pour la formation et \u00e0 la Banque europ\u00e9enne d\u2019investissement.",
                 work_elsevier: "Le num\u00e9ro 02 est en cours d\u2019\u00e9valuation \u00e0 World Development (Elsevier).",
@@ -842,6 +1118,7 @@
                 hero_title: "Donde la arquitectura institucional europea se encuentra con el terreno, alguien tiene que hacer que la <em>traducci\u00f3n</em> se sostenga.",
                 hero_text: "Quince a\u00f1os a trav\u00e9s de seis jurisdicciones europeas y \u00c1frica Occidental. Siete idiomas. Una serie de publicaciones le\u00edda dentro de las instituciones sobre las que escribo. Trabajo donde los mandatos son complejos, la autoridad est\u00e1 fragmentada y los resultados dependen de si las personas en la sala pueden ser hechas legibles entre s\u00ed.",
                 hero_cta_work: 'LEER EL TRABAJO', hero_cta_diagnostic: 'DESCUBRA SU ARQUETIPO',
+                stat_years: "A\u00d1OS EN EL TERRENO", stat_languages: 'IDIOMAS', stat_jurisdictions: 'JURISDICCIONES EUROPEAS', stat_readers: 'LECTORES INSTITUCIONALES', stat_readers_num: '1.100',
                 work_label: "THE PRACTITIONER\u2019S READ",
                 work_intro: "Una serie de ensayos cortos sobre lo que se sostiene y lo que se quiebra donde los mandatos institucionales encuentran la implementaci\u00f3n. Cada n\u00famero toma un problema estructural encontrado en la pr\u00e1ctica, nombra el mecanismo y lo confronta con la evidencia. Aproximadamente 1.100 lectores; las concentraciones m\u00e1s altas se encuentran en el Quai d\u2019Orsay, la Organizaci\u00f3n Internacional para las Migraciones, la Comisi\u00f3n Europea, la Fundaci\u00f3n Europea de Formaci\u00f3n y el Banco Europeo de Inversiones.",
                 work_elsevier: "El n\u00famero 02 est\u00e1 en revisi\u00f3n en World Development (Elsevier).",
@@ -872,23 +1149,14 @@
         };
 
         function setLanguage(lang) {
-            const pack = translations[lang];
+            var pack = translations[lang];
             if (!pack) return;
             document.documentElement.setAttribute('lang', lang);
-            document.querySelectorAll('.lang-option').forEach(opt => opt.classList.toggle('active', opt.dataset.lang === lang));
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.dataset.i18n;
-                if (pack[key]) el.textContent = pack[key];
-            });
-            document.querySelectorAll('[data-i18n-html]').forEach(el => {
-                const key = el.dataset.i18nHtml;
-                if (pack[key]) el.innerHTML = pack[key];
-            });
+            document.querySelectorAll('.lang-option').forEach(function(o) { o.classList.toggle('active', o.dataset.lang === lang); });
+            document.querySelectorAll('[data-i18n]').forEach(function(el) { var k = el.dataset.i18n; if (pack[k]) el.textContent = pack[k]; });
+            document.querySelectorAll('[data-i18n-html]').forEach(function(el) { var k = el.dataset.i18nHtml; if (pack[k]) el.innerHTML = pack[k]; });
         }
-
-        document.querySelectorAll('.lang-selector .lang-option').forEach(opt => {
-            opt.addEventListener('click', () => setLanguage(opt.dataset.lang));
-        });
+        document.querySelectorAll('.lang-selector .lang-option').forEach(function(o) { o.addEventListener('click', function() { setLanguage(o.dataset.lang); }); });
     </script>
 </body>
 </html>
